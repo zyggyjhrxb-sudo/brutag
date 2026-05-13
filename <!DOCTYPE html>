@@ -3,78 +3,241 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BRUTAG</title>
+  <title>BRUTAG | Ropa usada hombre</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: #000;
-      color: #fff;
+      padding: 0;
     }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0b0b;
+      color: white;
+      letter-spacing: 0.5px;
+    }
+
     header {
-      padding: 20px;
-      background: #111;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(200, 169, 107, 0.25);
+      padding: 22px 26px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
     }
+
     .logo {
-      font-size: 28px;
-      font-weight: bold;
+      color: #f5f1eb;
+      font-size: 42px;
+      letter-spacing: 10px;
+      font-weight: 900;
+    }
+
+    .logo span {
       color: #c8a96b;
     }
-    .tagline {
-      font-size: 16px;
-      color: #ccc;
-    }
-    .hero {
+
+    .header-actions {
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: url('hero-bg.jpg') no-repeat center center/cover;
-      text-align: center;
-      padding: 0 20px;
+      gap: 18px;
     }
+
+    .header-actions a {
+      color: #c8a96b;
+      text-decoration: none;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      padding: 90px 28px 70px;
+      background:
+        radial-gradient(circle at top, rgba(200, 169, 107, 0.12), transparent 35%),
+        linear-gradient(180deg, #050505, #121212 55%, #080808);
+    }
+
     .hero-content {
       max-width: 1200px;
-      margin: 0 auto;
+      width: 100%;
     }
-    .hero h1 {
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      color: #c8a96b;
+      font-size: 13px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 34px;
+    }
+
+    .badge::before {
+      content: "";
+      width: 70px;
+      height: 2px;
+      background: #c8a96b;
+      display: block;
+    }
+
+    h1 {
       font-size: 96px;
-      margin: 0 0 20px 0;
+      line-height: 0.92;
+      margin-bottom: 30px;
       font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    h1 span {
       color: #c8a96b;
     }
-    .hero p {
-      font-size: 20px;
-      max-width: 600px;
-      margin: 0 auto 20px auto;
-      color: #ddd;
+
+    .intro {
+      font-size: 22px;
+      color: #9f9f9f;
+      max-width: 620px;
+      line-height: 1.8;
+      margin-bottom: 46px;
+    }
+
+    .product-section {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .product-images {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-images img {
+      width: 100%;
+      background: white;
+      padding: 10px;
+      display: block;
+    }
+
+    .product-card {
+      border: 1px solid rgba(200, 169, 107, 0.3);
+      padding: 28px;
+      background: #111;
+    }
+
+    .product-card h2 {
+      font-size: 34px;
+      margin-bottom: 12px;
+      color: #c8a96b;
+      text-transform: uppercase;
+    }
+
+    .product-card p {
+      font-size: 18px;
+      color: #d0d0d0;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .price {
+      font-size: 42px !important;
+      font-weight: 900;
+      color: #c8a96b !important;
+      margin: 18px 0 24px !important;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #c8a96b;
+      color: black;
+      text-decoration: none;
+      padding: 18px 32px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .btn:hover {
+      background: white;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .logo {
+        font-size: 34px;
+        letter-spacing: 7px;
+      }
+
+      h1 {
+        font-size: 64px;
+      }
+
+      .intro {
+        font-size: 18px;
+      }
+
+      .product-section {
+        grid-template-columns: 1fr;
+      }
+
+      .product-images {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">BRUTAG</div>
-    <div class="tagline">Ropa usada premium para hombre</div>
-  </header>
-  <section class="hero">
-    <div class="hero-content">
-      <h1>BRUTAG</h1>
-      <p>Solo ropa usada de hombre seleccionada. Encuentra prendas únicas, premium y los mejores drops urbanos.</p>
-      <div style="margin-top:40px; display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
-        <img src="DF714C16-A2E6-441B-95F2-5F4ECA819392.jpeg" alt="Poleron Grizzly Frente" style="width:260px; background:white; padding:10px;">
-        <img src="5664C4BE-44AF-4AD2-9D0F-12CC1354FB4E.jpeg" alt="Poleron Grizzly Espalda" style="width:260px; background:white; padding:10px;">
-      </div>
-
-      <div style="margin-top:25px; border:1px solid rgba(200,169,107,0.3); padding:22px; max-width:560px; background:#111;">
-        <h2 style="font-size:32px; margin-bottom:10px; color:#c8a96b;">Polerón Grizzly</h2>
-        <p style="font-size:18px; color:#d0d0d0; margin-bottom:10px;">Talla XL · Excelente estado</p>
-        <p style="font-size:36px; font-weight:900; color:#c8a96b; margin-bottom:20px;">$20.000</p>
-        <a href="https://instagram.com/brutag__" target="_blank" style="display:inline-block; background:#c8a96b; color:black; text-decoration:none; padding:16px 28px; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Ver en Instagram</a>
-      </div>
+    <div class="logo">BRUT<span>AG</span></div>
+    <div class="header-actions">
+      <a href="https://instagram.com/brutag__" target="_blank">Instagram</a>
     </div>
-  </section>
+  </header>
+
+  <main class="hero">
+    <div class="hero-content">
+      <div class="badge">Ropa usada premium para hombre</div>
+      <h1>Viste <span>con</span><br>fuerza</h1>
+      <p class="intro">Solo ropa usada de hombre seleccionada. Encuentra prendas únicas, premium y los mejores drops urbanos.</p>
+
+      <section class="product-section">
+        <div class="product-images">
+          <img src="DF714C16-A2E6-441B-95F2-5F4ECA819392.jpeg" alt="Polerón Grizzly frente">
+          <img src="5664C4BE-44AF-4AD2-9D0F-12CC1354FB4E.jpeg" alt="Polerón Grizzly espalda">
+        </div>
+
+        <div class="product-card">
+          <h2>Polerón Grizzly</h2>
+          <p>Talla XL · Ropa usada de hombre seleccionada.</p>
+          <p>Prenda urbana, simple y fuerte para vestir con presencia.</p>
+          <p class="price">$20.000</p>
+          <a class="btn" href="https://instagram.com/brutag__" target="_blank">Comprar por Instagram</a>
+        </div>
+      </section>
+    </div>
+  </main>
 </body>
 </html>
