@@ -19,12 +19,16 @@ color:white;
 }
 
 header{
-padding:25px;
+padding:22px 25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:20px;
 border-bottom:1px solid rgba(200,169,107,0.3);
 background:#111;
+position:sticky;
+top:0;
+z-index:100;
 }
 
 .logo{
@@ -37,15 +41,24 @@ letter-spacing:8px;
 color:#c8a96b;
 }
 
-header a{
+nav{
+display:flex;
+gap:18px;
+flex-wrap:wrap;
+justify-content:flex-end;
+}
+
+nav a{
 color:#c8a96b;
 text-decoration:none;
 font-weight:bold;
+font-size:14px;
+text-transform:uppercase;
 }
 
 .hero{
-min-height:100vh;
-padding:80px 30px;
+min-height:88vh;
+padding:85px 30px;
 background:linear-gradient(180deg,#050505,#121212);
 }
 
@@ -54,12 +67,14 @@ color:#c8a96b;
 letter-spacing:5px;
 text-transform:uppercase;
 margin-bottom:25px;
+font-size:14px;
 }
 
 h1{
 font-size:90px;
 line-height:0.9;
 margin-bottom:30px;
+text-transform:uppercase;
 }
 
 h1 span{
@@ -67,49 +82,11 @@ color:#c8a96b;
 }
 
 .intro{
-max-width:600px;
+max-width:650px;
 font-size:20px;
 color:#aaa;
 line-height:1.7;
-margin-bottom:50px;
-}
-
-.product{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:30px;
-align-items:start;
-}
-
-.images{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-}
-
-.images img{
-width:100%;
-background:white;
-padding:10px;
-}
-
-.card{
-background:#111;
-padding:30px;
-border:1px solid rgba(200,169,107,0.3);
-}
-
-.card h2{
-font-size:35px;
-margin-bottom:10px;
-color:#c8a96b;
-}
-
-.price{
-font-size:40px;
-font-weight:900;
-margin:20px 0;
-color:#c8a96b;
+margin-bottom:35px;
 }
 
 .btn{
@@ -120,80 +97,358 @@ color:black;
 text-decoration:none;
 font-weight:900;
 letter-spacing:2px;
+text-transform:uppercase;
+border:none;
+cursor:pointer;
 }
 
-@media(max-width:800px){
+.section{
+padding:70px 30px;
+border-top:1px solid rgba(200,169,107,0.18);
+}
+
+.section-title{
+font-size:42px;
+margin-bottom:12px;
+text-transform:uppercase;
+}
+
+.section-title span{
+color:#c8a96b;
+}
+
+.section-text{
+color:#aaa;
+font-size:18px;
+margin-bottom:35px;
+}
+
+.categories{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+}
+
+.category-card{
+background:#111;
+border:1px solid rgba(200,169,107,0.25);
+padding:28px;
+min-height:150px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.category-card h3{
+font-size:25px;
+color:#c8a96b;
+margin-bottom:12px;
+}
+
+.category-card p{
+color:#aaa;
+line-height:1.5;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+}
+
+.product-card{
+background:#111;
+padding:25px;
+border:1px solid rgba(200,169,107,0.3);
+}
+
+.product-images{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:22px;
+}
+
+.product-images img{
+width:100%;
+background:white;
+padding:8px;
+display:block;
+}
+
+.product-card h3{
+font-size:28px;
+margin-bottom:10px;
+color:#c8a96b;
+}
+
+.product-card p{
+color:#ddd;
+line-height:1.5;
+margin-bottom:8px;
+}
+
+.price{
+font-size:36px;
+font-weight:900;
+margin:18px 0;
+color:#c8a96b;
+}
+
+.empty-box{
+border:1px dashed rgba(200,169,107,0.45);
+padding:30px;
+color:#777;
+min-height:220px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:#0f0f0f;
+}
+
+.sell-box{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+align-items:start;
+background:#111;
+border:1px solid rgba(200,169,107,0.3);
+padding:30px;
+}
+
+.sell-box h3{
+font-size:34px;
+color:#c8a96b;
+margin-bottom:15px;
+}
+
+.sell-box p{
+color:#aaa;
+line-height:1.7;
+margin-bottom:20px;
+font-size:18px;
+}
+
+.upload-area{
+border:1px dashed rgba(200,169,107,0.55);
+padding:25px;
+background:#0b0b0b;
+outline:none;
+}
+
+.upload-area:focus{
+border-color:#c8a96b;
+box-shadow:0 0 20px rgba(200,169,107,0.15);
+}
+
+.upload-area label{
+display:block;
+margin-bottom:12px;
+color:#c8a96b;
+font-weight:900;
+text-transform:uppercase;
+letter-spacing:2px;
+}
+
+.upload-area input{
+width:100%;
+padding:14px;
+background:#151515;
+color:white;
+border:1px solid rgba(200,169,107,0.25);
+}
+
+.preview{
+margin-top:18px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.preview img{
+width:100%;
+background:white;
+padding:8px;
+}
+
+.note{
+font-size:14px !important;
+color:#777 !important;
+margin-top:15px;
+}
+
+footer{
+padding:35px 30px;
+text-align:center;
+color:#777;
+border-top:1px solid rgba(200,169,107,0.18);
+}
+
+@media(max-width:900px){
+header{
+flex-direction:column;
+align-items:flex-start;
+}
 
 h1{
 font-size:60px;
 }
 
-.product{
+.categories,
+.products,
+.sell-box{
 grid-template-columns:1fr;
 }
-
-.images{
-grid-template-columns:1fr;
-}
-
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
 <div class="logo">BRUT<span>AG</span></div>
-
-<a href="https://instagram.com/brutag__" target="_blank">
-Instagram
-</a>
+<nav>
+<a href="#categorias">Categorías</a>
+<a href="#polerones">Polerones</a>
+<a href="#vender">Vende tu ropa</a>
+<a href="https://instagram.com/brutag__" target="_blank">Instagram</a>
+</nav>
 </header>
 
 <section class="hero">
+<div class="badge">Ropa usada para hombre</div>
+<h1>Viste <span>con</span><br>fuerza</h1>
+<p class="intro">Solo ropa usada para hombre. Prendas seleccionadas, urbanas y con estilo.</p>
+<a class="btn" href="#categorias">Ver colección</a>
+</section>
 
-<div class="badge">
-ROPA USADA PARA HOMBRE
+<section class="section" id="categorias">
+<h2 class="section-title">Compra por <span>categoría</span></h2>
+<p class="section-text">Encuentra ropa usada de hombre separada por tipo de prenda.</p>
+
+<div class="categories">
+<div class="category-card">
+<h3>Polerones</h3>
+<p>Prendas urbanas, cómodas y con presencia.</p>
 </div>
 
-<h1>
-Viste <span>con</span><br>
-fuerza
-</h1>
+<div class="category-card">
+<h3>Camisas</h3>
+<p>Camisas seleccionadas para outfits limpios y distintos.</p>
+</div>
 
-<p class="intro">
-Solo ropa usada para hombre. Prendas seleccionadas, urbanas y con estilo.
-</p>
+<div class="category-card">
+<h3>Poleras</h3>
+<p>Básicas, oversized y estampadas para uso diario.</p>
+</div>
 
-<div class="product">
+<div class="category-card">
+<h3>Pantalones</h3>
+<p>Jeans, cargos y prendas para completar el look.</p>
+</div>
+</div>
+</section>
 
-<div class="images">
+<section class="section" id="polerones">
+<h2 class="section-title">Polerones <span>disponibles</span></h2>
+<p class="section-text">Drop actual de ropa usada para hombre.</p>
+
+<div class="products">
+<div class="product-card">
+<div class="product-images">
 <img src="poleron-grizzly-frente.jpeg" alt="Polerón Grizzly frente">
 <img src="poleron-grizzly-espalda.jpeg" alt="Polerón Grizzly espalda">
 </div>
-
-<div class="card">
-
-<h2>Polerón Grizzly</h2>
-
+<h3>Polerón Grizzly</h3>
 <p>Talla XL · Excelente estado</p>
-
-<div class="price">
-$20.000
+<p>Prenda urbana, simple y fuerte para vestir con presencia.</p>
+<div class="price">$20.000</div>
+<a class="btn" href="https://instagram.com/brutag__" target="_blank">Comprar</a>
 </div>
 
-<a class="btn"
-href="https://instagram.com/brutag__"
-target="_blank">
-Comprar por Instagram
-</a>
-
+<div class="empty-box">Próximo polerón disponible</div>
+<div class="empty-box">Próximo polerón disponible</div>
 </div>
-
-</div>
-
 </section>
+
+<section class="section" id="camisas">
+<h2 class="section-title">Camisas <span>disponibles</span></h2>
+<p class="section-text">Aquí aparecerán las camisas cuando agregues productos.</p>
+<div class="products">
+<div class="empty-box">Agregar camisa</div>
+<div class="empty-box">Agregar camisa</div>
+<div class="empty-box">Agregar camisa</div>
+</div>
+</section>
+
+<section class="section" id="poleras">
+<h2 class="section-title">Poleras <span>disponibles</span></h2>
+<p class="section-text">Aquí aparecerán las poleras cuando agregues productos.</p>
+<div class="products">
+<div class="empty-box">Agregar polera</div>
+<div class="empty-box">Agregar polera</div>
+<div class="empty-box">Agregar polera</div>
+</div>
+</section>
+
+<section class="section" id="vender">
+<h2 class="section-title">Vende tu <span>ropa</span></h2>
+<p class="section-text">La gente puede preparar sus fotos acá y después enviarlas por Instagram.</p>
+
+<div class="sell-box">
+<div>
+<h3>¿Quieres vender una prenda?</h3>
+<p>Sube una foto para verla antes de enviarla. Esta página es estática, por eso las fotos no se guardan automáticamente. Para vender, envía la foto por Instagram a @brutag__.</p>
+<a class="btn" href="https://instagram.com/brutag__" target="_blank">Enviar por Instagram</a>
+</div>
+
+<div class="upload-area" id="uploadArea" tabindex="0">
+<label for="photoUpload">Pegar o subir fotos aquí</label>
+<input id="photoUpload" type="file" accept="image/*" multiple>
+<div class="preview" id="preview"></div>
+<p class="note">Puedes hacer click en este cuadro y pegar una imagen con Cmd + V. Vista previa solamente. Para publicarla en la tienda, debes enviarla por Instagram.</p>
+</div>
+</div>
+</section>
+
+<footer>
+BRUTAG · Ropa usada para hombre · Instagram @brutag__
+</footer>
+
+<script>
+const photoUpload = document.getElementById('photoUpload');
+const preview = document.getElementById('preview');
+const uploadArea = document.getElementById('uploadArea');
+
+function showImage(file){
+  if(!file || !file.type.startsWith('image/')) return;
+
+  const reader = new FileReader();
+  reader.onload = function(event){
+    const img = document.createElement('img');
+    img.src = event.target.result;
+    preview.appendChild(img);
+  };
+  reader.readAsDataURL(file);
+}
+
+photoUpload.addEventListener('change', function(){
+  preview.innerHTML = '';
+  Array.from(this.files).forEach(file => showImage(file));
+});
+
+uploadArea.addEventListener('paste', function(event){
+  const items = event.clipboardData.items;
+
+  for(const item of items){
+    if(item.type.startsWith('image/')){
+      const file = item.getAsFile();
+      showImage(file);
+    }
+  }
+});
+</script>
 
 </body>
 </html>
