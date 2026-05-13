@@ -150,6 +150,17 @@ color:#aaa;
 line-height:1.5;
 }
 
+.category-card{
+text-decoration:none;
+color:white;
+transition:0.2s;
+}
+
+.category-card:hover{
+transform:translateY(-5px);
+border-color:#c8a96b;
+}
+
 .products{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -278,6 +289,42 @@ color:#777 !important;
 margin-top:15px;
 }
 
+.sell-categories{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:22px;
+}
+
+.sell-category-btn{
+background:#0b0b0b;
+color:#c8a96b;
+border:1px solid rgba(200,169,107,0.35);
+padding:16px;
+font-weight:900;
+text-transform:uppercase;
+cursor:pointer;
+}
+
+.sell-category-btn:hover,
+.sell-category-btn.active{
+background:#c8a96b;
+color:black;
+}
+
+.sell-form-box{
+margin-top:18px;
+padding:20px;
+border:1px solid rgba(200,169,107,0.25);
+background:#0f0f0f;
+}
+
+.sell-form-box h4{
+color:#c8a96b;
+font-size:24px;
+margin-bottom:10px;
+}
+
 footer{
 padding:35px 30px;
 text-align:center;
@@ -297,7 +344,8 @@ font-size:60px;
 
 .categories,
 .products,
-.sell-box{
+.sell-box,
+.sell-categories{
 grid-template-columns:1fr;
 }
 }
@@ -311,6 +359,9 @@ grid-template-columns:1fr;
 <nav>
 <a href="#categorias">Categorías</a>
 <a href="#polerones">Polerones</a>
+<a href="#camisas">Camisas</a>
+<a href="#poleras">Poleras</a>
+<a href="#pantalones">Pantalones</a>
 <a href="#vender">Vende tu ropa</a>
 <a href="https://instagram.com/brutag__" target="_blank">Instagram</a>
 </nav>
@@ -328,25 +379,25 @@ grid-template-columns:1fr;
 <p class="section-text">Encuentra ropa usada de hombre separada por tipo de prenda.</p>
 
 <div class="categories">
-<div class="category-card">
+<a class="category-card" href="#polerones">
 <h3>Polerones</h3>
 <p>Prendas urbanas, cómodas y con presencia.</p>
-</div>
+</a>
 
-<div class="category-card">
+<a class="category-card" href="#camisas">
 <h3>Camisas</h3>
 <p>Camisas seleccionadas para outfits limpios y distintos.</p>
-</div>
+</a>
 
-<div class="category-card">
+<a class="category-card" href="#poleras">
 <h3>Poleras</h3>
 <p>Básicas, oversized y estampadas para uso diario.</p>
-</div>
+</a>
 
-<div class="category-card">
+<a class="category-card" href="#pantalones">
 <h3>Pantalones</h3>
 <p>Jeans, cargos y prendas para completar el look.</p>
-</div>
+</a>
 </div>
 </section>
 
@@ -392,14 +443,37 @@ grid-template-columns:1fr;
 </div>
 </section>
 
+<section class="section" id="pantalones">
+<h2 class="section-title">Pantalones <span>disponibles</span></h2>
+<p class="section-text">Aquí aparecerán los pantalones cuando agregues productos.</p>
+<div class="products">
+<div class="empty-box">Agregar pantalón</div>
+<div class="empty-box">Agregar pantalón</div>
+<div class="empty-box">Agregar pantalón</div>
+</div>
+</section>
+
 <section class="section" id="vender">
 <h2 class="section-title">Vende tu <span>ropa</span></h2>
-<p class="section-text">La gente puede preparar sus fotos acá y después enviarlas por Instagram.</p>
+<p class="section-text">Elige qué tipo de prenda quieres vender y sube o pega tus fotos.</p>
 
 <div class="sell-box">
 <div>
-<h3>¿Quieres vender una prenda?</h3>
-<p>Sube una foto para verla antes de enviarla. Esta página es estática, por eso las fotos no se guardan automáticamente. Para vender, envía la foto por Instagram a @brutag__.</p>
+<h3>¿Qué quieres vender?</h3>
+<p>Primero elige una categoría. Después sube o pega las fotos de la prenda y envíalas por Instagram a @brutag__.</p>
+
+<div class="sell-categories">
+<button class="sell-category-btn active" data-category="Polerón">Polerón</button>
+<button class="sell-category-btn" data-category="Camisa">Camisa</button>
+<button class="sell-category-btn" data-category="Polera">Polera</button>
+<button class="sell-category-btn" data-category="Pantalón">Pantalón</button>
+</div>
+
+<div class="sell-form-box">
+<h4 id="selectedCategory">Polerón</h4>
+<p id="selectedText">Sube fotos del polerón: frente, espalda, talla, marca y estado.</p>
+</div>
+
 <a class="btn" href="https://instagram.com/brutag__" target="_blank">Enviar por Instagram</a>
 </div>
 
@@ -420,6 +494,9 @@ BRUTAG · Ropa usada para hombre · Instagram @brutag__
 const photoUpload = document.getElementById('photoUpload');
 const preview = document.getElementById('preview');
 const uploadArea = document.getElementById('uploadArea');
+const sellButtons = document.querySelectorAll('.sell-category-btn');
+const selectedCategory = document.getElementById('selectedCategory');
+const selectedText = document.getElementById('selectedText');
 
 function showImage(file){
   if(!file || !file.type.startsWith('image/')) return;
@@ -447,6 +524,17 @@ uploadArea.addEventListener('paste', function(event){
       showImage(file);
     }
   }
+});
+
+sellButtons.forEach(button => {
+  button.addEventListener('click', function(){
+    sellButtons.forEach(btn => btn.classList.remove('active'));
+    this.classList.add('active');
+
+    const category = this.dataset.category;
+    selectedCategory.textContent = category;
+    selectedText.textContent = 'Sube fotos de ' + category.toLowerCase() + ': frente, espalda, talla, marca y estado.';
+  });
 });
 </script>
 
