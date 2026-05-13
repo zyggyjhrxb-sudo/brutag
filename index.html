@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BRUTAG</title>
+  <title>BRUTAG | Streetwear</title>
   <style>
     * {
       box-sizing: border-box;
@@ -11,134 +11,302 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #0d0d0d;
+      background: #080808;
       color: white;
     }
 
     header {
-      background: black;
-      padding: 25px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 43, 43, 0.45);
+      padding: 20px;
       text-align: center;
-      border-bottom: 2px solid #ff2b2b;
     }
 
-    header h1 {
+    .logo {
       color: #ff2b2b;
-      font-size: 52px;
-      letter-spacing: 5px;
-      margin-bottom: 12px;
+      font-size: 58px;
+      letter-spacing: 8px;
+      font-weight: 900;
+      text-shadow: 0 0 22px rgba(255, 43, 43, 0.65);
+    }
+
+    .tagline {
+      margin-top: 6px;
+      color: #bfbfbf;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      margin-top: 18px;
     }
 
     nav a {
       color: white;
       text-decoration: none;
       margin: 0 12px;
+      font-size: 14px;
       font-weight: bold;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      color: #ff2b2b;
     }
 
     .hero {
-      min-height: 70vh;
+      min-height: 82vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 80px 20px;
-      background: linear-gradient(135deg, #111, #300000, #000);
+      padding: 90px 20px;
+      background:
+        radial-gradient(circle at top, rgba(255, 43, 43, 0.28), transparent 34%),
+        linear-gradient(135deg, #0b0b0b, #280000 55%, #000000);
+      overflow: hidden;
     }
 
-    .hero h2 {
-      font-size: 42px;
-      margin-bottom: 16px;
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .badge {
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #e6e6e6;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #ff2b2b;
+      text-shadow: 0 0 22px rgba(255, 43, 43, 0.55);
     }
 
     .hero p {
-      font-size: 18px;
-      color: #d1d1d1;
-      max-width: 600px;
-      line-height: 1.5;
+      font-size: 19px;
+      color: #d0d0d0;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      margin-top: 34px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 28px;
-      background: #ff2b2b;
-      color: white;
-      padding: 15px 32px;
-      border-radius: 8px;
+      padding: 15px 34px;
+      border-radius: 999px;
       text-decoration: none;
       font-weight: bold;
+      transition: 0.25s;
+    }
+
+    .btn-primary {
+      background: #ff2b2b;
+      color: white;
+      box-shadow: 0 0 24px rgba(255, 43, 43, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: white;
+      color: black;
+      transform: translateY(-3px);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      border-color: #ff2b2b;
+      color: #ff2b2b;
+      transform: translateY(-3px);
     }
 
     .section {
-      padding: 60px 20px;
+      padding: 75px 20px;
       text-align: center;
     }
 
     .section h2 {
-      font-size: 32px;
-      margin-bottom: 30px;
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+
+    .section-subtitle {
+      color: #bfbfbf;
+      margin-bottom: 36px;
     }
 
     .products {
       display: flex;
       justify-content: center;
-      gap: 24px;
+      gap: 26px;
       flex-wrap: wrap;
     }
 
     .card {
-      background: #1a1a1a;
-      width: 260px;
+      width: 285px;
+      background: linear-gradient(180deg, #1d1d1d, #101010);
+      border: 1px solid #2f2f2f;
+      border-radius: 22px;
       padding: 20px;
-      border-radius: 14px;
-      border: 1px solid #333;
+      transition: 0.25s;
+      text-align: left;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: #ff2b2b;
+      box-shadow: 0 0 30px rgba(255, 43, 43, 0.18);
     }
 
     .product-image {
-      width: 100%;
-      height: 220px;
-      background: white;
-      color: black;
-      border-radius: 10px;
+      height: 235px;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, #ffffff, #d7d7d7);
+      color: #111;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card h3 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #bfbfbf;
+      line-height: 1.4;
     }
 
     .price {
-      color: #ff2b2b;
-      font-size: 22px;
-      font-weight: bold;
-      margin-top: 8px;
+      margin-top: 12px;
+      color: #ff2b2b !important;
+      font-size: 23px;
+      font-weight: 900;
     }
 
     .about {
-      background: #141414;
+      background: #111111;
     }
 
-    .about p {
-      max-width: 700px;
+    .about-box {
+      max-width: 850px;
       margin: 0 auto;
-      color: #ccc;
-      line-height: 1.6;
+      background: linear-gradient(135deg, #1b1b1b, #090909);
+      border: 1px solid #303030;
+      border-radius: 24px;
+      padding: 36px;
+    }
+
+    .about-box p {
+      color: #d0d0d0;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .feature {
+      background: #171717;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 18px;
+      width: 210px;
+    }
+
+    .feature strong {
+      color: #ff2b2b;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .contact {
+      background:
+        radial-gradient(circle at bottom, rgba(255, 43, 43, 0.18), transparent 32%),
+        #080808;
     }
 
     footer {
-      background: black;
+      background: #000;
+      color: #999;
       text-align: center;
-      padding: 22px;
-      color: #aaa;
+      padding: 24px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .logo {
+        font-size: 40px;
+        letter-spacing: 5px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 6px 8px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .section h2 {
+        font-size: 30px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>BRUTAG</h1>
+    <div class="logo">BRUTAG</div>
+    <div class="tagline">Streetwear Chile</div>
     <nav>
       <a href="#inicio">Inicio</a>
       <a href="#productos">Productos</a>
@@ -149,29 +317,40 @@
 
   <main>
     <section class="hero" id="inicio">
-      <h2>Estilo urbano con actitud</h2>
-      <p>Ropa y productos con identidad fuerte, pensados para quienes quieren destacar.</p>
-      <a href="#productos" class="btn">Ver productos</a>
+      <div class="hero-content">
+        <div class="badge">Nuevo drop urbano</div>
+        <h1>Viste distinto. <span>Marca presencia.</span></h1>
+        <p>BRUTAG es una marca streetwear pensada para quienes buscan ropa con actitud, diseño fuerte y estilo propio.</p>
+        <div class="buttons">
+          <a href="#productos" class="btn btn-primary">Ver productos</a>
+          <a href="#contacto" class="btn btn-secondary">Comprar por Instagram</a>
+        </div>
+      </div>
     </section>
 
     <section class="section" id="productos">
-      <h2>Productos destacados</h2>
+      <h2>Drop destacado</h2>
+      <p class="section-subtitle">Productos seleccionados para partir con fuerza.</p>
+
       <div class="products">
         <div class="card">
-          <div class="product-image">Imagen producto</div>
+          <div class="product-image">Sube aquí la foto del polerón</div>
           <h3>Polerón BRUTAG</h3>
+          <p>Fit urbano, cómodo y con presencia para uso diario.</p>
           <p class="price">$24.990</p>
         </div>
 
         <div class="card">
-          <div class="product-image">Imagen producto</div>
+          <div class="product-image">Sube aquí la foto de la polera</div>
           <h3>Polera Oversize</h3>
+          <p>Corte amplio, estilo limpio y diseño streetwear.</p>
           <p class="price">$14.990</p>
         </div>
 
         <div class="card">
-          <div class="product-image">Imagen producto</div>
+          <div class="product-image">Sube aquí la foto del accesorio</div>
           <h3>Accesorios</h3>
+          <p>Detalles para completar el outfit con identidad.</p>
           <p class="price">Desde $4.990</p>
         </div>
       </div>
@@ -179,13 +358,30 @@
 
     <section class="section about" id="nosotros">
       <h2>Sobre BRUTAG</h2>
-      <p>BRUTAG nace como una marca urbana con personalidad, estilo y presencia. La idea es entregar ropa y productos con una imagen fuerte y moderna.</p>
+      <div class="about-box">
+        <p>BRUTAG nace como una marca urbana con personalidad, pensada para quienes no quieren vestirse igual que todos. Buscamos mezclar ropa cómoda, estética fuerte y una imagen moderna que se sienta propia.</p>
+
+        <div class="features">
+          <div class="feature">
+            <strong>Identidad</strong>
+            Estilo con carácter.
+          </div>
+          <div class="feature">
+            <strong>Presencia</strong>
+            Prendas que destacan.
+          </div>
+          <div class="feature">
+            <strong>Actitud</strong>
+            Diseño urbano y directo.
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="section" id="contacto">
+    <section class="section contact" id="contacto">
       <h2>Contacto</h2>
-      <p>Instagram: @brutag.cl</p>
-      <a href="https://www.instagram.com/" class="btn" target="_blank">Ir a Instagram</a>
+      <p class="section-subtitle">Compra o consulta disponibilidad por Instagram.</p>
+      <a href="https://www.instagram.com/" class="btn btn-primary" target="_blank">Ir a Instagram</a>
     </section>
   </main>
 
