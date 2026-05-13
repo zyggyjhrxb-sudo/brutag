@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BRUTAG</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      color: #fff;
+    }
+    header {
+      padding: 20px;
+      background: #111;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #c8a96b;
+    }
+    .tagline {
+      font-size: 16px;
+      color: #ccc;
+    }
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('hero-bg.jpg') no-repeat center center/cover;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 96px;
+      margin: 0 0 20px 0;
+      font-weight: 900;
+      color: #c8a96b;
+    }
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">BRUTAG</div>
+    <div class="tagline">Ropa usada premium para hombre</div>
+  </header>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>BRUTAG</h1>
+      <p>Solo ropa usada de hombre seleccionada. Encuentra prendas únicas, premium y los mejores drops urbanos.</p>
+      <div style="margin-top:40px; display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
+        <img src="DF714C16-A2E6-441B-95F2-5F4ECA819392.jpeg" alt="Poleron Grizzly Frente" style="width:260px; background:white; padding:10px;">
+        <img src="5664C4BE-44AF-4AD2-9D0F-12CC1354FB4E.jpeg" alt="Poleron Grizzly Espalda" style="width:260px; background:white; padding:10px;">
+      </div>
+
+      <div style="margin-top:25px; border:1px solid rgba(200,169,107,0.3); padding:22px; max-width:560px; background:#111;">
+        <h2 style="font-size:32px; margin-bottom:10px; color:#c8a96b;">Polerón Grizzly</h2>
+        <p style="font-size:18px; color:#d0d0d0; margin-bottom:10px;">Talla XL · Excelente estado</p>
+        <p style="font-size:36px; font-weight:900; color:#c8a96b; margin-bottom:20px;">$20.000</p>
+        <a href="https://instagram.com/brutag__" target="_blank" style="display:inline-block; background:#c8a96b; color:black; text-decoration:none; padding:16px 28px; font-weight:900; letter-spacing:2px; text-transform:uppercase;">Ver en Instagram</a>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
