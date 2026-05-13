@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRUTAG</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0d0d0d;
+      color: white;
+    }
+
+    header {
+      background: black;
+      padding: 25px 20px;
+      text-align: center;
+      border-bottom: 2px solid #ff2b2b;
+    }
+
+    header h1 {
+      color: #ff2b2b;
+      font-size: 52px;
+      letter-spacing: 5px;
+      margin-bottom: 12px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+    }
+
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #111, #300000, #000);
+    }
+
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #d1d1d1;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 28px;
+      background: #ff2b2b;
+      color: white;
+      padding: 15px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+    }
+
+    .products {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #1a1a1a;
+      width: 260px;
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid #333;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 220px;
+      background: white;
+      color: black;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .price {
+      color: #ff2b2b;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .about {
+      background: #141414;
+    }
+
+    .about p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: black;
+      text-align: center;
+      padding: 22px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BRUTAG</h1>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#productos">Productos</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <h2>Estilo urbano con actitud</h2>
+      <p>Ropa y productos con identidad fuerte, pensados para quienes quieren destacar.</p>
+      <a href="#productos" class="btn">Ver productos</a>
+    </section>
+
+    <section class="section" id="productos">
+      <h2>Productos destacados</h2>
+      <div class="products">
+        <div class="card">
+          <div class="product-image">Imagen producto</div>
+          <h3>Polerón BRUTAG</h3>
+          <p class="price">$24.990</p>
+        </div>
+
+        <div class="card">
+          <div class="product-image">Imagen producto</div>
+          <h3>Polera Oversize</h3>
+          <p class="price">$14.990</p>
+        </div>
+
+        <div class="card">
+          <div class="product-image">Imagen producto</div>
+          <h3>Accesorios</h3>
+          <p class="price">Desde $4.990</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about" id="nosotros">
+      <h2>Sobre BRUTAG</h2>
+      <p>BRUTAG nace como una marca urbana con personalidad, estilo y presencia. La idea es entregar ropa y productos con una imagen fuerte y moderna.</p>
+    </section>
+
+    <section class="section" id="contacto">
+      <h2>Contacto</h2>
+      <p>Instagram: @brutag.cl</p>
+      <a href="https://www.instagram.com/" class="btn" target="_blank">Ir a Instagram</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 BRUTAG. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
