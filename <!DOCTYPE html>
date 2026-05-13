@@ -219,9 +219,9 @@
 
   <main class="hero">
     <div class="hero-content">
-      <div class="badge">Ropa usada premium para hombre</div>
+      <div class="badge">Ropa usada para hombre</div>
       <h1>Viste <span>con</span><br>fuerza</h1>
-      <p class="intro">Solo ropa usada de hombre seleccionada. Encuentra prendas únicas, premium y los mejores drops urbanos.</p>
+      <p class="intro">Solo ropa usada para hombre. Prendas seleccionadas, urbanas y con estilo.</p>
 
       <section class="product-section">
         <div class="product-images">
