@@ -567,11 +567,11 @@
       <div class="sell-box">
         <div class="sell-main">
           <h2>Quiero vender</h2>
-          <p>Completa el formulario de Tally con fotos, talla, estado y precio esperado. Si todavía no está pegado el link de Tally, la página te avisará.</p>
-          <a class="button" id="sell-button" href="#" target="_blank" rel="noopener">Ir al Tally</a>
+          <p>Completa la encuesta de venta con fotos, talla, estado y precio esperado. BRUTAG revisa si la prenda calza con el estilo antes de responder.</p>
+          <a class="button" id="sell-button" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&amp;single=true" target="_blank" rel="noopener">Ir a la encuesta</a>
         </div>
         <div class="sell-side">
-          <p><strong style="color:var(--white);">Tally:</strong> no encontré un link real conectado en el proyecto. Dejé el botón listo para pegarlo en `tallyFormUrl`.</p>
+          <p><strong style="color:var(--white);">Encuesta:</strong> el botón ya está conectado al archivo que compartiste para recibir prendas.</p>
         </div>
       </div>
     </section>
@@ -624,7 +624,7 @@
     const siteIntegrations = {
       productionUrl: "https://brutag.vercel.app/",
       instagramDmUrl: "https://ig.me/m/brutag__",
-      tallyFormUrl: ""
+      tallyFormUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&single=true"
     };
 
     const toast = document.querySelector("#toast");
@@ -695,7 +695,7 @@
     sellButton.addEventListener("click", (event) => {
       if (!siteIntegrations.tallyFormUrl) {
         event.preventDefault();
-        showToast("Falta pegar el link real de Tally en tallyFormUrl.");
+        showToast("La encuesta todavia no tiene un enlace conectado.");
         return;
       }
 

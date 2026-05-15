@@ -9,7 +9,7 @@ La web ahora tiene:
 1. Página más simple: inicio, drop, quiero vender y condiciones.
 2. Fotos reales del polerón Grizzly con precio.
 3. Compra por DM a `@brutag__` con link exacto del producto.
-4. Botón de venta preparado para Tally.
+4. Botón de venta conectado a la encuesta de venta.
 5. Condiciones claras para comprar y vender en BRUTAG.
 6. Paleta dark/gold inspirada en la referencia visual.
 
@@ -40,19 +40,16 @@ G-XXXXXXXXXX
 GTM-XXXXXXX
 ```
 
-## Tally y ManyChat
+## Encuesta, Tally y ManyChat
 
-En la parte final de `index.html`, busca `siteIntegrations` y pega tus links reales:
+En la parte final de `index.html`, busca `siteIntegrations` para revisar tus links reales:
 
 ```js
 productionUrl: "https://brutag.vercel.app/",
-manyChatUrl: "",
-tallyFormUrl: ""
+tallyFormUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&single=true"
 ```
 
-Si `manyChatUrl` tiene un link, los botones de compra abrirán ese flujo. Si `tallyFormUrl` tiene un link, el botón “Vender a BRUTAG” abrirá tu formulario de Tally.
-
-Nota: actualmente no hay link real de Tally pegado en `tallyFormUrl`; el botón avisa que falta ese link.
+El botón “Quiero vender” abre la encuesta conectada. Cuando tengas un link directo de Tally, reemplaza `tallyFormUrl` por ese enlace.
 
 ## Publicar en Vercel
 
