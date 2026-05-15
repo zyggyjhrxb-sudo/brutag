@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BRUTAG | Viste con fuerza</title>
-  <meta name="description" content="BRUTAG es una tienda de ropa usada de hombre con drops seleccionados, estética oscura y compra directa por DM.">
+  <title>BRUTAG | Ropa usada de hombre con estilo</title>
+  <meta name="description" content="BRUTAG selecciona ropa usada de hombre con estilo: denim, workwear, streetwear y piezas vintage listas para comprar por DM.">
   <meta name="google-site-verification" content="PEGA_AQUI_TU_CODIGO_DE_GOOGLE_SEARCH_CONSOLE">
   <link rel="canonical" href="https://brutag.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="BRUTAG">
-  <meta property="og:title" content="BRUTAG | Viste con fuerza">
-  <meta property="og:description" content="Ropa usada seleccionada para el hombre que no pide permiso. Drops de estilo brutal por DM.">
+  <meta property="og:title" content="BRUTAG | Ropa usada de hombre con estilo">
+  <meta property="og:description" content="Denim, workwear, streetwear y piezas vintage de hombre seleccionadas para una segunda vuelta.">
   <meta property="og:url" content="https://brutag.vercel.app/">
-  <meta property="og:image" content="https://brutag.vercel.app/poleron-grizzly-frente.jpeg">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1770012117407-02aa4bd203ec?auto=format&fit=crop&w=1200&q=82">
   <meta name="twitter:card" content="summary_large_image">
 
   <!--
     Google Analytics 4:
-    Reemplaza G-XXXXXXXXXX por tu ID real y quita los comentarios.
+    1. Reemplaza G-XXXXXXXXXX por tu ID real.
+    2. Quita los comentarios de este bloque.
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -30,8 +31,9 @@
 
   <!--
     Google Tag Manager:
-    reemplaza GTM-XXXXXXX por tu ID real si quieres manejar
-    Google, Tally, ManyChat y Meta Pixel desde GTM.
+    reemplaza GTM-XXXXXXX por tu ID real y pega aqui el snippet completo
+    que entrega Google Tag Manager si quieres manejar Tally, ManyChat,
+    Meta Pixel y otras automatizaciones desde GTM.
   -->
 
   <script type="application/ld+json">
@@ -40,27 +42,30 @@
       "@type": "ClothingStore",
       "name": "BRUTAG",
       "url": "https://brutag.vercel.app/",
-      "description": "Ropa usada de hombre con drops seleccionados y compra directa por DM.",
+      "description": "Ropa usada de hombre con estilo: denim, workwear, streetwear y piezas vintage seleccionadas.",
       "sameAs": [
-        "https://instagram.com/brutag"
+        "https://instagram.com/brutag__"
       ]
     }
   </script>
 
   <style>
     :root {
-      --black: #11110f;
-      --black-2: #1d1c19;
-      --black-3: #27241f;
+      --ink: #11110f;
+      --coal: #1d1c19;
+      --paper: #11110f;
+      --paper-soft: #f5f0e8;
+      --bone: #2a2722;
+      --clay: #cdb06f;
+      --clay-dark: #b4985a;
+      --olive: #443b28;
       --gold: #cdb06f;
-      --gold-2: #9d824a;
-      --white: #f5f0e8;
-      --gray: #8b8983;
-      --gray-2: #5d5a55;
-      --line: rgba(245, 240, 232, 0.1);
-      --line-gold: rgba(205, 176, 111, 0.36);
-      --shadow: 0 28px 70px rgba(0, 0, 0, 0.42);
-      --page: min(1120px, calc(100% - 36px));
+      --muted: #918d86;
+      --line: rgba(245, 240, 232, 0.12);
+      --light-line: rgba(245, 240, 232, 0.18);
+      --shadow: 0 24px 62px rgba(0, 0, 0, 0.42);
+      --radius: 8px;
+      --page: min(1180px, calc(100% - 32px));
     }
 
     * {
@@ -69,36 +74,14 @@
 
     html {
       scroll-behavior: smooth;
-      background: var(--black);
     }
 
     body {
       margin: 0;
-      background:
-        radial-gradient(circle at 12% 0%, rgba(205, 176, 111, 0.09), transparent 30%),
-        linear-gradient(180deg, #0e0e0d 0%, var(--black) 48%, #151411 100%);
-      color: var(--white);
+      background: var(--paper);
+      color: var(--paper-soft);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
-      letter-spacing: 0;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-      background-size: 64px 64px;
-      opacity: 0.28;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
     }
 
     img {
@@ -107,138 +90,155 @@
       height: auto;
     }
 
-    button {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
       font: inherit;
     }
 
-    .app-shell {
-      width: min(1180px, 100%);
-      margin: 0 auto;
-      min-height: 100vh;
-      background: linear-gradient(180deg, rgba(29, 28, 25, 0.86), rgba(17, 17, 15, 0.98));
-      box-shadow: 0 0 80px rgba(0, 0, 0, 0.34);
-      overflow: hidden;
-    }
-
-    .store-bar {
-      display: grid;
-      grid-template-columns: 52px 1fr 52px;
-      align-items: center;
-      gap: 16px;
-      min-height: 82px;
-      padding: 0 clamp(18px, 5vw, 54px);
-      background: rgba(38, 37, 33, 0.86);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(14px);
-    }
-
-    .circle-button {
-      width: 52px;
-      height: 52px;
-      border: 1px solid rgba(245, 240, 232, 0.16);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--white);
-      font-size: 1.75rem;
-      line-height: 1;
-    }
-
-    .store-title {
+    .topbar {
+      background: var(--clay);
+      color: #0b0a08;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
       text-align: center;
-      font-size: clamp(1.35rem, 4vw, 2.05rem);
-      font-weight: 850;
-      letter-spacing: 0;
+      text-transform: uppercase;
+      padding: 9px 12px;
     }
 
-    .brand-nav {
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--light-line);
+      background: rgba(21, 18, 15, 0.9);
+      color: var(--paper-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
       width: var(--page);
+      min-height: 68px;
       margin: 0 auto;
-      padding: clamp(34px, 7vw, 74px) 0 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 22px;
+      gap: 18px;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 0;
-      font-size: clamp(2.3rem, 8vw, 4.8rem);
+      gap: 10px;
       font-weight: 950;
-      letter-spacing: 0.16em;
-      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .brand span {
-      color: var(--gold);
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(251, 246, 237, 0.36);
+      background: var(--clay);
+      color: #0b0a08;
+      font-size: 0.8rem;
+      font-weight: 950;
     }
 
-    .nav-icons {
+    .nav-links {
       display: flex;
       align-items: center;
-      gap: clamp(16px, 3vw, 42px);
-      color: rgba(245, 240, 232, 0.78);
+      gap: 20px;
+      color: rgba(251, 246, 237, 0.76);
+      font-size: 0.9rem;
       font-weight: 800;
     }
 
-    .nav-icon {
-      position: relative;
-      min-width: 38px;
-      min-height: 38px;
-      display: grid;
-      place-items: center;
-      border: 0;
-      background: transparent;
-      color: inherit;
+    .nav-links a:hover {
+      color: var(--paper-soft);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      background: var(--clay);
+      color: #0b0a08;
+      font-weight: 950;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--clay-dark);
+      box-shadow: 0 14px 30px rgba(180, 81, 52, 0.26);
+    }
+
+    .button.secondary {
+      border-color: rgba(251, 246, 237, 0.42);
+      background: rgba(251, 246, 237, 0.1);
+      color: var(--paper-soft);
+      box-shadow: none;
+    }
+
+    .button.secondary:hover {
+      background: rgba(251, 246, 237, 0.19);
+    }
+
+    .button.dark {
+      background: var(--ink);
+      color: var(--paper-soft);
+    }
+
+    .hero {
+      min-height: calc(100vh - 102px);
+      display: grid;
+      align-items: end;
+      color: var(--paper-soft);
+      background:
+        linear-gradient(90deg, rgba(21, 18, 15, 0.92) 0%, rgba(21, 18, 15, 0.72) 42%, rgba(21, 18, 15, 0.24) 100%),
+        url("https://images.unsplash.com/photo-1770012117407-02aa4bd203ec?auto=format&fit=crop&w=1800&q=82") center / cover;
+    }
+
+    .hero-inner {
+      width: var(--page);
+      margin: 0 auto;
+      padding: 92px 0 48px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 48px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: #f2c66f;
       font-size: 0.78rem;
+      font-weight: 950;
       letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
-    .cart-count {
-      position: absolute;
-      top: -7px;
-      right: -10px;
-      width: 24px;
-      height: 24px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: #cf3d32;
-      color: #fff;
-      font-size: 0.78rem;
-      font-weight: 950;
-      letter-spacing: 0;
-    }
-
-    .hero {
-      width: var(--page);
-      margin: 0 auto;
-      min-height: calc(100vh - 160px);
-      padding: clamp(74px, 13vw, 160px) 0 72px;
-      display: grid;
-      align-items: center;
-    }
-
-    .kicker {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      margin: 0 0 clamp(32px, 6vw, 58px);
-      color: var(--gold);
-      font-size: clamp(0.82rem, 2vw, 1.05rem);
-      font-weight: 650;
-      letter-spacing: clamp(0.18em, 0.8vw, 0.34em);
-      text-transform: uppercase;
-    }
-
-    .kicker::before {
+    .eyebrow::before {
       content: "";
-      width: clamp(48px, 8vw, 86px);
+      width: 36px;
       height: 2px;
       background: currentColor;
     }
@@ -250,499 +250,837 @@
       margin-top: 0;
     }
 
-    .hero-title {
-      max-width: 780px;
-      margin: 0 0 clamp(34px, 7vw, 62px);
-      font-size: clamp(4.8rem, 16vw, 11.8rem);
-      line-height: 0.9;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-
-    .hero-title .gold {
-      display: block;
-      color: var(--gold);
-    }
-
-    .hero-copy {
-      max-width: 690px;
-      margin-bottom: clamp(46px, 8vw, 76px);
-      color: var(--gray);
-      font-size: clamp(1.22rem, 3vw, 2rem);
-      line-height: 1.55;
-      font-weight: 500;
-    }
-
-    .skew-button {
-      min-height: 78px;
-      width: min(100%, 720px);
-      padding: 0 clamp(28px, 8vw, 92px);
-      border: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 34px;
-      background: var(--gold);
-      color: #080806;
-      font-size: clamp(0.95rem, 3vw, 1.24rem);
-      font-weight: 950;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      clip-path: polygon(0 0, 95% 0, 100% 100%, 5% 100%);
-      cursor: pointer;
-      transition: transform 180ms ease, background 180ms ease;
-    }
-
-    .skew-button:hover {
-      transform: translateY(-2px);
-      background: #d8bd7d;
-    }
-
-    .scroll-cue {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      margin-top: 46px;
-      color: var(--gray);
-      font-size: 0.92rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-    }
-
-    .scroll-cue::before {
-      content: "";
-      width: 98px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold) 0 55%, var(--gray-2) 55% 100%);
-    }
-
-    section {
-      width: var(--page);
-      margin: 0 auto;
-      padding: clamp(78px, 12vw, 132px) 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(230px, 0.46fr);
-      align-items: end;
-      gap: 36px;
-      margin-bottom: clamp(34px, 6vw, 56px);
-    }
-
-    .section-label {
-      margin-bottom: 18px;
-      color: var(--gold);
-      font-size: 0.86rem;
-      font-weight: 750;
-      letter-spacing: 0.24em;
+    h1 {
+      max-width: 820px;
+      margin-bottom: 22px;
+      font-size: clamp(3.4rem, 9vw, 8.4rem);
+      line-height: 0.86;
       text-transform: uppercase;
     }
 
     h2 {
       margin-bottom: 0;
-      font-size: clamp(2.8rem, 9vw, 6.9rem);
-      line-height: 0.9;
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: 0.95;
       text-transform: uppercase;
     }
 
-    .section-head p,
-    .muted {
+    h3 {
       margin-bottom: 0;
-      color: var(--gray);
+      font-size: 1.16rem;
+      line-height: 1.12;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      margin-bottom: 30px;
+      color: rgba(251, 246, 237, 0.82);
       font-size: clamp(1rem, 2vw, 1.18rem);
-      font-weight: 560;
+      font-weight: 650;
     }
 
-    .drop-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 0.78fr) minmax(320px, 1fr);
-      gap: clamp(18px, 4vw, 34px);
-      align-items: stretch;
-    }
-
-    .product-visual {
-      min-height: 620px;
-      position: relative;
-      overflow: hidden;
-      background: var(--black-2);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .product-visual img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.8) contrast(1.04);
-    }
-
-    .product-detail {
-      min-height: 620px;
-      display: grid;
-      align-content: center;
-      gap: 28px;
-      padding: clamp(26px, 5vw, 52px);
-      background:
-        linear-gradient(135deg, rgba(205, 176, 111, 0.08), transparent 38%),
-        var(--black-2);
-      border: 1px solid var(--line);
-    }
-
-    .tag-row {
+    .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 34px;
-      padding: 0 12px;
-      border: 1px solid var(--line-gold);
-      color: var(--gold);
-      font-size: 0.72rem;
-      font-weight: 850;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+    .hero-panel {
+      border-left: 1px solid rgba(251, 246, 237, 0.24);
+      padding-left: 24px;
     }
 
-    .product-title {
-      margin: 0;
-      font-size: clamp(2.5rem, 8vw, 6rem);
-      line-height: 0.9;
-      text-transform: uppercase;
-    }
-
-    .product-price {
-      color: var(--gold);
-      font-size: clamp(1.7rem, 4vw, 3.2rem);
+    .panel-label,
+    .section-kicker {
+      margin-bottom: 10px;
+      color: var(--clay);
+      font-size: 0.78rem;
       font-weight: 950;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
-    .detail-list {
+    .hero-panel .panel-label {
+      color: rgba(251, 246, 237, 0.6);
+    }
+
+    .drop-list {
       display: grid;
       gap: 12px;
       margin: 0;
       padding: 0;
       list-style: none;
-      color: var(--gray);
-      font-size: 1rem;
-      font-weight: 650;
-    }
-
-    .detail-list li {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .detail-list strong {
-      color: var(--white);
+      color: rgba(251, 246, 237, 0.9);
       font-weight: 850;
     }
 
-    .actions {
+    .drop-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(251, 246, 237, 0.15);
+    }
+
+    .hero-stats {
+      width: var(--page);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid rgba(251, 246, 237, 0.18);
+    }
+
+    .hero-stat {
+      min-height: 98px;
+      padding: 18px 18px 20px 0;
+      border-right: 1px solid rgba(251, 246, 237, 0.12);
+    }
+
+    .hero-stat strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--paper-soft);
+      font-size: 1.55rem;
+      line-height: 1;
+    }
+
+    .hero-stat span {
+      color: rgba(251, 246, 237, 0.68);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .ticker {
+      overflow: hidden;
+      border-block: 1px solid var(--line);
+      background: var(--coal);
+      color: var(--paper-soft);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+
+    .ticker span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 46px;
+      padding: 0 22px;
+      color: rgba(251, 246, 237, 0.78);
+      font-size: 0.82rem;
+      font-weight: 950;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @keyframes marquee {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    section {
+      padding: 86px 0;
+    }
+
+    .section-inner {
+      width: var(--page);
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(250px, 0.48fr);
+      gap: 32px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-heading p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .brand-story {
+      background: var(--paper);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: minmax(270px, 0.9fr) minmax(300px, 1.1fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .story-image {
+      min-height: 470px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      background: var(--bone);
+    }
+
+    .story-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-copy {
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      padding: 46px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--coal);
+    }
+
+    .story-copy p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-weight: 680;
+    }
+
+    .proofs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .proof {
+      min-height: 106px;
+      padding: 16px;
+      border: 1px solid rgba(84, 98, 75, 0.28);
+      border-radius: var(--radius);
+      background: rgba(245, 240, 232, 0.05);
+    }
+
+    .proof strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1.45rem;
+      line-height: 1;
+    }
+
+    .proof span {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .edit-note {
+      padding: 16px;
+      border-left: 4px solid var(--olive);
+      background: rgba(205, 176, 111, 0.08);
+      color: var(--paper-soft);
+      font-weight: 760;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .category {
+      min-height: 290px;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: var(--paper-soft);
+    }
+
+    .category img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.72;
+      transition: transform 420ms ease, opacity 420ms ease;
+    }
+
+    .category:hover img {
+      transform: scale(1.045);
+      opacity: 0.84;
+    }
+
+    .category::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 26%, rgba(0, 0, 0, 0.76));
+    }
+
+    .category-content {
+      position: absolute;
+      z-index: 1;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+    }
+
+    .category-content strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1.42rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .category-content span {
+      color: rgba(251, 246, 237, 0.72);
+      font-weight: 740;
+    }
+
+    .catalog {
+      background: var(--paper);
+    }
+
+    .catalog-toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(245, 240, 232, 0.06);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 950;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .chip.is-active,
+    .chip:hover {
+      border-color: var(--olive);
+      background: var(--olive);
+      color: var(--paper-soft);
+    }
+
+    .catalog-count {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      display: grid;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--coal);
+      box-shadow: 0 16px 38px rgba(21, 18, 15, 0.08);
+    }
+
+    .product-card.is-hidden {
+      display: none;
+    }
+
+    .product-media {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: var(--bone);
+    }
+
+    .product-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 420ms ease;
+    }
+
+    .product-card:hover .product-media img {
+      transform: scale(1.045);
+    }
+
+    .product-badge,
+    .product-status {
+      position: absolute;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--paper-soft);
+      font-size: 0.72rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .product-badge {
+      top: 12px;
+      left: 12px;
+      background: rgba(21, 18, 15, 0.82);
+    }
+
+    .product-status {
+      right: 12px;
+      bottom: 12px;
+      background: rgba(84, 98, 75, 0.9);
+    }
+
+    .product-body {
+      display: grid;
+      gap: 13px;
+      padding: 18px;
+    }
+
+    .product-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 720;
+    }
+
+    .product-meta span::before {
+      content: "#";
+      color: var(--clay);
+      font-weight: 950;
+    }
+
+    .product-price {
+      font-size: 1.36rem;
+      font-weight: 950;
+    }
+
+    .buy-button {
+      width: 100%;
+      border: 0;
+      font-size: 0.84rem;
+    }
+
+    .lookbook {
+      background: var(--coal);
+      color: var(--paper-soft);
+    }
+
+    .lookbook .section-kicker {
+      color: #f2c66f;
+    }
+
+    .lookbook .section-heading p {
+      color: rgba(251, 246, 237, 0.68);
+    }
+
+    .lookbook-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 18px;
+    }
+
+    .look {
+      position: relative;
+      min-height: 540px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #0d0c0a;
+    }
+
+    .look.small {
+      min-height: 261px;
+    }
+
+    .look img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.82;
+    }
+
+    .look::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 34%, rgba(0, 0, 0, 0.72));
+    }
+
+    .look-caption {
+      position: absolute;
+      z-index: 1;
+      left: 20px;
+      right: 20px;
+      bottom: 18px;
+    }
+
+    .look-caption strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.28rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .look-caption span {
+      color: rgba(251, 246, 237, 0.72);
+      font-weight: 740;
+    }
+
+    .stacked-looks {
+      display: grid;
+      gap: 18px;
+    }
+
+    .sell-section {
+      background: var(--paper);
+    }
+
+    .sell-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(300px, 1.18fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .sell-panel {
+      display: grid;
+      gap: 18px;
+      align-content: center;
+      padding: 38px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--coal);
+    }
+
+    .sell-panel p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .sell-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sell-list li {
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 760;
+    }
+
+    .sell-list strong {
+      color: var(--paper-soft);
+    }
+
+    .process {
+      background: var(--paper);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .step {
+      min-height: 196px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(245, 240, 232, 0.05);
+    }
+
+    .step-number {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper-soft);
+      font-weight: 950;
+    }
+
+    .step h3 {
+      margin-bottom: 10px;
+      font-size: 1.04rem;
+      text-transform: uppercase;
+    }
+
+    .step p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .faq {
+      background: var(--paper);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .faq-item {
+      min-height: 180px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--coal);
+    }
+
+    .faq-item h3 {
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .faq-item p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .final-cta {
+      padding: 74px 0;
+      background: var(--ink);
+      color: var(--paper-soft);
+    }
+
+    .final-cta .section-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .final-cta h2 {
+      max-width: 740px;
+      font-size: clamp(2rem, 5vw, 4.6rem);
+    }
+
+    .final-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
     }
 
-    .button {
-      min-height: 52px;
-      padding: 0 18px;
-      border: 1px solid transparent;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--gold);
-      color: #080806;
-      font-weight: 950;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      cursor: pointer;
+    .site-footer {
+      padding: 34px 0;
+      background: #0d0c0a;
+      color: rgba(251, 246, 237, 0.68);
     }
 
-    .button.secondary {
-      border-color: var(--line-gold);
-      background: transparent;
-      color: var(--gold);
-    }
-
-    .text-panels {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .panel {
-      min-height: 240px;
-      padding: 28px;
-      display: grid;
-      align-content: end;
-      background: var(--black-2);
-      border: 1px solid var(--line);
-    }
-
-    .panel strong {
-      display: block;
-      margin-bottom: 12px;
-      color: var(--gold);
-      font-size: 1.1rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .panel p {
-      margin-bottom: 0;
-      color: var(--gray);
-      font-size: 1rem;
-      font-weight: 560;
-    }
-
-    .process-list {
-      display: grid;
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-    }
-
-    .process-item {
-      display: grid;
-      grid-template-columns: 110px 1fr minmax(180px, 0.44fr);
-      gap: 22px;
-      align-items: center;
-      padding: 26px;
-      background: var(--black-2);
-    }
-
-    .process-number {
-      color: var(--gold);
-      font-size: 2rem;
-      font-weight: 950;
-    }
-
-    .process-item h3 {
-      margin-bottom: 0;
-      font-size: clamp(1.35rem, 3vw, 2.1rem);
-      text-transform: uppercase;
-    }
-
-    .process-item p {
-      margin-bottom: 0;
-      color: var(--gray);
-      font-weight: 560;
-    }
-
-    .sell-block {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.62fr);
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .sell-card {
-      padding: clamp(28px, 5vw, 54px);
-      background: var(--gold);
-      color: #080806;
-      clip-path: polygon(0 0, 96% 0, 100% 100%, 4% 100%);
-    }
-
-    .sell-card h2 {
-      max-width: 720px;
-      color: #080806;
-    }
-
-    .sell-card p {
-      max-width: 620px;
-      margin: 24px 0 34px;
-      color: rgba(8, 8, 6, 0.72);
-      font-size: 1.15rem;
-      font-weight: 650;
-    }
-
-    .sell-side {
-      padding: 28px;
-      display: grid;
-      align-content: center;
-      gap: 18px;
-      background: var(--black-2);
-      border: 1px solid var(--line);
-    }
-
-    .sell-side p {
-      margin-bottom: 0;
-      color: var(--gray);
-      font-weight: 600;
-    }
-
-    .footer {
+    .footer-inner {
       width: var(--page);
       margin: 0 auto;
-      padding: 42px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      border-top: 1px solid var(--line);
-      color: var(--gray);
-      font-size: 0.9rem;
-      font-weight: 650;
+      gap: 18px;
+      font-size: 0.92rem;
+      font-weight: 760;
     }
 
-    .footer a {
-      color: var(--gold);
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .toast {
       position: fixed;
       right: 18px;
       bottom: 18px;
-      z-index: 50;
-      width: min(430px, calc(100% - 36px));
+      z-index: 30;
+      width: min(440px, calc(100% - 36px));
       padding: 16px;
-      background: rgba(17, 17, 15, 0.96);
-      border: 1px solid var(--line-gold);
-      color: var(--white);
-      box-shadow: var(--shadow);
+      border: 1px solid rgba(251, 246, 237, 0.16);
+      border-radius: var(--radius);
+      background: rgba(21, 18, 15, 0.96);
+      color: var(--paper-soft);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      transform: translateY(18px);
       opacity: 0;
-      transform: translateY(16px);
       pointer-events: none;
       transition: opacity 180ms ease, transform 180ms ease;
     }
 
     .toast.is-visible {
-      opacity: 1;
       transform: translateY(0);
+      opacity: 1;
     }
 
     .toast strong {
       display: block;
       margin-bottom: 6px;
-      color: var(--gold);
-      letter-spacing: 0.12em;
+      font-size: 0.9rem;
       text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
 
     .toast p {
       margin-bottom: 0;
-      color: var(--gray);
+      color: rgba(251, 246, 237, 0.76);
+      font-size: 0.92rem;
     }
 
-    @media (max-width: 860px) {
-      :root {
-        --page: min(100% - 32px, 1120px);
+    @media (max-width: 960px) {
+      .nav {
+        min-height: 64px;
       }
 
-      .app-shell {
-        width: 100%;
-      }
-
-      .store-bar {
-        grid-template-columns: 46px 1fr 46px;
-        min-height: 76px;
-      }
-
-      .circle-button {
-        width: 46px;
-        height: 46px;
-      }
-
-      .brand-nav {
-        align-items: flex-start;
-      }
-
-      .nav-icons {
-        gap: 14px;
-      }
-
-      .nav-icon {
-        min-width: 34px;
-        font-size: 0.68rem;
+      .nav-links {
+        display: none;
       }
 
       .hero {
         min-height: auto;
       }
 
-      .section-head,
-      .drop-grid,
-      .sell-block {
+      .hero-inner,
+      .section-heading,
+      .story-grid,
+      .lookbook-grid,
+      .sell-grid,
+      .final-cta .section-inner {
         grid-template-columns: 1fr;
       }
 
-      .text-panels {
+      .hero-inner {
+        padding: 88px 0 42px;
+      }
+
+      .hero-panel {
+        max-width: 520px;
+        border-left: 0;
+        border-top: 1px solid rgba(251, 246, 237, 0.24);
+        padding: 20px 0 0;
+      }
+
+      .hero-stats,
+      .products-grid,
+      .steps,
+      .faq-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .category-grid {
         grid-template-columns: 1fr;
       }
 
-      .product-visual,
-      .product-detail {
-        min-height: auto;
-      }
-
-      .product-visual {
-        aspect-ratio: 4 / 5;
-      }
-
-      .process-item {
+      .catalog-toolbar {
         grid-template-columns: 1fr;
-        gap: 12px;
       }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
       :root {
-        --page: min(100% - 24px, 1120px);
+        --page: min(100% - 24px, 1180px);
       }
 
-      .store-title {
-        font-size: 1.2rem;
+      .topbar {
+        font-size: 0.7rem;
+        line-height: 1.35;
       }
 
       .brand {
-        font-size: 2.65rem;
+        font-size: 0.9rem;
       }
 
-      .nav-icons {
-        gap: 8px;
-      }
-
-      .nav-icon {
-        letter-spacing: 0.05em;
+      .nav .button {
+        min-height: 40px;
+        padding: 0 12px;
+        font-size: 0.72rem;
       }
 
       .hero {
-        padding-top: 78px;
+        background-position: 62% center;
       }
 
-      .hero-title {
-        font-size: clamp(4.2rem, 19vw, 6.4rem);
+      section {
+        padding: 58px 0;
       }
 
-      .skew-button {
-        min-height: 74px;
-        gap: 18px;
-        letter-spacing: 0.16em;
+      h1 {
+        font-size: clamp(3rem, 18vw, 5.1rem);
       }
 
-      .scroll-cue {
-        justify-content: flex-start;
-      }
-
-      .actions,
-      .footer {
-        flex-direction: column;
+      .hero-actions,
+      .final-actions,
+      .final-cta .section-inner,
+      .footer-inner,
+      .footer-links {
         align-items: stretch;
+        flex-direction: column;
       }
 
       .button {
         width: 100%;
+      }
+
+      .hero-stats,
+      .proofs,
+      .products-grid,
+      .steps,
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stat {
+        min-height: 82px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(251, 246, 237, 0.12);
+      }
+
+      .story-copy,
+      .sell-panel {
+        padding: 24px;
+      }
+
+      .story-image,
+      .look,
+      .look.small,
+      .category {
+        min-height: 360px;
       }
     }
 
@@ -751,150 +1089,435 @@
       *::before,
       *::after {
         scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: 1ms !important;
       }
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <div class="store-bar" aria-label="Barra de tienda">
-      <a class="circle-button" href="#inicio" aria-label="Inicio">×</a>
-      <div class="store-title">brutag-store</div>
-      <a class="circle-button" href="https://instagram.com/brutag" target="_blank" rel="noopener" aria-label="Instagram">···</a>
+  <div class="topbar">Drop activo por DM · Stock 1/1 · BRUTAG en Vercel</div>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Principal">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio de BRUTAG">
+        <span class="brand-mark">BG</span>
+        <span>BRUTAG</span>
+      </a>
+      <div class="nav-links">
+        <a href="#catalogo">Comprar</a>
+        <a href="#estilo">Estilo</a>
+        <a href="#vende">Vender ropa</a>
+        <a href="#como-comprar">Cómo funciona</a>
+      </div>
+      <a class="button" href="#catalogo">Ver drop</a>
+    </nav>
+  </header>
+
+  <main id="inicio">
+    <section class="hero" aria-label="BRUTAG ropa usada de hombre">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Ropa usada masculina seleccionada</p>
+          <h1>BRUTAG</h1>
+          <p class="hero-copy">Una tienda de ropa usada para hombres que buscan piezas con carácter: denim, workwear, streetwear y vintage elegido por calce, estado y presencia.</p>
+          <div class="hero-actions">
+            <a class="button" href="#catalogo">Comprar el drop</a>
+            <a class="button secondary" href="#vende">Quiero vender ropa</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Resumen del drop">
+          <p class="panel-label">Drop actual</p>
+          <ul class="drop-list">
+            <li><span>Foco</span><strong>Hombre / street / vintage</strong></li>
+            <li><span>Stock</span><strong>Prendas únicas</strong></li>
+            <li><span>Compra</span><strong>DM directo a @brutag__</strong></li>
+          </ul>
+        </aside>
+      </div>
+      <div class="hero-stats" aria-label="Datos de BRUTAG">
+        <div class="hero-stat"><strong>1/1</strong><span>Cada pieza se vende una sola vez</span></div>
+        <div class="hero-stat"><strong>DM</strong><span>Consulta preparada con link del producto</span></div>
+        <div class="hero-stat"><strong>Men</strong><span>Curaduría masculina, simple y usable</span></div>
+        <div class="hero-stat"><strong>Drop</strong><span>Catálogo pensado para rotar por temporadas</span></div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Second hand</span>
+        <span>Menswear</span>
+        <span>Vintage</span>
+        <span>Streetwear</span>
+        <span>Workwear</span>
+        <span>Denim</span>
+        <span>Curado</span>
+        <span>Second hand</span>
+        <span>Menswear</span>
+        <span>Vintage</span>
+        <span>Streetwear</span>
+        <span>Workwear</span>
+        <span>Denim</span>
+        <span>Curado</span>
+      </div>
     </div>
 
-    <header class="brand-nav" id="inicio">
-      <a class="brand" href="#inicio" aria-label="BRUTAG inicio">BRUTA<span>G</span></a>
-      <nav class="nav-icons" aria-label="Acciones">
-        <a class="nav-icon" href="#coleccion">Buscar</a>
-        <a class="nav-icon" href="#vende">Vende</a>
-        <a class="nav-icon" href="#coleccion">Carro <span class="cart-count">0</span></a>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero" aria-label="Presentación BRUTAG">
-        <div>
-          <p class="kicker">Colección otoño 2026</p>
-          <h1 class="hero-title">Viste <span class="gold">con fuerza</span></h1>
-          <p class="hero-copy">Ropa usada seleccionada para el hombre que no pide permiso. Calidad brutal, estilo sin concesiones.</p>
-          <a class="skew-button" href="#coleccion">Ver colección <span aria-hidden="true">→</span></a>
-          <div class="scroll-cue">Scroll</div>
+    <section class="brand-story" id="marca">
+      <div class="section-inner story-grid">
+        <div class="story-image">
+          <img src="https://images.unsplash.com/photo-1643858040858-1338cff5f06d?auto=format&fit=crop&w=1100&q=82" alt="Hombre usando chaqueta denim de estilo urbano">
         </div>
-      </section>
-
-      <section id="coleccion" aria-label="Colección destacada">
-        <div class="section-head">
+        <div class="story-copy">
           <div>
-            <p class="section-label">Drop actual</p>
-            <h2>Menos ruido. Mejor pieza.</h2>
+            <p class="section-kicker">Posicionamiento</p>
+            <h2>No es ropa al azar. Es filtro.</h2>
           </div>
-          <p>La página queda más limpia: solo una pieza destacada, texto fuerte y compra directa por DM.</p>
-        </div>
-
-        <div class="drop-grid">
-          <article class="product-visual">
-            <img src="poleron-grizzly-frente.jpeg" alt="Polerón Grizzly BRUTAG vista frontal">
-          </article>
-
-          <article class="product-detail" id="producto-poleron-grizzly">
-            <div class="tag-row">
-              <span class="tag">Disponible</span>
-              <span class="tag">1/1</span>
-              <span class="tag">Streetwear</span>
+          <p>BRUTAG no compite por tener más prendas, compite por elegir mejor. La página ahora está ordenada para vender: primero identidad, después prueba visual, luego catálogo y finalmente acción por DM.</p>
+          <div class="proofs">
+            <div class="proof">
+              <strong>Curado</strong>
+              <span>Calce, textura, estado y estilo antes que volumen.</span>
             </div>
-            <h3 class="product-title">Polerón Grizzly</h3>
-            <div class="product-price">$29.990</div>
-            <ul class="detail-list">
-              <li><span>Talla</span><strong>Consultar</strong></li>
-              <li><span>Estado</span><strong>Seleccionado</strong></li>
-              <li><span>Compra</span><strong>DM directo</strong></li>
-              <li><span>Link</span><strong>Producto exacto</strong></li>
-            </ul>
-            <div class="actions">
-              <a class="button buy-button" href="https://ig.me/m/brutag" target="_blank" rel="noopener" data-product-name="Polerón Grizzly" data-product-id="producto-poleron-grizzly">Comprar por DM</a>
-              <a class="button secondary" href="poleron-grizzly-espalda.jpeg" target="_blank" rel="noopener">Ver espalda</a>
+            <div class="proof">
+              <strong>Rápido</strong>
+              <span>El cliente llega al DM con el producto listo.</span>
+            </div>
+            <div class="proof">
+              <strong>Editable</strong>
+              <span>Cambia links, productos e integraciones desde el HTML.</span>
+            </div>
+          </div>
+          <div class="edit-note">Para conectar Google, Tally o ManyChat, pega tus IDs reales en el bloque <strong>siteIntegrations</strong> al final de este archivo.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="estilo">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Universo BRUTAG</p>
+            <h2>Tres líneas para que la tienda se entienda al tiro.</h2>
+          </div>
+          <p>El marketing de la página ahora separa las piezas por intención: denim, workwear y street vintage. Eso ayuda a vender sin explicar demasiado.</p>
+        </div>
+        <div class="category-grid">
+          <article class="category">
+            <img src="https://images.unsplash.com/photo-1550562749-28351c74b0dd?auto=format&fit=crop&w=900&q=82" alt="Chaqueta denim usada para hombre">
+            <div class="category-content">
+              <strong>Denim</strong>
+              <span>Chaquetas, jeans rectos y lavados con historia.</span>
             </div>
           </article>
+          <article class="category">
+            <img src="https://images.unsplash.com/photo-1770064728838-6c729fdfd89c?auto=format&fit=crop&w=900&q=82" alt="Rack de camisas y chaquetas vintage">
+            <div class="category-content">
+              <strong>Workwear</strong>
+              <span>Prendas firmes, bolsillos útiles y colores de batalla.</span>
+            </div>
+          </article>
+          <article class="category">
+            <img src="https://images.unsplash.com/photo-1770012117407-02aa4bd203ec?auto=format&fit=crop&w=900&q=82" alt="Tienda de ropa usada con prendas vintage">
+            <div class="category-content">
+              <strong>Street vintage</strong>
+              <span>Polerones, camisas y capas para armar presencia.</span>
+            </div>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section aria-label="Qué hace BRUTAG">
-        <div class="section-head">
+    <section class="catalog" id="catalogo">
+      <div class="section-inner">
+        <div class="section-heading">
           <div>
-            <p class="section-label">Sistema BRUTAG</p>
-            <h2>Curaduría antes que catálogo infinito.</h2>
+            <p class="section-kicker">Drop disponible</p>
+            <h2>Piezas listas para salir.</h2>
           </div>
-          <p>La tienda se siente más premium cuando muestra menos y decide mejor.</p>
+          <p>Cada botón copia un mensaje con el nombre del producto y su link oficial de Vercel, y después abre el DM de BRUTAG.</p>
         </div>
 
-        <div class="text-panels">
-          <article class="panel">
-            <strong>Selección</strong>
-            <p>Prendas usadas filtradas por presencia, calce, estado y energía visual.</p>
+        <div class="catalog-toolbar">
+          <div class="filters" aria-label="Filtrar catálogo">
+            <button class="chip is-active" type="button" data-filter="all">Todo</button>
+            <button class="chip" type="button" data-filter="denim">Denim</button>
+            <button class="chip" type="button" data-filter="workwear">Workwear</button>
+            <button class="chip" type="button" data-filter="street">Street</button>
+            <button class="chip" type="button" data-filter="vintage">Vintage</button>
+          </div>
+          <div class="catalog-count" id="catalog-count">6 piezas visibles</div>
+        </div>
+
+        <div class="products-grid">
+          <article class="product-card" id="producto-chaqueta-denim-vintage" data-category="denim vintage">
+            <div class="product-media">
+              <img src="https://images.unsplash.com/photo-1550562749-28351c74b0dd?auto=format&fit=crop&w=900&q=82" alt="Chaqueta denim vintage para hombre">
+              <span class="product-badge">Denim</span>
+              <span class="product-status">Disponible</span>
+            </div>
+            <div class="product-body">
+              <div class="product-topline">
+                <span>Talla L</span>
+                <span>Única</span>
+              </div>
+              <h3>Chaqueta denim vintage</h3>
+              <div class="product-meta">
+                <span>azul gastado</span>
+                <span>calce recto</span>
+              </div>
+              <div class="product-price">$29.990</div>
+              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Chaqueta denim vintage" data-product-id="producto-chaqueta-denim-vintage">Reservar por DM</a>
+            </div>
           </article>
-          <article class="panel">
-            <strong>Compra simple</strong>
-            <p>El botón copia un mensaje con producto y link oficial para que BRUTAG no tenga que buscarlo.</p>
+
+          <article class="product-card" id="producto-overshirt-workwear" data-category="workwear vintage">
+            <div class="product-media">
+              <img src="https://images.unsplash.com/photo-1770064728838-6c729fdfd89c?auto=format&fit=crop&w=900&q=82" alt="Overshirt workwear en rack de ropa usada">
+              <span class="product-badge">Workwear</span>
+              <span class="product-status">Disponible</span>
+            </div>
+            <div class="product-body">
+              <div class="product-topline">
+                <span>Talla M</span>
+                <span>Única</span>
+              </div>
+              <h3>Overshirt de trabajo</h3>
+              <div class="product-meta">
+                <span>canvas firme</span>
+                <span>color carbón</span>
+              </div>
+              <div class="product-price">$24.990</div>
+              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Overshirt de trabajo" data-product-id="producto-overshirt-workwear">Reservar por DM</a>
+            </div>
           </article>
-          <article class="panel">
-            <strong>Stock real</strong>
-            <p>Una pieza, una oportunidad. Si se vende, sale del drop.</p>
+
+          <article class="product-card" id="producto-jeans-rectos" data-category="denim">
+            <div class="product-media">
+              <img src="https://images.unsplash.com/photo-1614990354198-b06764dcb13c?auto=format&fit=crop&w=900&q=82" alt="Jeans vintage doblados en tienda de ropa usada">
+              <span class="product-badge">Denim</span>
+              <span class="product-status">Disponible</span>
+            </div>
+            <div class="product-body">
+              <div class="product-topline">
+                <span>W34</span>
+                <span>Única</span>
+              </div>
+              <h3>Jeans rectos washed</h3>
+              <div class="product-meta">
+                <span>fit clásico</span>
+                <span>azul medio</span>
+              </div>
+              <div class="product-price">$22.990</div>
+              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Jeans rectos washed" data-product-id="producto-jeans-rectos">Reservar por DM</a>
+            </div>
+          </article>
+
+          <article class="product-card" id="producto-camisa-bowling" data-category="street vintage">
+            <div class="product-media">
+              <img src="https://images.unsplash.com/photo-1770012117407-02aa4bd203ec?auto=format&fit=crop&w=900&q=82" alt="Rack de ropa usada con camisas vintage">
+              <span class="product-badge">Vintage</span>
+              <span class="product-status">Disponible</span>
+            </div>
+            <div class="product-body">
+              <div class="product-topline">
+                <span>Talla XL</span>
+                <span>Única</span>
+              </div>
+              <h3>Camisa bowling retro</h3>
+              <div class="product-meta">
+                <span>manga corta</span>
+                <span>print oscuro</span>
+              </div>
+              <div class="product-price">$18.990</div>
+              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Camisa bowling retro" data-product-id="producto-camisa-bowling">Reservar por DM</a>
+            </div>
+          </article>
+
+          <article class="product-card" id="producto-poleron-heavyweight" data-category="street">
+            <div class="product-media">
+              <img src="https://images.unsplash.com/photo-1770064728838-6c729fdfd89c?auto=format&fit=crop&w=900&q=82&sat=-25" alt="Prendas de hombre en tonos oscuros">
+              <span class="product-badge">Street</span>
+              <span class="product-status">Disponible</span>
+            </div>
+            <div class="product-body">
+              <div class="product-topline">
+                <span>Talla L</span>
+                <span>Única</span>
+              </div>
+              <h3>Polerón heavyweight</h3>
+              <div class="product-meta">
+                <span>grueso</span>
+                <span>negro lavado</span>
+              </div>
+              <div class="product-price">$26.990</div>
+              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Polerón heavyweight" data-product-id="producto-poleron-heavyweight">Reservar por DM</a>
+            </div>
+          </article>
+
+          <article class="product-card" id="producto-cargo-vintage" data-category="workwear street">
+            <div class="product-media">
+              <img src="https://images.unsplash.com/photo-1643858040858-1338cff5f06d?auto=format&fit=crop&w=900&q=82&sat=-20" alt="Estilo masculino urbano con denim y prendas usadas">
+              <span class="product-badge">Workwear</span>
+              <span class="product-status">Disponible</span>
+            </div>
+            <div class="product-body">
+              <div class="product-topline">
+                <span>W32</span>
+                <span>Única</span>
+              </div>
+              <h3>Pantalón cargo vintage</h3>
+              <div class="product-meta">
+                <span>verde oliva</span>
+                <span>fit relajado</span>
+              </div>
+              <div class="product-price">$23.990</div>
+              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Pantalón cargo vintage" data-product-id="producto-cargo-vintage">Reservar por DM</a>
+            </div>
           </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="como-comprar" aria-label="Cómo comprar">
-        <div class="section-head">
+    <section class="lookbook" id="lookbook">
+      <div class="section-inner">
+        <div class="section-heading">
           <div>
-            <p class="section-label">Compra directa</p>
-            <h2>Del deseo al DM.</h2>
+            <p class="section-kicker">Lookbook</p>
+            <h2>Masculino, usado, con presencia.</h2>
           </div>
-          <p>La compra mantiene el flujo que pediste: mensaje listo, Instagram abierto y link incluido.</p>
+          <p>La tienda se ve más fuerte cuando muestra cómo se siente la ropa: capas simples, colores sobrios y piezas que destacan sin gritar.</p>
         </div>
-
-        <div class="process-list">
-          <article class="process-item">
-            <div class="process-number">01</div>
-            <h3>Elige la pieza</h3>
-            <p>El drop está reducido para que la decisión sea clara.</p>
+        <div class="lookbook-grid">
+          <article class="look">
+            <img src="https://images.unsplash.com/photo-1550562749-28351c74b0dd?auto=format&fit=crop&w=1200&q=82" alt="Retrato masculino con chaqueta denim">
+            <div class="look-caption">
+              <strong>Denim usado</strong>
+              <span>Chaquetas gastadas, jeans rectos y capas fáciles.</span>
+            </div>
           </article>
-          <article class="process-item">
-            <div class="process-number">02</div>
-            <h3>Toca comprar</h3>
-            <p>Se copia el mensaje con el nombre y el link oficial de Vercel.</p>
-          </article>
-          <article class="process-item">
-            <div class="process-number">03</div>
-            <h3>Envía el DM</h3>
-            <p>BRUTAG recibe la consulta lista para confirmar disponibilidad.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="vende" aria-label="Vender ropa a BRUTAG">
-        <div class="sell-block">
-          <div class="sell-card">
-            <p class="section-label" style="color: rgba(8,8,6,.62);">Vender a BRUTAG</p>
-            <h2>¿Tienes ropa con carácter?</h2>
-            <p>Cuando pegues tu formulario de Tally, este botón abrirá directo el formulario. Mientras tanto abre DM con mensaje listo.</p>
-            <a class="button secondary" id="sell-button" href="https://ig.me/m/brutag" target="_blank" rel="noopener" style="border-color:#080806;color:#080806;">Enviar prendas</a>
-          </div>
-          <div class="sell-side">
-            <p><strong style="color:var(--white);">Buscamos:</strong> polerones, chaquetas, denim, cargos, camisas y piezas de hombre con buena presencia.</p>
-            <p><strong style="color:var(--white);">Ideal:</strong> foto clara, talla, estado y precio esperado.</p>
+          <div class="stacked-looks">
+            <article class="look small">
+              <img src="https://images.unsplash.com/photo-1770012117407-02aa4bd203ec?auto=format&fit=crop&w=900&q=82" alt="Tienda vintage con ropa usada en racks">
+              <div class="look-caption">
+                <strong>Rack curado</strong>
+                <span>Selección visual, no bodega infinita.</span>
+              </div>
+            </article>
+            <article class="look small">
+              <img src="https://images.unsplash.com/photo-1614990354198-b06764dcb13c?auto=format&fit=crop&w=900&q=82" alt="Jeans vintage en una tienda de segunda mano">
+              <div class="look-caption">
+                <strong>Calce primero</strong>
+                <span>Prendas elegidas por cómo se ven puestas.</span>
+              </div>
+            </article>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <footer class="footer">
+    <section class="sell-section" id="vende">
+      <div class="section-inner sell-grid">
+        <div class="sell-panel">
+          <p class="section-kicker">Vender a BRUTAG</p>
+          <h2>¿Tienes ropa que calza con la tienda?</h2>
+          <p>La página queda preparada para Tally: cuando pegues tu formulario real, el botón abrirá directo el formulario. Mientras tanto, abre el DM con un mensaje listo.</p>
+          <div class="final-actions">
+            <a class="button dark" id="sell-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener">Enviar prendas</a>
+            <a class="button" href="https://instagram.com/brutag__" target="_blank" rel="noopener">Ver Instagram</a>
+          </div>
+        </div>
+        <div class="sell-panel">
+          <ul class="sell-list">
+            <li><strong>Buscamos:</strong> denim, camisas, chaquetas, polerones, cargos y piezas de hombre con buen calce.</li>
+            <li><strong>Importa:</strong> estado real, fotos claras, talla y medidas.</li>
+            <li><strong>Flujo ideal:</strong> Tally para recibir prendas, ManyChat para responder y Google para medir conversiones.</li>
+            <li><strong>Mensaje:</strong> si no hay Tally conectado, el botón copia una consulta y abre el DM.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="como-comprar">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Cómo comprar</p>
+            <h2>Del catálogo al DM sin perder tiempo.</h2>
+          </div>
+          <p>El flujo está hecho para que BRUTAG no tenga que adivinar qué quiere el cliente: llega el nombre de la prenda y el link exacto.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <span class="step-number">1</span>
+            <h3>Elige una pieza</h3>
+            <p>Filtra por estilo y revisa talla, precio y detalles del producto.</p>
+          </article>
+          <article class="step">
+            <span class="step-number">2</span>
+            <h3>Reserva por DM</h3>
+            <p>El sitio copia el mensaje: producto + link oficial de Vercel.</p>
+          </article>
+          <article class="step">
+            <span class="step-number">3</span>
+            <h3>Abre Instagram</h3>
+            <p>El DM de @brutag__ se abre para pegar y enviar la consulta.</p>
+          </article>
+          <article class="step">
+            <span class="step-number">4</span>
+            <h3>Confirma stock</h3>
+            <p>BRUTAG responde disponibilidad y coordina pago o entrega.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Preguntas rápidas</p>
+            <h2>Lo que el cliente necesita saber.</h2>
+          </div>
+          <p>Estas respuestas bajan fricción antes del DM y hacen que la tienda se sienta más confiable.</p>
+        </div>
+        <div class="faq-grid">
+          <article class="faq-item">
+            <h3>¿Son prendas únicas?</h3>
+            <p>Sí. Cada pieza usada tiene talla, estado y disponibilidad propia. Si se vende, sale del drop.</p>
+          </article>
+          <article class="faq-item">
+            <h3>¿Cómo reservo?</h3>
+            <p>Toca "Reservar por DM". El mensaje queda copiado con el producto y su link para que BRUTAG lo identifique rápido.</p>
+          </article>
+          <article class="faq-item">
+            <h3>¿Puedo vender ropa?</h3>
+            <p>Sí. El botón "Enviar prendas" está listo para conectarse a Tally o abrir DM si todavía no hay formulario.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="section-inner">
+        <h2>Si una pieza te queda, no hay segunda unidad esperando.</h2>
+        <div class="final-actions">
+          <a class="button" href="#catalogo">Comprar drop</a>
+          <a class="button secondary" href="#vende">Vender ropa</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
       <span>BRUTAG · Ropa usada de hombre</span>
-      <a href="https://brutag.vercel.app/">brutag.vercel.app</a>
-      <a href="https://instagram.com/brutag" target="_blank" rel="noopener">@brutag</a>
-    </footer>
-  </div>
+      <div class="footer-links">
+        <a href="https://brutag.vercel.app/">brutag.vercel.app</a>
+        <a href="https://instagram.com/brutag__" target="_blank" rel="noopener">@brutag__</a>
+      </div>
+    </div>
+  </footer>
 
   <div class="toast" id="buy-toast" role="status" aria-live="polite" aria-atomic="true">
     <strong>Mensaje listo</strong>
@@ -907,7 +1530,7 @@
       googleSearchConsoleCode: "PEGA_AQUI_TU_CODIGO_DE_GOOGLE_SEARCH_CONSOLE",
       googleAnalyticsId: "G-XXXXXXXXXX",
       googleTagManagerId: "GTM-XXXXXXX",
-      instagramDmUrl: "https://ig.me/m/brutag",
+      instagramDmUrl: "https://ig.me/m/brutag__",
       manyChatUrl: "",
       tallyFormUrl: ""
     };
@@ -916,6 +1539,9 @@
     const toast = document.querySelector("#buy-toast");
     const toastMessage = document.querySelector("#toast-message");
     const sellButton = document.querySelector("#sell-button");
+    const filterButtons = document.querySelectorAll("[data-filter]");
+    const productCards = document.querySelectorAll(".product-card");
+    const catalogCount = document.querySelector("#catalog-count");
     let toastTimer;
 
     function productLink(productId) {
@@ -969,6 +1595,27 @@
       return fallbackCopyMessage(message);
     }
 
+    function updateCatalogCount() {
+      const visibleProducts = document.querySelectorAll(".product-card:not(.is-hidden)").length;
+      catalogCount.textContent = `${visibleProducts} ${visibleProducts === 1 ? "pieza visible" : "piezas visibles"}`;
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+        productCards.forEach((card) => {
+          const categories = card.dataset.category || "";
+          const shouldShow = filter === "all" || categories.includes(filter);
+          card.classList.toggle("is-hidden", !shouldShow);
+        });
+
+        updateCatalogCount();
+        trackEvent("catalog_filter", { filter });
+      });
+    });
+
     document.querySelectorAll(".buy-button").forEach((button) => {
       button.addEventListener("click", async (event) => {
         event.preventDefault();
@@ -1005,6 +1652,8 @@
         }, 950);
       });
     }
+
+    updateCatalogCount();
   </script>
 </body>
 </html>
