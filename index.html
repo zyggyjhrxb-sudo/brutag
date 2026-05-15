@@ -652,7 +652,7 @@ BRUTAG · Ropa usada para hombre · Instagram @brutag__
 <h2 class="section-title">Tu <span>carrito</span></h2>
 <p class="section-text">Guarda productos que te interesan y escríbenos por Instagram para coordinar la compra.</p>
 <div class="cart-list" id="cartList"></div>
-<a class="btn" id="cartInstagramBtn" href="https://ig.me/m/brutag__" target="_blank">Comprar por Instagram</a>
+<button class="btn" id="buyCartBtn">Comprar carrito</button>
 </div>
 </div>
 
@@ -991,6 +991,46 @@ function saveAccount(){
   };
   localStorage.setItem("brutagAccount", JSON.stringify(account));
   document.getElementById("accountStatus").textContent = "Cuenta guardada en este dispositivo.";
+}
+
+function openBuyModal(index){
+  const product = loadedProducts[index];
+  if(!product) return;
+
+  document.getElementById("buyMessage").value = getBuyMessage(product);
+  document.getElementById("buyMessageStatus").textContent = "";
+  openModal("buyModal");
+}
+
+function getBuyMessage(product){
+  return `Hola BRUTAG, me interesa este producto: ${getProductSummary(product)}. ¿Sigue disponible?`;
+}
+
+async function copyBuyMessage(){
+  const buyMessage = document.getElementById("buyMessage");
+  const status = document.getElementById("buyMessageStatus");
+
+  try{
+    await navigator.clipboard.writeText(buyMessage.value);
+    status.textContent = "Mensaje copiado. Ahora abre Instagram y pégalo en el DM.";
+  }catch(error){
+    buyMessage.select();
+    status.textContent = "Copia manualmente el mensaje seleccionado y pégalo en Instagram.";
+  }
+}
+
+function buyCart(){
+  const cart = getCart();
+
+  if(!cart.length){
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  const message = "Hola BRUTAG, me interesan estos productos:\n\n" + cart.map(item => "- " + item.name).join("\n");
+  document.getElementById("buyMessage").value = message;
+  closeModal("cartModal");
+  openModal("buyModal");
 }
 
 document.addEventListener("click", function(event){
