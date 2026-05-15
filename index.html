@@ -969,6 +969,9 @@ async function loadProducts(){
     });
 
     showEmptyMessages();
+    
+    // Populate sales section with first 5 products
+    populateSalesSection();
   }catch(error){
     console.error("No se pudieron cargar los productos", error);
     showEmptyMessages();
@@ -983,6 +986,22 @@ async function loadProducts(){
   }
 }
 
+function populateSalesSection(){
+  const salesContainer = document.getElementById("productos-ventas");
+  if(!salesContainer || loadedProducts.length === 0) return;
+  
+  salesContainer.innerHTML = "";
+  
+  // Show first 5 products
+  const productsToShow = loadedProducts.slice(0, 5);
+  
+  productsToShow.forEach(product => {
+    const index = loadedProducts.indexOf(product);
+    const { card } = createProductCard(product, index);
+    salesContainer.appendChild(card);
+  });
+}
+
 function openModal(id){
   const modal = document.getElementById(id);
   if(modal) modal.classList.add("open");
@@ -994,11 +1013,15 @@ function closeModal(id){
 }
 
 function getCart(){
-  return JSON.parse(localStorage.getItem("brutagCart") || "[]");
+  const session = JSON.parse(localStorage.getItem("brutagSession") || "null");
+  const key = session ? `brutagCart_${session.email}` : "brutagCart";
+  return JSON.parse(localStorage.getItem(key) || "[]");
 }
 
 function saveCart(cart){
-  localStorage.setItem("brutagCart", JSON.stringify(cart));
+  const session = JSON.parse(localStorage.getItem("brutagSession") || "null");
+  const key = session ? `brutagCart_${session.email}` : "brutagCart";
+  localStorage.setItem(key, JSON.stringify(cart));
   updateCartCount();
 }
 
@@ -1191,10 +1214,17 @@ async function copyBuyMessage(){
 
   try{
     await navigator.clipboard.writeText(buyMessage.value);
-    status.textContent = "Mensaje copiado. Ahora abre Instagram y pégalo en el DM.";
+    status.textContent = "✓ Mensaje copiado al portapapeles.";
+    
+    // Open Instagram DM
+    window.open("https://www.instagram.com/direct/new/?username=brutag__", "_blank");
+    
+    setTimeout(() => {
+      status.textContent = "Pega el mensaje en el chat que se abrió. Si no se abrió, haz clic en 'Abrir DM'.";
+    }, 500);
   }catch(error){
     buyMessage.select();
-    status.textContent = "Copia manualmente el mensaje seleccionado y pégalo en Instagram.";
+    status.textContent = "Copia manualmente el mensaje (Ctrl+C) y pégalo en Instagram DM.";
   }
 }
 
