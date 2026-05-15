@@ -1055,12 +1055,7 @@ document.addEventListener("click", function(event){
 
   if(buyButton){
     event.preventDefault();
-    const index = Number(buyButton.dataset.buy);
-    const product = products[index];
-    const message = `Me interesa este producto: ${product.brand || product.type}`;
-    navigator.clipboard.writeText(message).then(() => {
-      window.open(INSTAGRAM_DM_URL, '_blank');
-    });
+    openBuyModal(Number(buyButton.dataset.buy));
   }
 });
 
@@ -1075,6 +1070,8 @@ document.getElementById("accountBtn").addEventListener("click", function(){
 });
 
 document.getElementById("saveAccountBtn").addEventListener("click", saveAccount);
+document.getElementById("copyBuyMessageBtn").addEventListener("click", copyBuyMessage);
+document.getElementById("buyCartBtn").addEventListener("click", buyCart);
 
 updateCartCount();
 loadProducts();
