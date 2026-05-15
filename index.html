@@ -21,23 +21,24 @@ color:white;
 }
 
 header{
-padding:18px 25px;
+padding:25px 30px;
 display:flex;
-justify-content:space-between;
+flex-direction:column;
 align-items:center;
 gap:20px;
-border-bottom:1px solid rgba(200,169,107,0.3);
-background:rgba(17,17,17,0.96);
+border-bottom:1px solid rgba(200,169,107,0.15);
+background:#0b0b0b;
 position:sticky;
 top:0;
 z-index:100;
-backdrop-filter:blur(10px);
 }
 
 .logo{
-font-size:40px;
+font-size:48px;
 font-weight:900;
-letter-spacing:8px;
+letter-spacing:10px;
+text-align:center;
+margin:10px 0;
 }
 
 .logo span{
@@ -46,41 +47,67 @@ color:#c8a96b;
 
 nav{
 display:flex;
-gap:18px;
+gap:25px;
 flex-wrap:wrap;
-justify-content:flex-end;
+justify-content:center;
+align-items:center;
 }
 
 nav a{
-color:#c8a96b;
+color:#ddd;
 text-decoration:none;
-font-weight:bold;
-font-size:14px;
+font-weight:600;
+font-size:13px;
 text-transform:uppercase;
+letter-spacing:1px;
+transition:color 0.2s;
+}
+
+nav a:hover{
+color:#c8a96b;
+}
+
+nav button{
+padding:10px 18px;
+font-size:11px;
+}
+
+nav .btn-secondary{
+border-color:#666;
+color:#888;
+}
+
+nav .btn-secondary:hover{
+color:#c8a96b;
+border-color:#c8a96b;
 }
 
 .hero{
-min-height:76vh;
-padding:85px 30px;
-background:radial-gradient(circle at top right, rgba(200,169,107,0.16), transparent 30%), linear-gradient(180deg,#050505,#121212);
+min-height:60vh;
+padding:60px 40px;
+background:linear-gradient(135deg, rgba(200,169,107,0.08) 0%, transparent 50%), #0b0b0b;
 display:flex;
 flex-direction:column;
 justify-content:center;
+align-items:center;
+text-align:center;
 }
 
 .badge{
 color:#c8a96b;
-letter-spacing:5px;
+letter-spacing:8px;
 text-transform:uppercase;
-margin-bottom:25px;
-font-size:14px;
+margin-bottom:20px;
+font-size:12px;
+font-weight:600;
 }
 
 h1{
-font-size:90px;
-line-height:0.9;
-margin-bottom:30px;
+font-size:72px;
+line-height:1.1;
+margin-bottom:25px;
 text-transform:uppercase;
+letter-spacing:4px;
 }
 
 h1 span{
@@ -88,10 +115,10 @@ color:#c8a96b;
 }
 
 .intro{
-max-width:650px;
-font-size:20px;
-color:#aaa;
-line-height:1.7;
+max-width:600px;
+font-size:18px;
+color:#999;
+line-height:1.6;
 margin-bottom:35px;
 }
 
@@ -109,14 +136,16 @@ cursor:pointer;
 }
 
 .section{
-padding:70px 30px;
-border-top:1px solid rgba(200,169,107,0.18);
+padding:80px 40px;
+border-top:1px solid rgba(200,169,107,0.15);
 }
 
 .section-title{
-font-size:42px;
-margin-bottom:12px;
+font-size:40px;
+margin-bottom:15px;
 text-transform:uppercase;
+letter-spacing:2px;
+text-align:center;
 }
 
 .section-title span{
@@ -124,47 +153,51 @@ color:#c8a96b;
 }
 
 .section-text{
-color:#aaa;
-font-size:18px;
-margin-bottom:35px;
+color:#888;
+font-size:16px;
+margin-bottom:50px;
+text-align:center;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
 }
 
 .categories{
 display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:25px;
 }
 
 .category-card{
 background:#111;
-border:1px solid rgba(200,169,107,0.25);
-padding:28px;
-min-height:150px;
+border:1px solid rgba(200,169,107,0.2);
+padding:35px 25px;
+min-height:180px;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
+text-decoration:none;
+color:white;
+transition:all 0.3s ease;
 }
 
 .category-card h3{
-font-size:25px;
+font-size:24px;
 color:#c8a96b;
 margin-bottom:12px;
+font-weight:700;
 }
 
 .category-card p{
-color:#aaa;
-line-height:1.5;
-}
-
-.category-card{
-text-decoration:none;
-color:white;
-transition:0.2s;
+color:#999;
+line-height:1.6;
+font-size:15px;
 }
 
 .category-card:hover{
-transform:translateY(-5px);
+transform:translateY(-4px);
 border-color:#c8a96b;
+background:#131313;
 }
 
 .products{
@@ -305,10 +338,7 @@ border:1px solid #c8a96b;
 }
 
 .header-actions{
-display:flex;
-gap:10px;
-align-items:center;
-flex-wrap:wrap;
+display:none;
 }
 
 .small-btn{
@@ -488,6 +518,16 @@ line-height:1.6;
 margin-bottom:12px;
 }
 
+footer{
+padding:60px 40px;
+text-align:center;
+color:#666;
+border-top:1px solid rgba(200,169,107,0.15);
+font-size:14px;
+letter-spacing:1px;
+background:#0a0a0a;
+}
+
 @media(max-width:900px){
 .categories,
 .products,
@@ -521,13 +561,12 @@ width:100%;
 <a href="#camisas">Camisas</a>
 <a href="#poleras">Poleras</a>
 <a href="#pantalones">Pantalones</a>
-<a href="#vender">Vende tu ropa</a>
+<a href="#vender">Vende</a>
 <a href="https://instagram.com/brutag__" target="_blank">Instagram</a>
-</nav>
-<div class="header-actions">
+<span style="color:#666;">|</span>
 <button class="btn small-btn" id="accountBtn">Cuenta</button>
-<button class="btn btn-secondary small-btn" id="cartBtn">Carrito (<span id="cartCount">0</span>)</button>
-</div>
+<button class="btn btn-secondary small-btn" id="cartBtn">Carrito <span id="cartCount">0</span></button>
+</nav>
 </header>
 
 <section class="hero">
