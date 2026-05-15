@@ -6,11 +6,11 @@ Landing y catálogo de ropa usada de hombre para `https://brutag.vercel.app/`.
 
 La web ahora tiene:
 
-1. Home con posicionamiento claro de BRUTAG.
-2. Catálogo con filtros reales por categoría.
-3. Botones de reserva por DM con mensaje y link de producto.
-4. Sección para vender ropa a BRUTAG.
-5. FAQ para bajar dudas antes del DM.
+1. Estilo dark/gold inspirado en la referencia visual de BRUTAG.
+2. Menos fotos y más dirección editorial.
+3. Una pieza destacada con compra directa por DM.
+4. Mensaje automático con nombre y link del producto.
+5. Sección para vender ropa a BRUTAG.
 6. Preparación para Google, Tally, ManyChat y eventos de Analytics.
 
 ## Google
