@@ -1100,6 +1100,76 @@ function saveAccount(){
   document.getElementById("accountStatus").textContent = "Cuenta guardada en este dispositivo.";
 }
 
+function loginUser(){
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  const status = document.getElementById("loginStatus");
+  
+  if(!email || !password){
+    status.textContent = "Por favor completa todos los campos.";
+    return;
+  }
+  
+  const session = {
+    email: email,
+    name: email.split("@")[0],
+    timestamp: Date.now()
+  };
+  
+  localStorage.setItem("brutagSession", JSON.stringify(session));
+  status.textContent = "¡Sesión iniciada!";
+  
+  setTimeout(() => {
+    closeModal("loginModal");
+    loadAccount();
+    openModal("accountModal");
+  }, 500);
+}
+
+function registerUser(){
+  const name = document.getElementById("registerName").value.trim();
+  const email = document.getElementById("registerEmail").value.trim();
+  const password = document.getElementById("registerPassword").value.trim();
+  const status = document.getElementById("registerStatus");
+  
+  if(!name || !email || !password){
+    status.textContent = "Por favor completa todos los campos.";
+    return;
+  }
+  
+  const session = {
+    email: email,
+    name: name,
+    timestamp: Date.now()
+  };
+  
+  localStorage.setItem("brutagSession", JSON.stringify(session));
+  status.textContent = "¡Cuenta creada! Iniciando sesión...";
+  
+  setTimeout(() => {
+    closeModal("loginModal");
+    loadAccount();
+    openModal("accountModal");
+  }, 500);
+}
+
+function toggleRegisterForm(){
+  document.getElementById("loginEmail").value = "";
+  document.getElementById("loginPassword").value = "";
+  document.getElementById("loginStatus").textContent = "";
+  document.querySelector(".account-box").style.display = "none";
+  document.getElementById("registerBox").style.display = "block";
+}
+
+function toggleLoginForm(){
+  document.getElementById("registerName").value = "";
+  document.getElementById("registerEmail").value = "";
+  document.getElementById("registerPassword").value = "";
+  document.getElementById("registerStatus").textContent = "";
+  document.querySelector(".account-box").style.display = "block";
+  document.getElementById("registerBox").style.display = "none";
+}
+
 function openBuyModal(index){
   const product = loadedProducts[index];
   if(!product) return;
@@ -1186,6 +1256,17 @@ document.getElementById("accountBtn").addEventListener("click", function(){
 document.getElementById("saveAccountBtn").addEventListener("click", saveAccount);
 document.getElementById("copyBuyMessageBtn").addEventListener("click", copyBuyMessage);
 document.getElementById("buyCartBtn").addEventListener("click", buyCart);
+
+document.getElementById("loginBtn").addEventListener("click", loginUser);
+document.getElementById("registerBtn").addEventListener("click", registerUser);
+document.getElementById("toggleRegister").addEventListener("click", function(e){
+  e.preventDefault();
+  toggleRegisterForm();
+});
+document.getElementById("toggleLogin").addEventListener("click", function(e){
+  e.preventDefault();
+  toggleLoginForm();
+});
 
 updateCartCount();
 loadProducts();
