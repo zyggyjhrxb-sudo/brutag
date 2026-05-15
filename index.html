@@ -874,6 +874,14 @@ async function loadProducts(){
     console.error("No se pudieron cargar los productos", error);
     showEmptyMessages();
   }
+
+  // Check for product hash after loading products
+  if(window.location.hash.startsWith('#product-')){
+    const index = Number(window.location.hash.split('-')[1]);
+    if(!isNaN(index) && loadedProducts[index]){
+      openProductDetail(index);
+    }
+  }
 }
 
 function openModal(id){
@@ -1077,13 +1085,6 @@ document.getElementById("buyCartBtn").addEventListener("click", buyCart);
 
 updateCartCount();
 loadProducts();
-
-if(window.location.hash.startsWith('#product-')){
-  const index = Number(window.location.hash.split('-')[1]);
-  if(!isNaN(index) && loadedProducts[index]){
-    openProductDetail(index);
-  }
-}
 </script>
 
 </body>
