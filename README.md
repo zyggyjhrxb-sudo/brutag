@@ -6,12 +6,12 @@ Landing y catálogo de ropa usada de hombre para `https://brutag.vercel.app/`.
 
 La web ahora tiene:
 
-1. La estructura completa anterior de landing + catálogo.
-2. Paleta dark/gold inspirada en la referencia visual de BRUTAG.
-3. Catálogo con filtros reales por categoría.
-4. Mensaje automático con nombre y link del producto.
-5. Instagram actualizado a `@brutag__`.
-6. Preparación para Google, Tally, ManyChat y eventos de Analytics.
+1. Página más simple: inicio, drop, quiero vender y condiciones.
+2. Fotos reales del polerón Grizzly con precio.
+3. Compra por DM a `@brutag__` con link exacto del producto.
+4. Botón de venta preparado para Tally.
+5. Condiciones claras para comprar y vender en BRUTAG.
+6. Paleta dark/gold inspirada en la referencia visual.
 
 ## Google
 
@@ -51,6 +51,8 @@ tallyFormUrl: ""
 ```
 
 Si `manyChatUrl` tiene un link, los botones de compra abrirán ese flujo. Si `tallyFormUrl` tiene un link, el botón “Vender a BRUTAG” abrirá tu formulario de Tally.
+
+Nota: actualmente no hay link real de Tally pegado en `tallyFormUrl`; el botón avisa que falta ese link.
 
 ## Publicar en Vercel
 
