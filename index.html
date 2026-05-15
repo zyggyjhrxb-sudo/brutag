@@ -512,7 +512,7 @@ function getImageLinks(value){
   return String(value || "")
     .split(/,|\n/)
     .map(link => link.trim())
-    .filter(link => link.startsWith("http"))
+    .filter(link => link)
     .slice(0, 2);
 }
 
