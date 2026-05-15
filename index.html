@@ -192,7 +192,7 @@ margin-bottom:22px;
 .product-images img{
 width:100%;
 height:190px;
-object-fit:cover;
+object-fit:contain;
 background:white;
 padding:8px;
 display:block;
@@ -461,6 +461,33 @@ color:white;
 border:1px solid rgba(200,169,107,0.25);
 }
 
+.buy-message-box{
+background:#0b0b0b;
+border:1px solid rgba(200,169,107,0.25);
+padding:18px;
+margin-top:15px;
+}
+
+.buy-message-box textarea{
+width:100%;
+padding:14px;
+margin:8px 0;
+background:#151515;
+color:white;
+border:1px solid rgba(200,169,107,0.25);
+font-family:Arial, Helvetica, sans-serif;
+font-size:15px;
+min-height:120px;
+resize:vertical;
+line-height:1.5;
+}
+
+.buy-message-box p{
+color:#aaa;
+line-height:1.6;
+margin-bottom:12px;
+}
+
 @media(max-width:900px){
 .categories,
 .products,
@@ -645,6 +672,23 @@ BRUTAG · Ropa usada para hombre · Instagram @brutag__
 </div>
 </div>
 
+<div class="modal" id="buyModal">
+<div class="modal-content">
+<button class="modal-close" data-close="buyModal">×</button>
+<h2 class="section-title">Comprar <span>producto</span></h2>
+<p class="section-text">Copia el mensaje sugerido y envíalo por Instagram a BRUTAG.</p>
+<div class="buy-message-box">
+<p>Mensaje sugerido:</p>
+<textarea id="buyMessage" readonly></textarea>
+</div>
+<div class="action-buttons">
+<button class="btn" id="copyBuyMessageBtn">Copiar mensaje</button>
+<a class="btn btn-secondary" href="https://ig.me/m/brutag__" target="_blank">Abrir DM de Instagram</a>
+</div>
+<p class="note" id="buyMessageStatus"></p>
+</div>
+</div>
+
 <script>
 const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pub?gid=0&single=true&output=csv";
 const INSTAGRAM_URL = "https://instagram.com/brutag__";
@@ -760,7 +804,7 @@ function createProductCard(product, index){
     <div class="product-actions">
       <button class="btn" data-detail="${index}">Ver producto</button>
       <button class="btn btn-secondary" data-cart="${index}">Agregar</button>
-      <a class="btn" href="${INSTAGRAM_DM_URL}" target="_blank" data-buy="${index}">Comprar</a>
+      <button class="btn" data-buy="${index}">Comprar</button>
     </div>
   `;
 
@@ -955,6 +999,7 @@ document.addEventListener("click", function(event){
   const removeCartButton = event.target.closest("[data-remove-cart]");
   const zoomTarget = event.target.closest("[data-zoom]");
   const closeButton = event.target.closest("[data-close]");
+  const buyButton = event.target.closest("[data-buy]");
 
   if(detailButton) openProductDetail(Number(detailButton.dataset.detail));
   if(cartButton) addToCart(Number(cartButton.dataset.cart));
@@ -966,6 +1011,16 @@ document.addEventListener("click", function(event){
     cart.splice(Number(removeCartButton.dataset.removeCart), 1);
     saveCart(cart);
     renderCart();
+  }
+
+  if(buyButton){
+    event.preventDefault();
+    const index = Number(buyButton.dataset.buy);
+    const product = products[index];
+    const message = `Me interesa este producto: ${product.brand || product.type}`;
+    navigator.clipboard.writeText(message).then(() => {
+      window.open(INSTAGRAM_DM_URL, '_blank');
+    });
   }
 });
 
