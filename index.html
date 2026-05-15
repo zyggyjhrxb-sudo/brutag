@@ -21,16 +21,17 @@ color:white;
 }
 
 header{
-padding:22px 25px;
+padding:18px 25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
 gap:20px;
 border-bottom:1px solid rgba(200,169,107,0.3);
-background:#111;
+background:rgba(17,17,17,0.96);
 position:sticky;
 top:0;
 z-index:100;
+backdrop-filter:blur(10px);
 }
 
 .logo{
@@ -59,9 +60,12 @@ text-transform:uppercase;
 }
 
 .hero{
-min-height:88vh;
+min-height:76vh;
 padding:85px 30px;
-background:linear-gradient(180deg,#050505,#121212);
+background:radial-gradient(circle at top right, rgba(200,169,107,0.16), transparent 30%), linear-gradient(180deg,#050505,#121212);
+display:flex;
+flex-direction:column;
+justify-content:center;
 }
 
 .badge{
@@ -165,14 +169,17 @@ border-color:#c8a96b;
 
 .products{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:25px;
 }
 
 .product-card{
 background:#111;
-padding:25px;
+padding:22px;
 border:1px solid rgba(200,169,107,0.3);
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
 .product-images{
@@ -184,9 +191,12 @@ margin-bottom:22px;
 
 .product-images img{
 width:100%;
+height:190px;
+object-fit:cover;
 background:white;
 padding:8px;
 display:block;
+cursor:zoom-in;
 }
 
 .product-card h3{
@@ -294,7 +304,170 @@ color:#c8a96b;
 border:1px solid #c8a96b;
 }
 
+.header-actions{
+display:flex;
+gap:10px;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.small-btn{
+padding:12px 15px;
+font-size:12px;
+letter-spacing:1px;
+}
+
+.product-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:auto;
+}
+
+.product-actions .btn{
+text-align:center;
+padding:14px 12px;
+font-size:12px;
+}
+
+.product-meta{
+color:#aaa;
+font-size:14px;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.82);
+z-index:1000;
+display:none;
+align-items:center;
+justify-content:center;
+padding:24px;
+}
+
+.modal.open{
+display:flex;
+}
+
+.modal-content{
+background:#111;
+border:1px solid rgba(200,169,107,0.35);
+max-width:980px;
+width:100%;
+max-height:90vh;
+overflow:auto;
+padding:25px;
+position:relative;
+}
+
+.modal-close{
+position:absolute;
+top:14px;
+right:14px;
+background:#c8a96b;
+color:#000;
+border:none;
+font-size:18px;
+font-weight:900;
+width:36px;
+height:36px;
+cursor:pointer;
+}
+
+.detail-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+}
+
+.detail-images{
+display:grid;
+gap:12px;
+}
+
+.detail-images img{
+width:100%;
+max-height:520px;
+object-fit:contain;
+background:white;
+padding:10px;
+cursor:zoom-in;
+}
+
+.detail-info h3{
+color:#c8a96b;
+font-size:34px;
+margin-bottom:12px;
+}
+
+.detail-info p{
+color:#ddd;
+line-height:1.6;
+margin-bottom:10px;
+}
+
+.detail-list{
+list-style:none;
+display:grid;
+gap:10px;
+margin:20px 0;
+}
+
+.detail-list li{
+background:#0b0b0b;
+border:1px solid rgba(200,169,107,0.18);
+padding:12px;
+color:#ddd;
+}
+
+.zoom-modal img{
+max-width:96vw;
+max-height:92vh;
+object-fit:contain;
+background:white;
+padding:10px;
+}
+
+.cart-list{
+display:grid;
+gap:14px;
+margin:20px 0;
+}
+
+.cart-item{
+background:#0b0b0b;
+border:1px solid rgba(200,169,107,0.2);
+padding:14px;
+display:flex;
+justify-content:space-between;
+gap:15px;
+align-items:center;
+}
+
+.account-box{
+background:#0b0b0b;
+border:1px solid rgba(200,169,107,0.25);
+padding:18px;
+margin-top:15px;
+}
+
+.account-box input{
+width:100%;
+padding:14px;
+margin:8px 0;
+background:#151515;
+color:white;
+border:1px solid rgba(200,169,107,0.25);
+}
+
 @media(max-width:900px){
+.categories,
+.products,
+.sell-box{
+grid-template-columns:1fr;
+}
+
 header{
 flex-direction:column;
 align-items:flex-start;
@@ -304,11 +477,8 @@ h1{
 font-size:60px;
 }
 
-.categories,
-.products,
-.sell-box,
-.sell-categories{
-grid-template-columns:1fr;
+.header-actions{
+width:100%;
 }
 }
 </style>
@@ -327,13 +497,20 @@ grid-template-columns:1fr;
 <a href="#vender">Vende tu ropa</a>
 <a href="https://instagram.com/brutag__" target="_blank">Instagram</a>
 </nav>
+<div class="header-actions">
+<button class="btn small-btn" id="accountBtn">Cuenta</button>
+<button class="btn btn-secondary small-btn" id="cartBtn">Carrito (<span id="cartCount">0</span>)</button>
+</div>
 </header>
 
 <section class="hero">
 <div class="badge">Ropa usada para hombre</div>
 <h1>Viste <span>con</span><br>fuerza</h1>
 <p class="intro">Solo ropa usada para hombre. Prendas seleccionadas, urbanas y con estilo.</p>
+<div class="action-buttons">
 <a class="btn" href="#categorias">Ver colección</a>
+<a class="btn btn-secondary" href="#vender">Vender producto</a>
+</div>
 </section>
 
 <section class="section" id="categorias">
@@ -430,9 +607,49 @@ El pago al vendedor se realizará dentro de las 24 horas posteriores a la confir
 BRUTAG · Ropa usada para hombre · Instagram @brutag__
 </footer>
 
+<div class="modal" id="productModal">
+<div class="modal-content">
+<button class="modal-close" data-close="productModal">×</button>
+<div id="productDetail"></div>
+</div>
+</div>
+
+<div class="modal zoom-modal" id="zoomModal">
+<button class="modal-close" data-close="zoomModal">×</button>
+<img id="zoomImage" src="" alt="Producto ampliado">
+</div>
+
+<div class="modal" id="cartModal">
+<div class="modal-content">
+<button class="modal-close" data-close="cartModal">×</button>
+<h2 class="section-title">Tu <span>carrito</span></h2>
+<p class="section-text">Guarda productos que te interesan y escríbenos por Instagram para coordinar la compra.</p>
+<div class="cart-list" id="cartList"></div>
+<a class="btn" id="cartInstagramBtn" href="https://ig.me/m/brutag__" target="_blank">Comprar por Instagram</a>
+</div>
+</div>
+
+<div class="modal" id="accountModal">
+<div class="modal-content">
+<button class="modal-close" data-close="accountModal">×</button>
+<h2 class="section-title">Mi <span>cuenta</span></h2>
+<p class="section-text">Cuenta simple guardada en este dispositivo para ordenar tus favoritos y compras.</p>
+<div class="account-box">
+<label>Nombre</label>
+<input id="accountName" type="text" placeholder="Tu nombre">
+<label>Instagram</label>
+<input id="accountInstagram" type="text" placeholder="@tuinstagram">
+<button class="btn" id="saveAccountBtn">Guardar cuenta</button>
+<p class="note" id="accountStatus"></p>
+</div>
+</div>
+</div>
+
 <script>
 const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pub?gid=0&single=true&output=csv";
 const INSTAGRAM_URL = "https://instagram.com/brutag__";
+const INSTAGRAM_DM_URL = "https://ig.me/m/brutag__";
+let loadedProducts = [];
 
 const categoryMap = {
   "polerón": "productos-polerones",
@@ -516,7 +733,7 @@ function getImageLinks(value){
     .slice(0, 2);
 }
 
-function createProductCard(product){
+function createProductCard(product, index){
   const type = getField(product, ["Tipo", "Tipo de producto", "¿Qué tipo de producto quieres vender?"]);
   const brand = getField(product, ["Marca"]);
   const size = getField(product, ["Talla"]);
@@ -525,22 +742,29 @@ function createProductCard(product){
   const description = getField(product, ["Descripción", "Descripción del producto"]);
   const photos = getField(product, ["Fotos", "Sube entre 2 y 6 fotos del producto"]);
   const images = getImageLinks(photos);
+  const productName = `${brand || "Producto BRUTAG"}${type ? " · " + type : ""}${size ? " talla " + size : ""}`;
 
   const card = document.createElement("div");
   card.className = "product-card";
 
   const imageHTML = images.length
-    ? images.map(src => `<img src="${src}" alt="${brand || type}">`).join("")
+    ? images.map(src => `<img src="${src}" alt="${brand || type}" data-zoom="${src}">`).join("")
     : `<div class="empty-box">Sin foto disponible</div>`;
 
   card.innerHTML = `
     <div class="product-images">${imageHTML}</div>
     <h3>${brand || "Producto BRUTAG"}</h3>
-    <p>${size ? "Talla " + size + " · " : ""}${condition || "Estado por confirmar"}</p>
-    <p>${description || "Producto seleccionado por BRUTAG."}</p>
+    <p class="product-meta">${type || "Categoría"}${size ? " · Talla " + size : ""}</p>
+    <p>${condition || "Estado por confirmar"}</p>
     <div class="price">${formatPrice(price)}</div>
-    <a class="btn" href="${INSTAGRAM_URL}" target="_blank">Comprar</a>
+    <div class="product-actions">
+      <button class="btn" data-detail="${index}">Ver producto</button>
+      <button class="btn btn-secondary" data-cart="${index}">Agregar</button>
+      <a class="btn" href="${INSTAGRAM_DM_URL}" target="_blank" data-buy="${index}">Comprar</a>
+    </div>
   `;
+
+  card.dataset.message = `Hola BRUTAG, quiero este producto: ${productName}. Me interesa comprarlo.`;
 
   return { card, type };
 }
@@ -587,12 +811,15 @@ async function loadProducts(){
     });
 
     clearProductSections();
+    loadedProducts = [];
 
     products.forEach(product => {
       const published = normalizeText(getField(product, ["Publicado", "Estado publicación", "Estado publicacion"]));
       if(published !== "si" && published !== "sí" && published !== "aprobado") return;
 
-      const { card, type } = createProductCard(product);
+      const productIndex = loadedProducts.length;
+      loadedProducts.push(product);
+      const { card, type } = createProductCard(product, productIndex);
       const categoryId = categoryMap[normalizeText(type)];
       const container = document.getElementById(categoryId);
       if(container) container.appendChild(card);
@@ -605,6 +832,156 @@ async function loadProducts(){
   }
 }
 
+function openModal(id){
+  const modal = document.getElementById(id);
+  if(modal) modal.classList.add("open");
+}
+
+function closeModal(id){
+  const modal = document.getElementById(id);
+  if(modal) modal.classList.remove("open");
+}
+
+function getCart(){
+  return JSON.parse(localStorage.getItem("brutagCart") || "[]");
+}
+
+function saveCart(cart){
+  localStorage.setItem("brutagCart", JSON.stringify(cart));
+  updateCartCount();
+}
+
+function updateCartCount(){
+  document.getElementById("cartCount").textContent = getCart().length;
+}
+
+function getProductSummary(product){
+  const type = getField(product, ["Tipo", "Tipo de producto", "¿Qué tipo de producto quieres vender?"]);
+  const brand = getField(product, ["Marca"]);
+  const size = getField(product, ["Talla"]);
+  const price = getField(product, ["Precio", "Precio (CLP)"]);
+  return `${brand || "Producto"}${type ? " · " + type : ""}${size ? " · Talla " + size : ""} · ${formatPrice(price)}`;
+}
+
+function addToCart(index){
+  const product = loadedProducts[index];
+  if(!product) return;
+  const cart = getCart();
+  cart.push({ index, name: getProductSummary(product) });
+  saveCart(cart);
+  alert("Producto agregado al carrito.");
+}
+
+function renderCart(){
+  const cartList = document.getElementById("cartList");
+  const cart = getCart();
+
+  if(!cart.length){
+    cartList.innerHTML = `<div class="empty-box">Tu carrito está vacío.</div>`;
+    return;
+  }
+
+  cartList.innerHTML = cart.map((item, index) => `
+    <div class="cart-item">
+      <span>${item.name}</span>
+      <button class="btn btn-secondary small-btn" data-remove-cart="${index}">Eliminar</button>
+    </div>
+  `).join("");
+}
+
+function openProductDetail(index){
+  const product = loadedProducts[index];
+  if(!product) return;
+
+  const type = getField(product, ["Tipo", "Tipo de producto", "¿Qué tipo de producto quieres vender?"]);
+  const brand = getField(product, ["Marca"]);
+  const size = getField(product, ["Talla"]);
+  const condition = getField(product, ["Estado", "Estado del producto"]);
+  const price = getField(product, ["Precio", "Precio (CLP)"]);
+  const description = getField(product, ["Descripción", "Descripción del producto"]);
+  const photos = getField(product, ["Fotos", "Sube entre 2 y 6 fotos del producto"]);
+  const images = getImageLinks(photos);
+  const message = `Hola BRUTAG, quiero este producto: ${getProductSummary(product)}. Me interesa comprarlo.`;
+
+  document.getElementById("productDetail").innerHTML = `
+    <div class="detail-grid">
+      <div class="detail-images">
+        ${images.length ? images.map(src => `<img src="${src}" alt="${brand || type}" data-zoom="${src}">`).join("") : `<div class="empty-box">Sin foto disponible</div>`}
+      </div>
+      <div class="detail-info">
+        <h3>${brand || "Producto BRUTAG"}</h3>
+        <p>${description || "Producto seleccionado por BRUTAG."}</p>
+        <ul class="detail-list">
+          <li><strong>Categoría:</strong> ${type || "Por confirmar"}</li>
+          <li><strong>Talla:</strong> ${size || "Por confirmar"}</li>
+          <li><strong>Estado:</strong> ${condition || "Por confirmar"}</li>
+          <li><strong>Precio:</strong> ${formatPrice(price)}</li>
+        </ul>
+        <p class="note">Mensaje sugerido: ${message}</p>
+        <div class="action-buttons">
+          <button class="btn" data-cart="${index}">Agregar al carrito</button>
+          <a class="btn btn-secondary" href="${INSTAGRAM_DM_URL}" target="_blank">Comprar por Instagram</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  openModal("productModal");
+}
+
+function openZoom(src){
+  document.getElementById("zoomImage").src = src;
+  openModal("zoomModal");
+}
+
+function loadAccount(){
+  const account = JSON.parse(localStorage.getItem("brutagAccount") || "{}");
+  document.getElementById("accountName").value = account.name || "";
+  document.getElementById("accountInstagram").value = account.instagram || "";
+}
+
+function saveAccount(){
+  const account = {
+    name: document.getElementById("accountName").value.trim(),
+    instagram: document.getElementById("accountInstagram").value.trim()
+  };
+  localStorage.setItem("brutagAccount", JSON.stringify(account));
+  document.getElementById("accountStatus").textContent = "Cuenta guardada en este dispositivo.";
+}
+
+document.addEventListener("click", function(event){
+  const detailButton = event.target.closest("[data-detail]");
+  const cartButton = event.target.closest("[data-cart]");
+  const removeCartButton = event.target.closest("[data-remove-cart]");
+  const zoomTarget = event.target.closest("[data-zoom]");
+  const closeButton = event.target.closest("[data-close]");
+
+  if(detailButton) openProductDetail(Number(detailButton.dataset.detail));
+  if(cartButton) addToCart(Number(cartButton.dataset.cart));
+  if(zoomTarget) openZoom(zoomTarget.dataset.zoom);
+  if(closeButton) closeModal(closeButton.dataset.close);
+
+  if(removeCartButton){
+    const cart = getCart();
+    cart.splice(Number(removeCartButton.dataset.removeCart), 1);
+    saveCart(cart);
+    renderCart();
+  }
+});
+
+document.getElementById("cartBtn").addEventListener("click", function(){
+  renderCart();
+  openModal("cartModal");
+});
+
+document.getElementById("accountBtn").addEventListener("click", function(){
+  loadAccount();
+  openModal("accountModal");
+});
+
+document.getElementById("saveAccountBtn").addEventListener("click", saveAccount);
+
+updateCartCount();
 loadProducts();
 </script>
 
