@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BRUTAG</title>
+<meta name="description" content="BRUTAG es una tienda de ropa usada para hombre en Chile. Compra y vende polerones, poleras, camisas y pantalones seleccionados.">
+<meta name="robots" content="index, follow">
 
 <style>
 *{
@@ -218,6 +220,19 @@ text-align:center;
 background:#0f0f0f;
 }
 
+.loading-box{
+border:1px dashed rgba(200,169,107,0.45);
+padding:30px;
+color:#777;
+min-height:180px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:#0f0f0f;
+grid-column:1/-1;
+}
+
 .sell-box{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -228,108 +243,55 @@ border:1px solid rgba(200,169,107,0.3);
 padding:30px;
 }
 
-.sell-box h3{
-font-size:34px;
-color:#c8a96b;
-margin-bottom:15px;
-}
-
-.sell-box p{
-color:#aaa;
-line-height:1.7;
-margin-bottom:20px;
-font-size:18px;
-}
-
-.upload-area{
-border:1px dashed rgba(200,169,107,0.55);
-padding:25px;
-background:#0b0b0b;
-outline:none;
-}
-
-.upload-area:focus{
-border-color:#c8a96b;
-box-shadow:0 0 20px rgba(200,169,107,0.15);
-}
-
-.upload-area label{
-display:block;
-margin-bottom:12px;
-color:#c8a96b;
-font-weight:900;
-text-transform:uppercase;
-letter-spacing:2px;
-}
-
-.upload-area input{
-width:100%;
-padding:14px;
-background:#151515;
-color:white;
-border:1px solid rgba(200,169,107,0.25);
-}
-
-.preview{
-margin-top:18px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.preview img{
-width:100%;
-background:white;
-padding:8px;
-}
-
 .note{
 font-size:14px !important;
 color:#777 !important;
 margin-top:15px;
 }
 
-.sell-categories{
+.steps{
+list-style:none;
 display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-bottom:22px;
+gap:14px;
+margin:22px 0;
 }
 
-.sell-category-btn{
+.steps li{
 background:#0b0b0b;
-color:#c8a96b;
-border:1px solid rgba(200,169,107,0.35);
-padding:16px;
-font-weight:900;
-text-transform:uppercase;
-cursor:pointer;
-}
-
-.sell-category-btn:hover,
-.sell-category-btn.active{
-background:#c8a96b;
-color:black;
-}
-
-.sell-form-box{
-margin-top:18px;
-padding:20px;
 border:1px solid rgba(200,169,107,0.25);
-background:#0f0f0f;
+padding:16px;
+color:#ddd;
+line-height:1.5;
 }
 
-.sell-form-box h4{
+.steps strong{
 color:#c8a96b;
-font-size:24px;
-margin-bottom:10px;
 }
 
-footer{
-padding:35px 30px;
-text-align:center;
-color:#777;
-border-top:1px solid rgba(200,169,107,0.18);
+.rules-box{
+background:#0b0b0b;
+border:1px solid rgba(200,169,107,0.25);
+padding:22px;
+color:#aaa;
+line-height:1.7;
+font-size:15px;
+}
+
+.rules-box strong{
+color:#c8a96b;
+}
+
+.action-buttons{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin-top:20px;
+}
+
+.btn-secondary{
+background:transparent;
+color:#c8a96b;
+border:1px solid #c8a96b;
 }
 
 @media(max-width:900px){
@@ -405,83 +367,61 @@ grid-template-columns:1fr;
 <h2 class="section-title">Polerones <span>disponibles</span></h2>
 <p class="section-text">Drop actual de ropa usada para hombre.</p>
 
-<div class="products">
-<div class="product-card">
-<div class="product-images">
-<img src="poleron-grizzly-frente.jpeg" alt="Polerón Grizzly frente">
-<img src="poleron-grizzly-espalda.jpeg" alt="Polerón Grizzly espalda">
-</div>
-<h3>Polerón Grizzly</h3>
-<p>Talla XL · Excelente estado</p>
-<p>Prenda urbana, simple y fuerte para vestir con presencia.</p>
-<div class="price">$20.000</div>
-<a class="btn" href="https://instagram.com/brutag__" target="_blank">Comprar</a>
-</div>
-
-<div class="empty-box">Próximo polerón disponible</div>
-<div class="empty-box">Próximo polerón disponible</div>
+<div class="products" id="productos-polerones">
+<div class="loading-box">Cargando productos aprobados...</div>
 </div>
 </section>
 
 <section class="section" id="camisas">
 <h2 class="section-title">Camisas <span>disponibles</span></h2>
 <p class="section-text">Aquí aparecerán las camisas cuando agregues productos.</p>
-<div class="products">
-<div class="empty-box">Agregar camisa</div>
-<div class="empty-box">Agregar camisa</div>
-<div class="empty-box">Agregar camisa</div>
+<div class="products" id="productos-camisas">
+<div class="loading-box">Cargando productos aprobados...</div>
 </div>
 </section>
 
 <section class="section" id="poleras">
 <h2 class="section-title">Poleras <span>disponibles</span></h2>
 <p class="section-text">Aquí aparecerán las poleras cuando agregues productos.</p>
-<div class="products">
-<div class="empty-box">Agregar polera</div>
-<div class="empty-box">Agregar polera</div>
-<div class="empty-box">Agregar polera</div>
+<div class="products" id="productos-poleras">
+<div class="loading-box">Cargando productos aprobados...</div>
 </div>
 </section>
 
 <section class="section" id="pantalones">
 <h2 class="section-title">Pantalones <span>disponibles</span></h2>
 <p class="section-text">Aquí aparecerán los pantalones cuando agregues productos.</p>
-<div class="products">
-<div class="empty-box">Agregar pantalón</div>
-<div class="empty-box">Agregar pantalón</div>
-<div class="empty-box">Agregar pantalón</div>
+<div class="products" id="productos-pantalones">
+<div class="loading-box">Cargando productos aprobados...</div>
 </div>
 </section>
 
 <section class="section" id="vender">
-<h2 class="section-title">Vende tu <span>ropa</span></h2>
-<p class="section-text">Elige qué tipo de prenda quieres vender y sube o pega tus fotos.</p>
+<h2 class="section-title">Vende en <span>BRUTAG</span></h2>
+<p class="section-text">Sube tu producto mediante el formulario oficial. BRUTAG revisa la información antes de publicar.</p>
 
 <div class="sell-box">
 <div>
-<h3>¿Qué quieres vender?</h3>
-<p>Primero elige una categoría. Después sube o pega las fotos de la prenda y envíalas por Instagram a @brutag__.</p>
+<h3>¿Cómo funciona?</h3>
+<p>Si quieres vender una prenda, completa el formulario con los datos del producto, fotos, precio y tu Instagram privado.</p>
 
-<div class="sell-categories">
-<button class="sell-category-btn active" data-category="Polerón">Polerón</button>
-<button class="sell-category-btn" data-category="Camisa">Camisa</button>
-<button class="sell-category-btn" data-category="Polera">Polera</button>
-<button class="sell-category-btn" data-category="Pantalón">Pantalón</button>
+<ul class="steps">
+<li><strong>1.</strong> Completa el formulario con la información del producto.</li>
+<li><strong>2.</strong> Sube entre 2 y 6 fotos. Si tiene detalles, deben mostrarse en las fotos.</li>
+<li><strong>3.</strong> BRUTAG revisa la publicación y, si cumple las condiciones, la sube a la tienda.</li>
+<li><strong>4.</strong> Si se vende, BRUTAG gestiona la compra y cobra una comisión del 15%.</li>
+</ul>
+
+<div class="action-buttons">
+<a class="btn" href="https://tally.so/r/J9eK1Y" target="_blank">Subir producto</a>
+<a class="btn btn-secondary" href="https://instagram.com/brutag__" target="_blank">Hablar por Instagram</a>
+</div>
 </div>
 
-<div class="sell-form-box">
-<h4 id="selectedCategory">Polerón</h4>
-<p id="selectedText">Sube fotos del polerón: frente, espalda, talla, marca y estado.</p>
-</div>
-
-<a class="btn" href="https://instagram.com/brutag__" target="_blank">Enviar por Instagram</a>
-</div>
-
-<div class="upload-area" id="uploadArea" tabindex="0">
-<label for="photoUpload">Pegar o subir fotos aquí</label>
-<input id="photoUpload" type="file" accept="image/*" multiple>
-<div class="preview" id="preview"></div>
-<p class="note">Puedes hacer click en este cuadro y pegar una imagen con Cmd + V. Vista previa solamente. Para publicarla en la tienda, debes enviarla por Instagram.</p>
+<div class="rules-box">
+<strong>Reglas importantes</strong><br><br>
+BRUTAG gestiona la venta del producto a cambio de una comisión del 15%. Los envíos son responsabilidad del vendedor y comprador. Tiempo máximo de despacho: hasta 5 días hábiles en RM y hasta 7 días hábiles a regiones.<br><br>
+El pago al vendedor se realizará dentro de las 24 horas posteriores a la confirmación del comprador. El vendedor es responsable del estado, autenticidad y descripción del producto publicado, por lo que BRUTAG no se hace responsable por inconvenientes relacionados con estos aspectos.
 </div>
 </div>
 </section>
@@ -491,51 +431,181 @@ BRUTAG · Ropa usada para hombre · Instagram @brutag__
 </footer>
 
 <script>
-const photoUpload = document.getElementById('photoUpload');
-const preview = document.getElementById('preview');
-const uploadArea = document.getElementById('uploadArea');
-const sellButtons = document.querySelectorAll('.sell-category-btn');
-const selectedCategory = document.getElementById('selectedCategory');
-const selectedText = document.getElementById('selectedText');
+const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pub?gid=0&single=true&output=csv";
+const INSTAGRAM_URL = "https://instagram.com/brutag__";
 
-function showImage(file){
-  if(!file || !file.type.startsWith('image/')) return;
+const categoryMap = {
+  "polerón": "productos-polerones",
+  "poleron": "productos-polerones",
+  "camisa": "productos-camisas",
+  "polera": "productos-poleras",
+  "pantalón": "productos-pantalones",
+  "pantalon": "productos-pantalones"
+};
 
-  const reader = new FileReader();
-  reader.onload = function(event){
-    const img = document.createElement('img');
-    img.src = event.target.result;
-    preview.appendChild(img);
-  };
-  reader.readAsDataURL(file);
-}
+function parseCSV(text){
+  const rows = [];
+  let current = "";
+  let row = [];
+  let insideQuotes = false;
 
-photoUpload.addEventListener('change', function(){
-  preview.innerHTML = '';
-  Array.from(this.files).forEach(file => showImage(file));
-});
+  for(let i = 0; i < text.length; i++){
+    const char = text[i];
+    const nextChar = text[i + 1];
 
-uploadArea.addEventListener('paste', function(event){
-  const items = event.clipboardData.items;
-
-  for(const item of items){
-    if(item.type.startsWith('image/')){
-      const file = item.getAsFile();
-      showImage(file);
+    if(char === '"' && insideQuotes && nextChar === '"'){
+      current += '"';
+      i++;
+    }else if(char === '"'){
+      insideQuotes = !insideQuotes;
+    }else if(char === ',' && !insideQuotes){
+      row.push(current.trim());
+      current = "";
+    }else if((char === '\n' || char === '\r') && !insideQuotes){
+      if(current || row.length){
+        row.push(current.trim());
+        rows.push(row);
+        row = [];
+        current = "";
+      }
+      if(char === '\r' && nextChar === '\n') i++;
+    }else{
+      current += char;
     }
   }
-});
 
-sellButtons.forEach(button => {
-  button.addEventListener('click', function(){
-    sellButtons.forEach(btn => btn.classList.remove('active'));
-    this.classList.add('active');
+  if(current || row.length){
+    row.push(current.trim());
+    rows.push(row);
+  }
 
-    const category = this.dataset.category;
-    selectedCategory.textContent = category;
-    selectedText.textContent = 'Sube fotos de ' + category.toLowerCase() + ': frente, espalda, talla, marca y estado.';
+  return rows;
+}
+
+function normalizeText(value){
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
+
+function formatPrice(value){
+  const number = Number(String(value || "").replace(/[^0-9]/g, ""));
+  if(!number) return value || "Precio por confirmar";
+  return new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    maximumFractionDigits: 0
+  }).format(number);
+}
+
+function getField(product, possibleNames){
+  for(const name of possibleNames){
+    const key = Object.keys(product).find(k => normalizeText(k) === normalizeText(name));
+    if(key && product[key]) return product[key];
+  }
+  return "";
+}
+
+function getImageLinks(value){
+  return String(value || "")
+    .split(/,|\n/)
+    .map(link => link.trim())
+    .filter(link => link.startsWith("http"))
+    .slice(0, 2);
+}
+
+function createProductCard(product){
+  const type = getField(product, ["Tipo", "Tipo de producto", "¿Qué tipo de producto quieres vender?"]);
+  const brand = getField(product, ["Marca"]);
+  const size = getField(product, ["Talla"]);
+  const condition = getField(product, ["Estado", "Estado del producto"]);
+  const price = getField(product, ["Precio", "Precio (CLP)"]);
+  const description = getField(product, ["Descripción", "Descripción del producto"]);
+  const photos = getField(product, ["Fotos", "Sube entre 2 y 6 fotos del producto"]);
+  const images = getImageLinks(photos);
+
+  const card = document.createElement("div");
+  card.className = "product-card";
+
+  const imageHTML = images.length
+    ? images.map(src => `<img src="${src}" alt="${brand || type}">`).join("")
+    : `<div class="empty-box">Sin foto disponible</div>`;
+
+  card.innerHTML = `
+    <div class="product-images">${imageHTML}</div>
+    <h3>${brand || "Producto BRUTAG"}</h3>
+    <p>${size ? "Talla " + size + " · " : ""}${condition || "Estado por confirmar"}</p>
+    <p>${description || "Producto seleccionado por BRUTAG."}</p>
+    <div class="price">${formatPrice(price)}</div>
+    <a class="btn" href="${INSTAGRAM_URL}" target="_blank">Comprar</a>
+  `;
+
+  return { card, type };
+}
+
+function clearProductSections(){
+  Object.values(categoryMap).forEach(id => {
+    const container = document.getElementById(id);
+    if(container) container.innerHTML = "";
   });
-});
+}
+
+function showEmptyMessages(){
+  Object.entries({
+    "productos-polerones": "No hay polerones aprobados todavía.",
+    "productos-camisas": "No hay camisas aprobadas todavía.",
+    "productos-poleras": "No hay poleras aprobadas todavía.",
+    "productos-pantalones": "No hay pantalones aprobados todavía."
+  }).forEach(([id, message]) => {
+    const container = document.getElementById(id);
+    if(container && !container.children.length){
+      container.innerHTML = `<div class="empty-box">${message}</div>`;
+    }
+  });
+}
+
+async function loadProducts(){
+  if(!GOOGLE_SHEET_CSV_URL || GOOGLE_SHEET_CSV_URL.includes("PEGA_AQUI")){
+    showEmptyMessages();
+    return;
+  }
+
+  try{
+    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+    const csv = await response.text();
+    const rows = parseCSV(csv);
+    const headers = rows.shift();
+
+    const products = rows.map(row => {
+      const product = {};
+      headers.forEach((header, index) => {
+        product[header] = row[index] || "";
+      });
+      return product;
+    });
+
+    clearProductSections();
+
+    products.forEach(product => {
+      const published = normalizeText(getField(product, ["Publicado", "Estado publicación", "Estado publicacion"]));
+      if(published !== "si" && published !== "sí" && published !== "aprobado") return;
+
+      const { card, type } = createProductCard(product);
+      const categoryId = categoryMap[normalizeText(type)];
+      const container = document.getElementById(categoryId);
+      if(container) container.appendChild(card);
+    });
+
+    showEmptyMessages();
+  }catch(error){
+    console.error("No se pudieron cargar los productos", error);
+    showEmptyMessages();
+  }
+}
+
+loadProducts();
 </script>
 
 </body>
