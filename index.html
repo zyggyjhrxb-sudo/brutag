@@ -169,17 +169,17 @@ border-color:#c8a96b;
 
 .products{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:25px;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
 }
 
 .product-card{
 background:#111;
-padding:22px;
+padding:15px;
 border:1px solid rgba(200,169,107,0.3);
 display:flex;
 flex-direction:column;
-gap:10px;
+gap:8px;
 }
 
 .product-images{
@@ -191,30 +191,30 @@ margin-bottom:22px;
 
 .product-images img{
 width:100%;
-height:190px;
+height:120px;
 object-fit:contain;
 background:white;
-padding:8px;
+padding:6px;
 display:block;
 cursor:zoom-in;
 }
 
 .product-card h3{
-font-size:28px;
-margin-bottom:10px;
+font-size:24px;
+margin-bottom:6px;
 color:#c8a96b;
 }
 
 .product-card p{
 color:#ddd;
-line-height:1.5;
-margin-bottom:8px;
+line-height:1.4;
+margin-bottom:6px;
 }
 
 .price{
-font-size:36px;
+font-size:28px;
 font-weight:900;
-margin:18px 0;
+margin:12px 0;
 color:#c8a96b;
 }
 
@@ -326,8 +326,8 @@ margin-top:auto;
 
 .product-actions .btn{
 text-align:center;
-padding:14px 12px;
-font-size:12px;
+padding:10px 8px;
+font-size:10px;
 }
 
 .product-meta{
@@ -808,7 +808,7 @@ function createProductCard(product, index){
     </div>
   `;
 
-  card.dataset.message = `Hola BRUTAG, quiero este producto: ${productName}. Me interesa comprarlo.`;
+  card.id = "product-" + index;
 
   return { card, type };
 }
@@ -1003,7 +1003,9 @@ function openBuyModal(index){
 }
 
 function getBuyMessage(product){
-  return `Hola BRUTAG, me interesa este producto: ${getProductSummary(product)}. ¿Sigue disponible?`;
+  const index = loadedProducts.indexOf(product);
+  const link = window.location.href + "#product-" + index;
+  return `Hola BRUTAG, me interesa este producto: ${getProductSummary(product)}. Ver producto: ${link}`;
 }
 
 async function copyBuyMessage(){
@@ -1075,6 +1077,13 @@ document.getElementById("buyCartBtn").addEventListener("click", buyCart);
 
 updateCartCount();
 loadProducts();
+
+if(window.location.hash.startsWith('#product-')){
+  const index = Number(window.location.hash.split('-')[1]);
+  if(!isNaN(index) && loadedProducts[index]){
+    openProductDetail(index);
+  }
+}
 </script>
 
 </body>
