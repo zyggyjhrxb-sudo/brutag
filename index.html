@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="BRUTAG">
   <meta property="og:title" content="BRUTAG | Ropa usada de hombre">
-  <meta property="og:description" content="Drop de ropa usada seleccionada. Compra por DM a @brutag__.">
+  <meta property="og:description" content="Colección de ropa usada seleccionada. Compra por DM a @brutag__.">
   <meta property="og:url" content="https://brutag.vercel.app/">
   <meta property="og:image" content="https://brutag.vercel.app/poleron-grizzly-frente.jpeg">
   <meta name="twitter:card" content="summary_large_image">
@@ -35,6 +35,7 @@
       --panel-2: #26231e;
       --gold: #cdb06f;
       --gold-dark: #ad9155;
+      --coffee: #8d7047;
       --white: #f5f0e8;
       --muted: #96928a;
       --line: rgba(245, 240, 232, 0.12);
@@ -102,8 +103,8 @@
       letter-spacing: 0.16em;
     }
 
-    .brand span {
-      color: var(--gold);
+    .brand .brand-accent {
+      color: var(--coffee);
     }
 
     .nav-links {
@@ -174,11 +175,45 @@
       color: var(--gold);
     }
 
-    .hero p {
+    .hero-lead {
       max-width: 680px;
       margin-bottom: 44px;
       color: var(--muted);
       font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+    }
+
+    .product-marquee {
+      width: min(760px, 100%);
+      margin: 0 0 30px;
+      overflow: hidden;
+      border-top: 1px solid rgba(205, 176, 111, 0.42);
+      border-bottom: 1px solid rgba(205, 176, 111, 0.18);
+    }
+
+    .product-track {
+      display: flex;
+      width: max-content;
+      animation: product-marquee 24s linear infinite;
+    }
+
+    .product-track span {
+      padding: 14px 34px 14px 0;
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @keyframes product-marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
     }
 
     .button {
@@ -502,11 +537,10 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="#inicio">BRUTA<span>G</span></a>
+      <a class="brand" href="#inicio">BRUT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
       <nav class="nav-links" aria-label="Principal">
-        <a href="#drop">Drop</a>
+        <a href="#drop">Colección</a>
         <a href="#vender">Quiero vender</a>
-        <a href="#condiciones">Condiciones</a>
       </nav>
     </div>
   </header>
@@ -514,21 +548,37 @@
   <main id="inicio">
     <section class="hero" aria-label="Inicio">
       <p class="kicker">Colección activa</p>
-      <h1>Viste <span>con fuerza</span></h1>
-      <p>Ropa usada seleccionada para hombre. Compra por DM con el link exacto del producto para que BRUTAG sepa al tiro qué quieres.</p>
-      <div class="actions">
-        <a class="button" href="#drop">Ver drop</a>
-        <a class="button secondary" href="#vender">Quiero vender</a>
+      <h1>Viste <span>con estilo</span></h1>
+      <div class="product-marquee" aria-label="Categorias de productos BRUTAG">
+        <div class="product-track">
+          <span>Polerones</span>
+          <span>Pantalones</span>
+          <span>Poleras</span>
+          <span>Chaquetas</span>
+          <span>Jeans</span>
+          <span>Camisas</span>
+          <span>Accesorios</span>
+          <span>Streetwear</span>
+          <span>Polerones</span>
+          <span>Pantalones</span>
+          <span>Poleras</span>
+          <span>Chaquetas</span>
+          <span>Jeans</span>
+          <span>Camisas</span>
+          <span>Accesorios</span>
+          <span>Streetwear</span>
+        </div>
       </div>
+      <p class="hero-lead">Ropa masculina seleccionada: piezas únicas, estilo urbano y compra directa por DM.</p>
     </section>
 
     <section id="drop" aria-label="Producto disponible">
       <div class="section-head">
         <div>
-          <p class="kicker">Drop disponible</p>
+          <p class="kicker">Producto disponible</p>
           <h2>Polerón <span>Grizzly</span></h2>
         </div>
-        <p>Fotos reales, precio claro y compra directa por DM.</p>
+        <p>Fotos reales, precio claro y atención directa por DM.</p>
       </div>
 
       <div class="product-grid">
@@ -556,7 +606,7 @@
           </ul>
           <div class="actions">
             <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Polerón Grizzly" data-product-id="producto-poleron-grizzly">Comprar</a>
-            <a class="button secondary" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&amp;single=true" target="_blank" rel="noopener">Vender</a>
+            <a class="button secondary sell-dm-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-sell-message="Hola BRUTAG, quiero vender ropa. ¿Me pueden orientar para enviar fotos y datos?">Vender</a>
           </div>
         </article>
       </div>
@@ -681,6 +731,21 @@
         const productName = button.dataset.productName;
         const productUrl = productLink(button.dataset.productId);
         const message = `Hola, me gustó este producto: ${productName}. ¿Aún está disponible? Link: ${productUrl}`;
+        const copied = await copyMessage(message);
+
+        showToast(copied ? `Mensaje copiado: "${message}"` : `Mensaje para enviar: "${message}"`);
+
+        window.setTimeout(() => {
+          window.location.href = siteIntegrations.instagramDmUrl;
+        }, 900);
+      });
+    });
+
+    document.querySelectorAll(".sell-dm-button").forEach((button) => {
+      button.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const message = button.dataset.sellMessage;
         const copied = await copyMessage(message);
 
         showToast(copied ? `Mensaje copiado: "${message}"` : `Mensaje para enviar: "${message}"`);
