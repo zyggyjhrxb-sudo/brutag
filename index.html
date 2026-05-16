@@ -1344,7 +1344,7 @@
               <li><strong>Stock:</strong> Disponible</li>
             </ul>
             <div class="actions">
-              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Polerón Carhartt" data-product-id="producto-poleron-carhartt">Comprar</a>
+              <a class="button buy-button" href="https://ig.me/m/brutag__?text=Hola%20BRUTAG%2C%20quiero%20comprar%20este%20producto%3A%20Poler%C3%B3n%20Carhartt.%20Link%3A%20https%3A%2F%2Fbrutag.vercel.app%2F%3Fproducto%3Dproducto-poleron-carhartt.%20%C2%BFA%C3%BAn%20est%C3%A1%20disponible%3F" target="_blank" rel="noopener" data-product-name="Polerón Carhartt" data-product-id="producto-poleron-carhartt">Comprar</a>
               <a class="button secondary tally-link" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Vender</a>
             </div>
           </article>
@@ -1538,10 +1538,13 @@
         .replace(/^-|-$/g, "");
     }
 
+    function buildBuyMessage(productName, productId) {
+      const productUrl = productLink(productId);
+      return `Hola BRUTAG, quiero comprar este producto: ${productName}. Link: ${productUrl}. ¿Aún está disponible?`;
+    }
+
     function instagramUrlWithMessage(message) {
-      const mobileUrl = new URL(siteIntegrations.instagramDmUrl);
-      mobileUrl.searchParams.set("text", message);
-      return mobileUrl.href;
+      return `${siteIntegrations.instagramDmUrl}?text=${encodeURIComponent(message)}`;
     }
 
     function isDesktop() {
@@ -1549,8 +1552,7 @@
     }
 
     function openBuyFlow(productName, productId) {
-      const productUrl = productLink(productId);
-      currentBuyMessage = `Hola BRUTAG, quiero comprar este producto: ${productName}. Link: ${productUrl}. ¿Aún está disponible?`;
+      currentBuyMessage = buildBuyMessage(productName, productId);
 
       if (buyMessageBox) {
         buyMessageBox.textContent = currentBuyMessage;
@@ -1561,15 +1563,18 @@
         openInstagramDm.href = dmUrl;
       }
 
-      // Copiar el mensaje para que el usuario lo tenga listo si la precomposición falla
-      copyMessage(currentBuyMessage).then((copied) => {
-        showToast(copied ? "Mensaje copiado para enviar por DM." : "Abriendo DM...");
-      }).catch(() => {
-        showToast("Abriendo DM...");
-      });
+      const fallbackCopied = fallbackCopyMessage(currentBuyMessage);
 
       // Abrir DM con texto prellenado (usuario solo debe apretar enviar)
       window.open(dmUrl, "_blank", "noopener");
+
+      // Instagram a veces bloquea el texto prellenado; dejamos el mensaje copiado como respaldo.
+      copyMessage(currentBuyMessage).then((copied) => {
+        const messageReady = copied || fallbackCopied;
+        showToast(messageReady ? "Abrimos Instagram. Si no aparece el texto, pegalo en el DM." : "Abrimos Instagram.");
+      }).catch(() => {
+        showToast(fallbackCopied ? "Abrimos Instagram. Si no aparece el texto, pegalo en el DM." : "Abrimos Instagram.");
+      });
     }
 
     function showToast(message) {
@@ -1613,12 +1618,17 @@
 
     function attachBuyButtons(scope = document) {
       scope.querySelectorAll(".buy-button").forEach((button) => {
+        const productName = button.dataset.productName || "Producto BRUTAG";
+        const productId = button.dataset.productId || productIdFromName(productName);
+        const message = buildBuyMessage(productName, productId);
+        button.href = instagramUrlWithMessage(message);
+
         if (button.dataset.buyAttached === "true") return;
         button.dataset.buyAttached = "true";
 
         button.addEventListener("click", (event) => {
           event.preventDefault();
-          openBuyFlow(button.dataset.productName || "Producto BRUTAG", button.dataset.productId || productIdFromName(button.dataset.productName));
+          openBuyFlow(productName, productId);
         });
       });
     }
@@ -1790,6 +1800,8 @@
             </figure>`).join("");
 
       const displayPrice = formatPrice(price);
+      const buyMessage = buildBuyMessage(productName, productId);
+      const buyUrl = instagramUrlWithMessage(buyMessage);
 
       return `
         <div class="product-grid" id="${productId}" data-product-type-section="${type}">
@@ -1808,7 +1820,7 @@
               <li><strong>Descripción:</strong> ${description || "Producto publicado en BRUTAG"}</li>
             </ul>
             <div class="actions">
-              <a class="button buy-button" href="${siteIntegrations.instagramDmUrl}" target="_blank" rel="noopener" data-product-name="${productName}" data-product-id="${productId}">Comprar</a>
+              <a class="button buy-button" href="${buyUrl}" target="_blank" rel="noopener" data-product-name="${productName}" data-product-id="${productId}">Comprar</a>
               <a class="button secondary tally-link" href="${siteIntegrations.tallyFormUrl}" target="_blank" rel="noopener">Vender</a>
             </div>
           </article>
