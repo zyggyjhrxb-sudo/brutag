@@ -1763,6 +1763,16 @@
         .slice(0, 4);
     }
 
+    function formatPrice(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+
+      const numericValue = raw.replace(/[^\d]/g, "");
+      if (!numericValue) return raw;
+
+      return `$${Number(numericValue).toLocaleString("es-CL")}`;
+    }
+
     function createProductHtml(product, index) {
       const type = getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto";
       const brand = getValue(product, ["Marca"]) || "";
@@ -1779,14 +1789,7 @@
               <img src="${photo}" alt="${productName}">
             </figure>`).join("");
 
-      // Normalizar precio para que use punto como separador
-      let displayPrice = "";
-      if (price) {
-        let p = String(price).trim();
-        const hasCurrency = /^\s*[$€£]/.test(p);
-        p = p.replace(/\s+/g, "").replace(/,/g, ".");
-        displayPrice = hasCurrency ? p : `$${p}`;
-      }
+      const displayPrice = formatPrice(price);
 
       return `
         <div class="product-grid" id="${productId}" data-product-type-section="${type}">
