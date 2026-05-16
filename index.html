@@ -296,6 +296,15 @@
       align-items: stretch;
     }
 
+    .available-products {
+      display: grid;
+      gap: 18px;
+    }
+
+    .available-products .product-grid:nth-of-type(n + 7) {
+      display: none;
+    }
+
     .product-gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -389,6 +398,40 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+    }
+
+    .more-products-card {
+      min-height: 220px;
+      padding: clamp(26px, 5vw, 48px);
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      gap: 18px;
+      background: linear-gradient(135deg, rgba(205, 176, 111, 0.18), rgba(28, 27, 24, 0.92));
+      border: 1px solid rgba(205, 176, 111, 0.34);
+      color: var(--white);
+      box-shadow: var(--shadow);
+      transition: border-color 160ms ease, transform 160ms ease;
+    }
+
+    .more-products-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(205, 176, 111, 0.7);
+    }
+
+    .more-products-card strong {
+      max-width: 680px;
+      font-size: clamp(1.9rem, 4vw, 3.8rem);
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .more-products-card span {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 950;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
     }
 
     .accepted-grid {
@@ -708,41 +751,48 @@
       </div>
     </section>
 
-    <section id="drop" aria-label="Producto disponible">
+    <section id="drop" aria-label="Productos disponibles">
       <div class="section-head">
         <div>
-          <p class="kicker">Producto disponible</p>
-          <h2>Polerón <span>Grizzly</span></h2>
+          <p class="kicker">Productos disponibles</p>
+          <h2>Colección activa</h2>
         </div>
-        <p>Fotos reales, precio claro y atención directa por DM.</p>
+        <p>Mostramos máximo 6 productos por carga. Para ver más, entra a la tarjeta final.</p>
       </div>
 
-      <div class="product-grid">
-        <div class="product-gallery">
-          <figure>
-            <img src="poleron-grizzly-frente.jpeg" alt="Polerón Grizzly vista frontal">
-          </figure>
-          <figure>
-            <img src="poleron-grizzly-espalda.jpeg" alt="Polerón Grizzly vista espalda">
-          </figure>
+      <div class="available-products" aria-label="Listado de productos disponibles">
+        <div class="product-grid">
+          <div class="product-gallery">
+            <figure>
+              <img src="poleron-grizzly-frente.jpeg" alt="Polerón Grizzly vista frontal">
+            </figure>
+            <figure>
+              <img src="poleron-grizzly-espalda.jpeg" alt="Polerón Grizzly vista espalda">
+            </figure>
+          </div>
+
+          <article class="product-info" id="producto-poleron-grizzly">
+            <div class="tag-row">
+              <span class="tag">Disponible</span>
+            </div>
+            <h3>Polerón Grizzly</h3>
+            <div class="price">$29.990</div>
+            <ul class="detail-list">
+              <li><strong>Estado:</strong> usado seleccionado</li>
+              <li><strong>Talla:</strong> consultar por DM</li>
+              <li><strong>Stock:</strong> pieza única</li>
+            </ul>
+            <div class="actions">
+              <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Polerón Grizzly" data-product-id="producto-poleron-grizzly">Comprar</a>
+              <a class="button secondary tally-link" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Vender</a>
+            </div>
+          </article>
         </div>
 
-        <article class="product-info" id="producto-poleron-grizzly">
-          <div class="tag-row">
-            <span class="tag">Disponible</span>
-          </div>
-          <h3>Polerón Grizzly</h3>
-          <div class="price">$29.990</div>
-          <ul class="detail-list">
-            <li><strong>Estado:</strong> usado seleccionado</li>
-            <li><strong>Talla:</strong> consultar por DM</li>
-            <li><strong>Stock:</strong> pieza única</li>
-          </ul>
-          <div class="actions">
-            <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Polerón Grizzly" data-product-id="producto-poleron-grizzly">Comprar</a>
-            <a class="button secondary tally-link" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Vender</a>
-          </div>
-        </article>
+        <a class="more-products-card" href="https://instagram.com/brutag__" target="_blank" rel="noopener">
+          <strong>Ver más productos disponibles</strong>
+          <span>Ir a Instagram</span>
+        </a>
       </div>
     </section>
 
