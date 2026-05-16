@@ -409,6 +409,18 @@
       gap: 10px;
     }
 
+    .buy-note {
+      width: fit-content;
+      max-width: 100%;
+      padding: 8px 10px;
+      border: 1px solid rgba(205, 176, 111, 0.38);
+      background: rgba(205, 176, 111, 0.08);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 850;
+      line-height: 1.35;
+    }
+
     .accepted-grid {
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -1343,6 +1355,7 @@
               <li><strong>Talla:</strong> XL</li>
               <li><strong>Stock:</strong> Disponible</li>
             </ul>
+            <p class="buy-note">Aprieta Comprar: se copia el mensaje con el link del producto y se abre el DM.</p>
             <div class="actions">
               <a class="button buy-button" href="https://ig.me/m/brutag__?text=Hola%20BRUTAG%2C%20quiero%20comprar%20este%20producto%3A%20Poler%C3%B3n%20Carhartt.%20Link%3A%20https%3A%2F%2Fbrutag.vercel.app%2F%3Fproducto%3Dproducto-poleron-carhartt.%20%C2%BFA%C3%BAn%20est%C3%A1%20disponible%3F" target="_blank" rel="noopener" data-product-name="Polerón Carhartt" data-product-id="producto-poleron-carhartt">Comprar</a>
               <a class="button secondary tally-link" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Vender</a>
@@ -1571,9 +1584,9 @@
       // Instagram a veces bloquea el texto prellenado; dejamos el mensaje copiado como respaldo.
       copyMessage(currentBuyMessage).then((copied) => {
         const messageReady = copied || fallbackCopied;
-        showToast(messageReady ? "Abrimos Instagram. Si no aparece el texto, pegalo en el DM." : "Abrimos Instagram.");
+        showToast(messageReady ? "Mensaje con link copiado. Abrimos Instagram para pegarlo en el DM." : "Abrimos Instagram.");
       }).catch(() => {
-        showToast(fallbackCopied ? "Abrimos Instagram. Si no aparece el texto, pegalo en el DM." : "Abrimos Instagram.");
+        showToast(fallbackCopied ? "Mensaje con link copiado. Abrimos Instagram para pegarlo en el DM." : "Abrimos Instagram.");
       });
     }
 
@@ -1819,6 +1832,7 @@
               <li><strong>Talla:</strong> ${size || "Por confirmar"}</li>
               <li><strong>Descripción:</strong> ${description || "Producto publicado en BRUTAG"}</li>
             </ul>
+            <p class="buy-note">Aprieta Comprar: se copia el mensaje con el link del producto y se abre el DM.</p>
             <div class="actions">
               <a class="button buy-button" href="${buyUrl}" target="_blank" rel="noopener" data-product-name="${productName}" data-product-id="${productId}">Comprar</a>
               <a class="button secondary tally-link" href="${siteIntegrations.tallyFormUrl}" target="_blank" rel="noopener">Vender</a>
