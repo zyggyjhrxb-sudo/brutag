@@ -400,40 +400,6 @@
       gap: 10px;
     }
 
-    .more-products-card {
-      min-height: 220px;
-      padding: clamp(26px, 5vw, 48px);
-      display: grid;
-      align-content: center;
-      justify-items: start;
-      gap: 18px;
-      background: linear-gradient(135deg, rgba(205, 176, 111, 0.18), rgba(28, 27, 24, 0.92));
-      border: 1px solid rgba(205, 176, 111, 0.34);
-      color: var(--white);
-      box-shadow: var(--shadow);
-      transition: border-color 160ms ease, transform 160ms ease;
-    }
-
-    .more-products-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(205, 176, 111, 0.7);
-    }
-
-    .more-products-card strong {
-      max-width: 680px;
-      font-size: clamp(1.9rem, 4vw, 3.8rem);
-      line-height: 1.05;
-      text-transform: uppercase;
-    }
-
-    .more-products-card span {
-      color: var(--gold);
-      font-size: 0.82rem;
-      font-weight: 950;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
     .accepted-grid {
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -757,7 +723,7 @@
           <p class="kicker">Productos disponibles</p>
           <h2>Colección activa</h2>
         </div>
-        <p>Mostramos máximo 6 productos por carga. Para ver más, entra a la tarjeta final.</p>
+        <a class="button secondary" href="https://instagram.com/brutag__" target="_blank" rel="noopener">Ver más productos disponibles</a>
       </div>
 
       <div class="available-products" aria-label="Listado de productos disponibles">
@@ -788,11 +754,6 @@
             </div>
           </article>
         </div>
-
-        <a class="more-products-card" href="https://instagram.com/brutag__" target="_blank" rel="noopener">
-          <strong>Ver más productos disponibles</strong>
-          <span>Ir a Instagram</span>
-        </a>
       </div>
     </section>
 
