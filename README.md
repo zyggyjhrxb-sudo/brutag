@@ -46,10 +46,11 @@ En la parte final de `index.html`, busca `siteIntegrations` para revisar tus lin
 
 ```js
 productionUrl: "https://brutag.vercel.app/",
-tallyFormUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&single=true"
+tallyFormUrl: "https://tally.so/r/J9eK1Y",
+responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pub?gid=0&single=true&output=csv"
 ```
 
-Los botones “Vender” y “Abrir Tally” usan `tallyFormUrl`. Cuando tengas el link directo de Tally, normalmente con formato `https://tally.so/r/...`, reemplaza `tallyFormUrl` por ese enlace para que las fotos y datos se suban al formulario correcto.
+Los botones “Vender” y “Abrir Tally” usan `tallyFormUrl`. El link `responsesCsvUrl` es la salida de respuestas en Google Sheets/CSV para revisar los productos recibidos.
 
 ## Publicar en Vercel
 
