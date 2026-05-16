@@ -312,13 +312,18 @@
     }
 
     .product-gallery figure {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
       overflow: hidden;
+      background: #f4f1eb;
     }
 
     .product-gallery img {
+      width: 100%;
       height: 100%;
-      min-height: 420px;
-      object-fit: cover;
+      min-height: 0;
+      object-fit: contain;
       filter: saturate(0.85) contrast(1.03);
     }
 
@@ -393,26 +398,26 @@
     }
 
     .accepted-card {
-      min-height: 126px;
+      min-height: 104px;
       padding: 18px;
-      display: grid;
-      align-content: space-between;
-      gap: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: var(--panel);
       border: 1px solid var(--line);
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .accepted-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(205, 176, 111, 0.58);
+      background: var(--panel-2);
     }
 
     .accepted-card strong {
       color: var(--white);
       font-size: 1.05rem;
-      text-transform: uppercase;
-    }
-
-    .accepted-card span {
-      color: var(--gold);
-      font-size: 0.74rem;
-      font-weight: 900;
-      letter-spacing: 0.14em;
+      text-align: center;
       text-transform: uppercase;
     }
 
@@ -583,7 +588,7 @@
       }
 
       .product-gallery img {
-        min-height: 420px;
+        min-height: 0;
       }
     }
 
@@ -681,34 +686,27 @@
       </div>
 
       <div class="accepted-grid">
-        <article class="accepted-card">
+        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Polera&amp;producto=Polera" target="_blank" rel="noopener" data-product-type="Polera">
           <strong>Polera</strong>
-          <span>Fotos + talla</span>
-        </article>
-        <article class="accepted-card">
+        </a>
+        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Poler%C3%B3n&amp;producto=Poler%C3%B3n" target="_blank" rel="noopener" data-product-type="Polerón">
           <strong>Polerón</strong>
-          <span>Streetwear</span>
-        </article>
-        <article class="accepted-card">
+        </a>
+        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Pantal%C3%B3n&amp;producto=Pantal%C3%B3n" target="_blank" rel="noopener" data-product-type="Pantalón">
           <strong>Pantalón</strong>
-          <span>Medidas</span>
-        </article>
-        <article class="accepted-card">
+        </a>
+        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Chaqueta&amp;producto=Chaqueta" target="_blank" rel="noopener" data-product-type="Chaqueta">
           <strong>Chaqueta</strong>
-          <span>Estado</span>
-        </article>
-        <article class="accepted-card">
+        </a>
+        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Parka&amp;producto=Parka" target="_blank" rel="noopener" data-product-type="Parka">
           <strong>Parka</strong>
-          <span>Temporada</span>
-        </article>
-        <article class="accepted-card">
+        </a>
+        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Zapatillas&amp;producto=Zapatillas" target="_blank" rel="noopener" data-product-type="Zapatillas">
           <strong>Zapatillas</strong>
-          <span>Talla + suela</span>
-        </article>
-        <article class="accepted-card">
+        </a>
+        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Jockey&amp;producto=Jockey" target="_blank" rel="noopener" data-product-type="Jockey">
           <strong>Jockey</strong>
-          <span>Detalles</span>
-        </article>
+        </a>
       </div>
     </section>
 
@@ -854,10 +852,18 @@
     const toast = document.querySelector("#toast");
     const toastMessage = document.querySelector("#toast-message");
     const tallyLinks = document.querySelectorAll(".tally-link");
+    const productTypeLinks = document.querySelectorAll(".product-type-link");
     let toastTimer;
 
     function productLink(productId) {
       return new URL(`#${productId}`, siteIntegrations.productionUrl).href;
+    }
+
+    function tallyLinkForProductType(productType) {
+      const url = new URL(siteIntegrations.tallyFormUrl);
+      url.searchParams.set("tipo", productType);
+      url.searchParams.set("producto", productType);
+      return url.href;
     }
 
     function showToast(message) {
@@ -916,7 +922,15 @@
       });
     });
 
+    productTypeLinks.forEach((link) => {
+      link.href = tallyLinkForProductType(link.dataset.productType);
+    });
+
     tallyLinks.forEach((link) => {
+      if (link.dataset.productType) {
+        return;
+      }
+
       link.href = siteIntegrations.tallyFormUrl;
       link.addEventListener("click", (event) => {
         if (!siteIntegrations.tallyFormUrl) {
