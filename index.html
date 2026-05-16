@@ -183,6 +183,11 @@
       color: var(--gold);
     }
 
+    #productos h2,
+    #productos h2 span {
+      color: var(--white);
+    }
+
     .hero-lead {
       max-width: 680px;
       margin-bottom: 0;
@@ -577,6 +582,81 @@
       color: var(--muted);
     }
 
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal.is-open {
+      display: flex;
+    }
+
+    .modal-content {
+      width: min(520px, 100%);
+      padding: 28px;
+      background: var(--panel);
+      border: 1px solid rgba(205, 176, 111, 0.42);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 12px;
+      color: var(--white);
+      font-size: clamp(1.7rem, 5vw, 2.5rem);
+    }
+
+    .modal-content p {
+      margin-bottom: 18px;
+      color: var(--muted);
+    }
+
+    .modal-close {
+      width: 38px;
+      height: 38px;
+      margin: 0 0 16px auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(205, 176, 111, 0.42);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .modal-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .modal-options .button {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .buy-message-box {
+      width: 100%;
+      min-height: 98px;
+      margin: 14px 0;
+      padding: 14px;
+      background: #11110f;
+      border: 1px solid var(--line);
+      color: var(--white);
+      text-align: left;
+      font-size: 0.92rem;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+
     @media (max-width: 840px) {
       .nav-inner {
         flex-wrap: wrap;
@@ -675,6 +755,10 @@
 
       .button {
         width: 100%;
+      }
+
+      .modal-options {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1204,25 +1288,25 @@
       </div>
 
       <div class="accepted-grid">
-        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Polera&amp;producto=Polera" target="_blank" rel="noopener" data-product-type="Polera">
+        <a class="accepted-card product-type-link" href="#poleras" data-target="poleras">
           <strong>Polera</strong>
         </a>
-        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Poler%C3%B3n&amp;producto=Poler%C3%B3n" target="_blank" rel="noopener" data-product-type="Polerón">
+        <a class="accepted-card product-type-link" href="#polerones" data-target="polerones">
           <strong>Polerón</strong>
         </a>
-        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Pantal%C3%B3n&amp;producto=Pantal%C3%B3n" target="_blank" rel="noopener" data-product-type="Pantalón">
+        <a class="accepted-card product-type-link" href="#pantalones" data-target="pantalones">
           <strong>Pantalón</strong>
         </a>
-        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Chaqueta&amp;producto=Chaqueta" target="_blank" rel="noopener" data-product-type="Chaqueta">
+        <a class="accepted-card product-type-link" href="#chaquetas" data-target="chaquetas">
           <strong>Chaqueta</strong>
         </a>
-        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Parka&amp;producto=Parka" target="_blank" rel="noopener" data-product-type="Parka">
+        <a class="accepted-card product-type-link" href="#parkas" data-target="parkas">
           <strong>Parka</strong>
         </a>
-        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Zapatillas&amp;producto=Zapatillas" target="_blank" rel="noopener" data-product-type="Zapatillas">
+        <a class="accepted-card product-type-link" href="#zapatillas" data-target="zapatillas">
           <strong>Zapatillas</strong>
         </a>
-        <a class="accepted-card tally-link product-type-link" href="https://tally.so/r/J9eK1Y?tipo=Jockey&amp;producto=Jockey" target="_blank" rel="noopener" data-product-type="Jockey">
+        <a class="accepted-card product-type-link" href="#jockeys" data-target="jockeys">
           <strong>Jockey</strong>
         </a>
       </div>
@@ -1234,11 +1318,11 @@
           <p class="kicker">Productos disponibles</p>
           <h2>Colección activa</h2>
         </div>
-        <a class="button secondary" href="https://instagram.com/brutag__" target="_blank" rel="noopener">Ver más productos disponibles</a>
+        <button class="button secondary" type="button" id="more-products-button">Ver más productos disponibles</button>
       </div>
 
-      <div class="available-products" aria-label="Listado de productos disponibles">
-        <div class="product-grid">
+      <div class="available-products" id="catalogo" aria-label="Listado de productos disponibles">
+        <div class="product-grid" id="polerones" data-product-type-section="Polerón">
           <div class="product-gallery">
             <figure>
               <img src="poleron-grizzly-frente.jpeg" alt="Polerón Grizzly vista frontal">
@@ -1267,6 +1351,13 @@
         </div>
       </div>
     </section>
+
+    <section id="poleras" aria-label="Poleras disponibles" hidden></section>
+    <section id="pantalones" aria-label="Pantalones disponibles" hidden></section>
+    <section id="chaquetas" aria-label="Chaquetas disponibles" hidden></section>
+    <section id="parkas" aria-label="Parkas disponibles" hidden></section>
+    <section id="zapatillas" aria-label="Zapatillas disponibles" hidden></section>
+    <section id="jockeys" aria-label="Jockeys disponibles" hidden></section>
 
     <section id="vender" aria-label="Vender ropa a BRUTAG">
       <div class="sell-box">
@@ -1356,6 +1447,35 @@
     <a href="https://instagram.com/brutag__" target="_blank" rel="noopener">@brutag__</a>
   </footer>
 
+  <div class="modal" id="more-products-modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="more-products-title">
+      <button class="modal-close" type="button" data-close-modal="more-products-modal">×</button>
+      <h2 id="more-products-title">¿Qué quieres ver?</h2>
+      <p>Elige una categoría o publica tu producto en BRUTAG.</p>
+      <div class="modal-options">
+        <a class="button secondary" href="#polerones" data-close-and-scroll="polerones">Ver polerones</a>
+        <a class="button secondary" href="#poleras" data-close-and-scroll="poleras">Ver poleras</a>
+        <a class="button secondary" href="#camisas" data-close-and-scroll="camisas">Ver camisas</a>
+        <a class="button secondary" href="#pantalones" data-close-and-scroll="pantalones">Ver pantalones</a>
+        <a class="button secondary" href="#catalogo" data-close-and-scroll="catalogo">Ver todo</a>
+        <a class="button" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Publicar producto</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="buy-modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="buy-modal-title">
+      <button class="modal-close" type="button" data-close-modal="buy-modal">×</button>
+      <h2 id="buy-modal-title">Mensaje de compra</h2>
+      <p>Si Instagram no deja el texto listo automáticamente, copia este mensaje y envíalo por DM.</p>
+      <div class="buy-message-box" id="buy-message-box"></div>
+      <div class="actions">
+        <button class="button" type="button" id="copy-buy-message">Copiar mensaje</button>
+        <a class="button secondary" id="open-instagram-dm" href="https://ig.me/m/brutag__" target="_blank" rel="noopener">Abrir DM</a>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
     <strong>Mensaje listo</strong>
     <p id="toast-message">Copiamos el mensaje y abrimos Instagram.</p>
@@ -1365,6 +1485,7 @@
     const siteIntegrations = {
       productionUrl: "https://brutag.vercel.app/",
       instagramDmUrl: "https://ig.me/m/brutag__",
+      instagramProfileUrl: "https://www.instagram.com/brutag__/",
       tallyFormUrl: "https://tally.so/r/J9eK1Y",
       responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pub?gid=0&single=true&output=csv"
     };
@@ -1374,16 +1495,76 @@
     const tallyLinks = document.querySelectorAll(".tally-link");
     const productTypeLinks = document.querySelectorAll(".product-type-link");
     let toastTimer;
+    const moreProductsButton = document.querySelector("#more-products-button");
+    const moreProductsModal = document.querySelector("#more-products-modal");
+    const buyModal = document.querySelector("#buy-modal");
+    const buyMessageBox = document.querySelector("#buy-message-box");
+    const copyBuyMessageButton = document.querySelector("#copy-buy-message");
+    const openInstagramDm = document.querySelector("#open-instagram-dm");
+    const availableProducts = document.querySelector(".available-products");
+    let currentBuyMessage = "";
 
     function productLink(productId) {
-      return new URL(`#${productId}`, siteIntegrations.productionUrl).href;
+      const url = new URL(siteIntegrations.productionUrl);
+      url.searchParams.set("producto", productId);
+      return url.href;
     }
 
-    function tallyLinkForProductType(productType) {
-      const url = new URL(siteIntegrations.tallyFormUrl);
-      url.searchParams.set("tipo", productType);
-      url.searchParams.set("producto", productType);
-      return url.href;
+    function openModal(modal) {
+      if (!modal) return;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal(modal) {
+      if (!modal) return;
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function scrollToSection(sectionId) {
+      const section = document.querySelector(`#${sectionId}`) || document.querySelector("#catalogo");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function productIdFromName(productName, index = 0) {
+      return String(productName || `producto-${index + 1}`)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+
+    function instagramUrlWithMessage(message) {
+      const mobileUrl = new URL(siteIntegrations.instagramDmUrl);
+      mobileUrl.searchParams.set("text", message);
+      return mobileUrl.href;
+    }
+
+    function isDesktop() {
+      return window.matchMedia("(min-width: 840px)").matches;
+    }
+
+    function openBuyFlow(productName, productId) {
+      const productUrl = productLink(productId);
+      currentBuyMessage = `Hola BRUTAG, me interesa este producto: ${productName}. Link: ${productUrl}`;
+
+      if (buyMessageBox) {
+        buyMessageBox.textContent = currentBuyMessage;
+      }
+
+      if (openInstagramDm) {
+        openInstagramDm.href = isDesktop() ? siteIntegrations.instagramProfileUrl : instagramUrlWithMessage(currentBuyMessage);
+      }
+
+      openModal(buyModal);
+
+      window.setTimeout(() => {
+        window.open(isDesktop() ? siteIntegrations.instagramProfileUrl : instagramUrlWithMessage(currentBuyMessage), "_blank", "noopener");
+      }, 250);
     }
 
     function showToast(message) {
@@ -1425,25 +1606,27 @@
       return fallbackCopyMessage(message);
     }
 
-    document.querySelectorAll(".buy-button").forEach((button) => {
-      button.addEventListener("click", async (event) => {
-        event.preventDefault();
+    function attachBuyButtons(scope = document) {
+      scope.querySelectorAll(".buy-button").forEach((button) => {
+        if (button.dataset.buyAttached === "true") return;
+        button.dataset.buyAttached = "true";
 
-        const productName = button.dataset.productName;
-        const productUrl = productLink(button.dataset.productId);
-        const message = `Hola, me gustó este producto: ${productName}. ¿Aún está disponible? Link: ${productUrl}`;
-        const copied = await copyMessage(message);
-
-        showToast(copied ? `Mensaje copiado: "${message}"` : `Mensaje para enviar: "${message}"`);
-
-        window.setTimeout(() => {
-          window.location.href = siteIntegrations.instagramDmUrl;
-        }, 900);
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          openBuyFlow(button.dataset.productName || "Producto BRUTAG", button.dataset.productId || productIdFromName(button.dataset.productName));
+        });
       });
-    });
+    }
+
+    attachBuyButtons();
 
     productTypeLinks.forEach((link) => {
-      link.href = tallyLinkForProductType(link.dataset.productType);
+      link.addEventListener("click", (event) => {
+        const target = link.dataset.target;
+        if (!target) return;
+        event.preventDefault();
+        scrollToSection(target);
+      });
     });
 
     tallyLinks.forEach((link) => {
@@ -1459,6 +1642,176 @@
         }
       });
     });
+
+    document.querySelectorAll("[data-close-modal]").forEach((button) => {
+      button.addEventListener("click", () => closeModal(document.querySelector(`#${button.dataset.closeModal}`)));
+    });
+
+    document.querySelectorAll(".modal").forEach((modal) => {
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal(modal);
+      });
+    });
+
+    document.querySelectorAll("[data-close-and-scroll]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        closeModal(moreProductsModal);
+        scrollToSection(link.dataset.closeAndScroll);
+      });
+    });
+
+    if (moreProductsButton) {
+      moreProductsButton.addEventListener("click", () => openModal(moreProductsModal));
+    }
+
+    if (copyBuyMessageButton) {
+      copyBuyMessageButton.addEventListener("click", async () => {
+        if (!currentBuyMessage) return;
+        const copied = await copyMessage(currentBuyMessage);
+        showToast(copied ? "Mensaje copiado para enviar por DM." : currentBuyMessage);
+      });
+    }
+
+    function parseCsv(csvText) {
+      const rows = [];
+      let row = [];
+      let cell = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < csvText.length; i += 1) {
+        const char = csvText[i];
+        const nextChar = csvText[i + 1];
+
+        if (char === '"' && insideQuotes && nextChar === '"') {
+          cell += '"';
+          i += 1;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(cell.trim());
+          cell = "";
+        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+          if (cell || row.length) {
+            row.push(cell.trim());
+            rows.push(row);
+            row = [];
+            cell = "";
+          }
+          if (char === "\r" && nextChar === "\n") i += 1;
+        } else {
+          cell += char;
+        }
+      }
+
+      if (cell || row.length) {
+        row.push(cell.trim());
+        rows.push(row);
+      }
+
+      return rows;
+    }
+
+    function normalizeKey(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+    }
+
+    function shouldPublish(value) {
+      const normalized = normalizeKey(value);
+      return normalized !== "no";
+    }
+
+    function getValue(product, keys) {
+      const normalizedProduct = Object.entries(product).reduce((acc, [key, value]) => {
+        acc[normalizeKey(key)] = value;
+        return acc;
+      }, {});
+
+      for (const key of keys) {
+        const value = normalizedProduct[normalizeKey(key)];
+        if (value) return value;
+      }
+
+      return "";
+    }
+
+    function getImages(value) {
+      return String(value || "")
+        .split(/,|\n/)
+        .map((image) => image.trim())
+        .filter(Boolean)
+        .slice(0, 4);
+    }
+
+    function createProductHtml(product, index) {
+      const type = getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto";
+      const brand = getValue(product, ["Marca"]);
+      const size = getValue(product, ["Talla"]);
+      const status = getValue(product, ["Estado", "Estado del producto"]);
+      const price = getValue(product, ["Precio", "Precio esperado"]);
+      const description = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
+      const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
+      const productName = [type, brand].filter(Boolean).join(" ") || `Producto BRUTAG ${index + 1}`;
+      const productId = productIdFromName(productName, index);
+      const imageFigures = (photos.length ? photos : ["poleron-grizzly-frente.jpeg"]).map((photo) => `
+            <figure>
+              <img src="${photo}" alt="${productName}">
+            </figure>`).join("");
+
+      return `
+        <div class="product-grid" id="${productId}" data-product-type-section="${type}">
+          <div class="product-gallery">${imageFigures}
+          </div>
+
+          <article class="product-info">
+            <div class="tag-row">
+              <span class="tag">Disponible</span>
+            </div>
+            <h3>${productName}</h3>
+            <div class="price">${price || "Precio por DM"}</div>
+            <ul class="detail-list">
+              <li><strong>Estado:</strong> ${status || "Por confirmar"}</li>
+              <li><strong>Talla:</strong> ${size || "Por confirmar"}</li>
+              <li><strong>Descripción:</strong> ${description || "Producto publicado en BRUTAG"}</li>
+            </ul>
+            <div class="actions">
+              <a class="button buy-button" href="${siteIntegrations.instagramDmUrl}" target="_blank" rel="noopener" data-product-name="${productName}" data-product-id="${productId}">Comprar</a>
+              <a class="button secondary tally-link" href="${siteIntegrations.tallyFormUrl}" target="_blank" rel="noopener">Vender</a>
+            </div>
+          </article>
+        </div>`;
+    }
+
+    async function loadProductsFromSheet() {
+      if (!availableProducts || !siteIntegrations.responsesCsvUrl) return;
+
+      try {
+        const response = await fetch(siteIntegrations.responsesCsvUrl, { cache: "no-store" });
+        if (!response.ok) throw new Error("No se pudo cargar Google Sheets");
+
+        const csvText = await response.text();
+        const rows = parseCsv(csvText).filter((row) => row.some(Boolean));
+        const headers = rows.shift() || [];
+
+        const products = rows.map((row) => headers.reduce((product, header, index) => {
+          product[header] = row[index] || "";
+          return product;
+        }, {})).filter((product) => shouldPublish(getValue(product, ["Publicado"])));
+
+        if (!products.length) return;
+
+        availableProducts.innerHTML = products.map(createProductHtml).join("");
+        attachBuyButtons(availableProducts);
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+
+    loadProductsFromSheet();
   </script>
 </body>
 </html>
