@@ -60,6 +60,7 @@
       color: var(--white);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
+      overflow-x: hidden;
     }
 
     img {
@@ -78,7 +79,7 @@
     }
 
     .nav {
-      position: sticky;
+      position: relative;
       top: 0;
       z-index: 10;
       background: rgba(17, 17, 15, 0.9);
@@ -130,15 +131,16 @@
     }
 
     .hero {
-      min-height: calc(100vh - 76px);
+      min-height: auto;
       display: grid;
       align-content: center;
-      padding: clamp(70px, 12vw, 136px) 0;
+      padding: clamp(56px, 8vw, 96px) 0 clamp(48px, 7vw, 88px);
     }
 
     .kicker {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 22px;
       margin: 0 0 32px;
       color: var(--gold);
@@ -150,6 +152,7 @@
 
     .kicker::before {
       content: "";
+      flex: 0 0 76px;
       width: 76px;
       height: 2px;
       background: currentColor;
@@ -163,11 +166,12 @@
     }
 
     h1 {
-      max-width: 820px;
-      margin-bottom: 30px;
-      font-size: clamp(4.6rem, 15vw, 10.5rem);
-      line-height: 0.88;
+      max-width: 760px;
+      margin-bottom: 24px;
+      font-size: clamp(2.9rem, 7vw, 5.8rem);
+      line-height: 1.14;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
     }
 
     h1 span,
@@ -177,9 +181,10 @@
 
     .hero-lead {
       max-width: 680px;
-      margin-bottom: 44px;
+      margin-bottom: 0;
       color: var(--muted);
-      font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+      font-size: clamp(1.02rem, 1.7vw, 1.28rem);
+      line-height: 1.65;
     }
 
     .product-marquee {
@@ -250,13 +255,13 @@
     }
 
     section {
-      padding: clamp(62px, 10vw, 104px) 0;
+      padding: clamp(54px, 8vw, 88px) 0;
       border-top: 1px solid var(--line);
     }
 
     .section-head {
       display: flex;
-      align-items: end;
+      align-items: start;
       justify-content: space-between;
       gap: 24px;
       margin-bottom: 28px;
@@ -265,9 +270,10 @@
     h2 {
       max-width: 760px;
       margin-bottom: 0;
-      font-size: clamp(2.5rem, 7vw, 5.8rem);
-      line-height: 0.92;
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      line-height: 1.16;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
     }
 
     .section-head p {
@@ -305,7 +311,7 @@
 
     .product-gallery img {
       height: 100%;
-      min-height: 520px;
+      min-height: 420px;
       object-fit: cover;
       filter: saturate(0.85) contrast(1.03);
     }
@@ -336,7 +342,7 @@
     .product-info h3 {
       margin-bottom: 0;
       font-size: clamp(2.2rem, 5vw, 4.4rem);
-      line-height: 0.94;
+      line-height: 1.08;
       text-transform: uppercase;
     }
 
@@ -374,6 +380,36 @@
       gap: 10px;
     }
 
+    .accepted-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .accepted-card {
+      min-height: 126px;
+      padding: 18px;
+      display: grid;
+      align-content: space-between;
+      gap: 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+
+    .accepted-card strong {
+      color: var(--white);
+      font-size: 1.05rem;
+      text-transform: uppercase;
+    }
+
+    .accepted-card span {
+      color: var(--gold);
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
     .sell-box {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
@@ -407,10 +443,48 @@
       padding: 28px;
       display: grid;
       align-content: center;
+      gap: 18px;
       background: var(--panel);
       border: 1px solid var(--line);
       color: var(--muted);
       font-weight: 650;
+    }
+
+    .mini-list,
+    .upload-grid ul {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mini-list li,
+    .upload-grid li {
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .upload-card {
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .upload-card h3 {
+      margin-bottom: 16px;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .rules-grid {
@@ -490,7 +564,9 @@
 
       .section-head,
       .product-grid,
+      .accepted-grid,
       .sell-box,
+      .upload-grid,
       .rules-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -519,7 +595,23 @@
       }
 
       h1 {
-        font-size: clamp(4rem, 18vw, 6rem);
+        font-size: clamp(2.6rem, 12vw, 3.8rem);
+      }
+
+      .kicker {
+        gap: 14px;
+        margin-bottom: 22px;
+        font-size: 0.74rem;
+      }
+
+      .kicker::before {
+        flex-basis: 42px;
+        width: 42px;
+      }
+
+      .product-track span {
+        padding-right: 24px;
+        font-size: 0.72rem;
       }
 
       .actions,
@@ -539,6 +631,7 @@
     <div class="nav-inner">
       <a class="brand" href="#inicio">BRUT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
       <nav class="nav-links" aria-label="Principal">
+        <a href="#productos">Productos</a>
         <a href="#drop">Colección</a>
         <a href="#vender">Quiero vender</a>
       </nav>
@@ -570,6 +663,47 @@
         </div>
       </div>
       <p class="hero-lead">Ropa masculina seleccionada: piezas únicas, estilo urbano y compra directa por DM.</p>
+    </section>
+
+    <section id="productos" aria-label="Productos que recibe BRUTAG">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Tipos que recibimos</p>
+          <h2>Productos para vender</h2>
+        </div>
+        <p>Estas son las categorías que deben elegir en el formulario de venta.</p>
+      </div>
+
+      <div class="accepted-grid">
+        <article class="accepted-card">
+          <strong>Polera</strong>
+          <span>Fotos + talla</span>
+        </article>
+        <article class="accepted-card">
+          <strong>Polerón</strong>
+          <span>Streetwear</span>
+        </article>
+        <article class="accepted-card">
+          <strong>Pantalón</strong>
+          <span>Medidas</span>
+        </article>
+        <article class="accepted-card">
+          <strong>Chaqueta</strong>
+          <span>Estado</span>
+        </article>
+        <article class="accepted-card">
+          <strong>Parka</strong>
+          <span>Temporada</span>
+        </article>
+        <article class="accepted-card">
+          <strong>Zapatillas</strong>
+          <span>Talla + suela</span>
+        </article>
+        <article class="accepted-card">
+          <strong>Jockey</strong>
+          <span>Detalles</span>
+        </article>
+      </div>
     </section>
 
     <section id="drop" aria-label="Producto disponible">
@@ -606,7 +740,7 @@
           </ul>
           <div class="actions">
             <a class="button buy-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-product-name="Polerón Grizzly" data-product-id="producto-poleron-grizzly">Comprar</a>
-            <a class="button secondary sell-dm-button" href="https://ig.me/m/brutag__" target="_blank" rel="noopener" data-sell-message="Hola BRUTAG, quiero vender ropa. ¿Me pueden orientar para enviar fotos y datos?">Vender</a>
+            <a class="button secondary tally-link" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&amp;single=true" target="_blank" rel="noopener">Vender</a>
           </div>
         </article>
       </div>
@@ -615,13 +749,49 @@
     <section id="vender" aria-label="Vender ropa a BRUTAG">
       <div class="sell-box">
         <div class="sell-main">
-          <h2>Quiero vender</h2>
-          <p>Completa la encuesta de venta con fotos, talla, estado y precio esperado. BRUTAG revisa si la prenda calza con el estilo antes de responder.</p>
-          <a class="button" id="sell-button" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&amp;single=true" target="_blank" rel="noopener">Ir a la encuesta</a>
+          <h2>Vende en BRUTAG</h2>
+          <p>Abre el formulario, sube una prenda por envío y completa tipo, marca, talla, estado, precio esperado y fotos. Mientras mejor venga la información, más rápido se puede revisar.</p>
+          <a class="button tally-link" id="sell-button" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&amp;single=true" target="_blank" rel="noopener">Abrir Tally</a>
         </div>
         <div class="sell-side">
-          <p><strong style="color:var(--white);">Encuesta:</strong> el botón ya está conectado al archivo que compartiste para recibir prendas.</p>
+          <p><strong style="color:var(--white);">Fotos mínimas:</strong></p>
+          <ul class="mini-list">
+            <li>Frente completo de la prenda.</li>
+            <li>Espalda completa de la prenda.</li>
+            <li>Etiqueta de marca y talla.</li>
+            <li>Detalles, manchas o desgaste si existen.</li>
+          </ul>
         </div>
+      </div>
+
+      <div class="upload-grid" aria-label="Guía para subir productos a Tally">
+        <article class="upload-card">
+          <h3>Datos</h3>
+          <ul>
+            <li>Tipo de producto.</li>
+            <li>Marca y talla.</li>
+            <li>Estado real de la prenda.</li>
+            <li>Precio esperado.</li>
+          </ul>
+        </article>
+        <article class="upload-card">
+          <h3>Fotos</h3>
+          <ul>
+            <li>Usar buena luz y fondo simple.</li>
+            <li>No subir capturas borrosas.</li>
+            <li>Mostrar etiquetas y detalles.</li>
+            <li>Una prenda por formulario.</li>
+          </ul>
+        </article>
+        <article class="upload-card">
+          <h3>Revisión</h3>
+          <ul>
+            <li>BRUTAG revisa estilo y estado.</li>
+            <li>No todo producto será aceptado.</li>
+            <li>La respuesta llega por DM.</li>
+            <li>La venta se coordina caso a caso.</li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -678,7 +848,7 @@
 
     const toast = document.querySelector("#toast");
     const toastMessage = document.querySelector("#toast-message");
-    const sellButton = document.querySelector("#sell-button");
+    const tallyLinks = document.querySelectorAll(".tally-link");
     let toastTimer;
 
     function productLink(productId) {
@@ -741,29 +911,14 @@
       });
     });
 
-    document.querySelectorAll(".sell-dm-button").forEach((button) => {
-      button.addEventListener("click", async (event) => {
-        event.preventDefault();
-
-        const message = button.dataset.sellMessage;
-        const copied = await copyMessage(message);
-
-        showToast(copied ? `Mensaje copiado: "${message}"` : `Mensaje para enviar: "${message}"`);
-
-        window.setTimeout(() => {
-          window.location.href = siteIntegrations.instagramDmUrl;
-        }, 900);
+    tallyLinks.forEach((link) => {
+      link.href = siteIntegrations.tallyFormUrl;
+      link.addEventListener("click", (event) => {
+        if (!siteIntegrations.tallyFormUrl) {
+          event.preventDefault();
+          showToast("La encuesta todavia no tiene un enlace conectado.");
+        }
       });
-    });
-
-    sellButton.addEventListener("click", (event) => {
-      if (!siteIntegrations.tallyFormUrl) {
-        event.preventDefault();
-        showToast("La encuesta todavia no tiene un enlace conectado.");
-        return;
-      }
-
-      sellButton.href = siteIntegrations.tallyFormUrl;
     });
   </script>
 </body>

@@ -6,10 +6,10 @@ Landing y catálogo de ropa usada de hombre para `https://brutag.vercel.app/`.
 
 La web ahora tiene:
 
-1. Página más simple: inicio, drop, quiero vender y condiciones.
+1. Página más simple: inicio, productos, colección, quiero vender y condiciones.
 2. Fotos reales del polerón Grizzly con precio.
 3. Compra por DM a `@brutag__` con link exacto del producto.
-4. Botón de venta conectado a la encuesta de venta.
+4. Botones de venta conectados al enlace configurado en `tallyFormUrl`.
 5. Condiciones claras para comprar y vender en BRUTAG.
 6. Paleta dark/gold inspirada en la referencia visual.
 
@@ -49,7 +49,7 @@ productionUrl: "https://brutag.vercel.app/",
 tallyFormUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pubhtml?gid=0&single=true"
 ```
 
-El botón “Quiero vender” abre la encuesta conectada. Cuando tengas un link directo de Tally, reemplaza `tallyFormUrl` por ese enlace.
+Los botones “Vender” y “Abrir Tally” usan `tallyFormUrl`. Cuando tengas el link directo de Tally, normalmente con formato `https://tally.so/r/...`, reemplaza `tallyFormUrl` por ese enlace para que las fotos y datos se suban al formulario correcto.
 
 ## Publicar en Vercel
 
