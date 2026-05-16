@@ -1556,15 +1556,20 @@
         buyMessageBox.textContent = currentBuyMessage;
       }
 
+      const dmUrl = instagramUrlWithMessage(currentBuyMessage);
       if (openInstagramDm) {
-        openInstagramDm.href = isDesktop() ? siteIntegrations.instagramProfileUrl : instagramUrlWithMessage(currentBuyMessage);
+        openInstagramDm.href = dmUrl;
       }
 
-      openModal(buyModal);
+      // Copiar el mensaje para que el usuario lo tenga listo si la precomposición falla
+      copyMessage(currentBuyMessage).then((copied) => {
+        showToast(copied ? "Mensaje copiado para enviar por DM." : "Abriendo DM...");
+      }).catch(() => {
+        showToast("Abriendo DM...");
+      });
 
-      window.setTimeout(() => {
-        window.open(isDesktop() ? siteIntegrations.instagramProfileUrl : instagramUrlWithMessage(currentBuyMessage), "_blank", "noopener");
-      }, 250);
+      // Abrir DM con texto prellenado (usuario solo debe apretar enviar)
+      window.open(dmUrl, "_blank", "noopener");
     }
 
     function showToast(message) {
@@ -1625,6 +1630,17 @@
         const target = link.dataset.target;
         if (!target) return;
         event.preventDefault();
+
+        const productInCatalog = document.querySelector(`.available-products .product-grid#${target}`);
+        const anyProductGrid = document.querySelector(`.product-grid#${target}`);
+        const section = document.querySelector(`#${target}`);
+        const hasProducts = !!(productInCatalog || anyProductGrid || (section && !section.hasAttribute("hidden") && section.querySelector(".product-grid")));
+
+        if (!hasProducts) {
+          showToast("Aún no hay productos disponibles.");
+          return;
+        }
+
         scrollToSection(target);
       });
     });
@@ -1749,18 +1765,28 @@
 
     function createProductHtml(product, index) {
       const type = getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto";
-      const brand = getValue(product, ["Marca"]);
+      const brand = getValue(product, ["Marca"]) || "";
       const size = getValue(product, ["Talla"]);
       const status = getValue(product, ["Estado", "Estado del producto"]);
       const price = getValue(product, ["Precio", "Precio esperado"]);
       const description = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
       const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
+
       const productName = [type, brand].filter(Boolean).join(" ") || `Producto BRUTAG ${index + 1}`;
       const productId = productIdFromName(productName, index);
-      const imageFigures = (photos.length ? photos : ["poleron-grizzly-frente.jpeg"]).map((photo) => `
+      const imageFigures = (photos.length ? photos : ["poleron-carhartt-frente.jpeg"]).map((photo) => `
             <figure>
               <img src="${photo}" alt="${productName}">
             </figure>`).join("");
+
+      // Normalizar precio para que use punto como separador
+      let displayPrice = "";
+      if (price) {
+        let p = String(price).trim();
+        const hasCurrency = /^\s*[$€£]/.test(p);
+        p = p.replace(/\s+/g, "").replace(/,/g, ".");
+        displayPrice = hasCurrency ? p : `$${p}`;
+      }
 
       return `
         <div class="product-grid" id="${productId}" data-product-type-section="${type}">
@@ -1772,7 +1798,7 @@
               <span class="tag">Disponible</span>
             </div>
             <h3>${productName}</h3>
-            <div class="price">${price || "Precio por DM"}</div>
+            <div class="price">${displayPrice || "Precio por DM"}</div>
             <ul class="detail-list">
               <li><strong>Estado:</strong> ${status || "Por confirmar"}</li>
               <li><strong>Talla:</strong> ${size || "Por confirmar"}</li>
@@ -1800,7 +1826,14 @@
         const products = rows.map((row) => headers.reduce((product, header, index) => {
           product[header] = row[index] || "";
           return product;
-        }, {})).filter((product) => shouldPublish(getValue(product, ["Publicado"])));
+        }, {}))
+        .filter((product) => shouldPublish(getValue(product, ["Publicado"])))
+        .filter((product) => {
+          const type = getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "";
+          const brand = getValue(product, ["Marca"]) || "";
+          const name = [type, brand].filter(Boolean).join(" ").toLowerCase();
+          return name.includes("carhartt");
+        });
 
         if (!products.length) return;
 
