@@ -1550,7 +1550,7 @@
 
     function openBuyFlow(productName, productId) {
       const productUrl = productLink(productId);
-      currentBuyMessage = `Hola BRUTAG, me interesa este producto: ${productName}. Link: ${productUrl}`;
+      currentBuyMessage = `Hola BRUTAG, quiero comprar este producto: ${productName}. Link: ${productUrl}. ¿Aún está disponible?`;
 
       if (buyMessageBox) {
         buyMessageBox.textContent = currentBuyMessage;
@@ -1827,13 +1827,7 @@
           product[header] = row[index] || "";
           return product;
         }, {}))
-        .filter((product) => shouldPublish(getValue(product, ["Publicado"])))
-        .filter((product) => {
-          const type = getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "";
-          const brand = getValue(product, ["Marca"]) || "";
-          const name = [type, brand].filter(Boolean).join(" ").toLowerCase();
-          return name.includes("carhartt");
-        });
+        .filter((product) => shouldPublish(getValue(product, ["Publicado"])));
 
         if (!products.length) return;
 
