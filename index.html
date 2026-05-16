@@ -421,6 +421,11 @@
       line-height: 1.35;
     }
 
+    .product-grid.is-linked-product .product-info,
+    .product-grid.is-linked-product .product-gallery figure {
+      border-color: rgba(205, 176, 111, 0.78);
+    }
+
     .accepted-grid {
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -1355,9 +1360,9 @@
               <li><strong>Talla:</strong> XL</li>
               <li><strong>Stock:</strong> Disponible</li>
             </ul>
-            <p class="buy-note">Aprieta Comprar: se copia el mensaje con el link del producto y se abre el DM.</p>
+            <p class="buy-note">Aprieta Comprar: se copia el mensaje con el link exacto del producto y se abre el DM.</p>
             <div class="actions">
-              <a class="button buy-button" href="https://ig.me/m/brutag__?text=Hola%20BRUTAG%2C%20quiero%20comprar%20este%20producto%3A%20Poler%C3%B3n%20Carhartt.%20Link%3A%20https%3A%2F%2Fbrutag.vercel.app%2F%3Fproducto%3Dproducto-poleron-carhartt.%20%C2%BFA%C3%BAn%20est%C3%A1%20disponible%3F" target="_blank" rel="noopener" data-product-name="Polerón Carhartt" data-product-id="producto-poleron-carhartt">Comprar</a>
+              <a class="button buy-button" href="https://ig.me/m/brutag__?text=Hola%20BRUTAG%2C%20quiero%20comprar%20este%20producto%3A%20Poler%C3%B3n%20Carhartt.%0ALink%3A%20https%3A%2F%2Fbrutag.vercel.app%2F%3Fproducto%3Dproducto-poleron-carhartt%23producto-poleron-carhartt%0A%C2%BFA%C3%BAn%20est%C3%A1%20disponible%3F" target="_blank" rel="noopener" data-product-name="Polerón Carhartt" data-product-id="producto-poleron-carhartt">Comprar</a>
               <a class="button secondary tally-link" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Vender</a>
             </div>
           </article>
@@ -1520,6 +1525,7 @@
     function productLink(productId) {
       const url = new URL(siteIntegrations.productionUrl);
       url.searchParams.set("producto", productId);
+      url.hash = productId;
       return url.href;
     }
 
@@ -1542,18 +1548,20 @@
       }
     }
 
-    function productIdFromName(productName, index = 0) {
-      return String(productName || `producto-${index + 1}`)
+    function productIdFromName(productName, index = null) {
+      const baseId = String(productName || "producto")
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "");
+
+      return Number.isInteger(index) ? `${baseId || "producto"}-${index + 1}` : baseId || "producto";
     }
 
     function buildBuyMessage(productName, productId) {
       const productUrl = productLink(productId);
-      return `Hola BRUTAG, quiero comprar este producto: ${productName}. Link: ${productUrl}. ¿Aún está disponible?`;
+      return `Hola BRUTAG, quiero comprar este producto: ${productName}.\nLink: ${productUrl}\n¿Aún está disponible?`;
     }
 
     function instagramUrlWithMessage(message) {
@@ -1629,6 +1637,29 @@
       return fallbackCopyMessage(message);
     }
 
+    function requestedProductId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("producto") || window.location.hash.replace("#", "");
+    }
+
+    function findProduct(productId) {
+      const safeProductId = String(productId || "").replace(/[^a-z0-9-]/gi, "");
+      if (!safeProductId) return null;
+
+      return document.getElementById(safeProductId) || document.querySelector(`.available-products .product-grid[id^="${safeProductId}-"]`);
+    }
+
+    function scrollToRequestedProduct() {
+      const product = findProduct(requestedProductId());
+      if (!product) return false;
+
+      const productGrid = product.closest(".product-grid") || product;
+      productGrid.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+      productGrid.classList.add("is-linked-product");
+      window.setTimeout(() => productGrid.classList.remove("is-linked-product"), 5200);
+      return true;
+    }
+
     function attachBuyButtons(scope = document) {
       scope.querySelectorAll(".buy-button").forEach((button) => {
         const productName = button.dataset.productName || "Producto BRUTAG";
@@ -1647,6 +1678,7 @@
     }
 
     attachBuyButtons();
+    window.requestAnimationFrame(scrollToRequestedProduct);
 
     productTypeLinks.forEach((link) => {
       link.addEventListener("click", (event) => {
@@ -1832,7 +1864,7 @@
               <li><strong>Talla:</strong> ${size || "Por confirmar"}</li>
               <li><strong>Descripción:</strong> ${description || "Producto publicado en BRUTAG"}</li>
             </ul>
-            <p class="buy-note">Aprieta Comprar: se copia el mensaje con el link del producto y se abre el DM.</p>
+            <p class="buy-note">Aprieta Comprar: se copia el mensaje con el link exacto del producto y se abre el DM.</p>
             <div class="actions">
               <a class="button buy-button" href="${buyUrl}" target="_blank" rel="noopener" data-product-name="${productName}" data-product-id="${productId}">Comprar</a>
               <a class="button secondary tally-link" href="${siteIntegrations.tallyFormUrl}" target="_blank" rel="noopener">Vender</a>
@@ -1862,6 +1894,7 @@
 
         availableProducts.innerHTML = products.map(createProductHtml).join("");
         attachBuyButtons(availableProducts);
+        window.requestAnimationFrame(scrollToRequestedProduct);
       } catch (error) {
         console.warn(error);
       }
