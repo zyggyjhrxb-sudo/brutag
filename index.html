@@ -444,13 +444,6 @@
       text-transform: uppercase;
     }
 
-    .sell-box {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
-      gap: 18px;
-      align-items: stretch;
-    }
-
     .sell-main {
       padding: clamp(28px, 5vw, 52px);
       background: var(--gold);
@@ -471,54 +464,6 @@
     .sell-main .button {
       background: #0b0a08;
       color: var(--white);
-    }
-
-    .sell-side {
-      padding: 28px;
-      display: grid;
-      align-content: center;
-      gap: 18px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-weight: 650;
-    }
-
-    .mini-list,
-    .upload-grid ul {
-      display: grid;
-      gap: 10px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .mini-list li,
-    .upload-grid li {
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .upload-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .upload-card {
-      padding: 24px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-weight: 650;
-    }
-
-    .upload-card h3 {
-      margin-bottom: 16px;
-      color: var(--gold);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
     }
 
     .rules-grid {
@@ -684,8 +629,6 @@
       .section-head,
       .product-grid,
       .accepted-grid,
-      .sell-box,
-      .upload-grid,
       .rules-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -704,9 +647,7 @@
       }
 
       .sell-main,
-      .sell-side,
       .product-info,
-      .upload-card,
       .rules-card {
         padding-left: 0;
         padding-right: 0;
@@ -1264,8 +1205,7 @@
       white-space: nowrap;
     }
 
-    .accepted-grid,
-    .upload-grid {
+    .accepted-grid {
       display: flex;
       gap: 14px;
       overflow-x: auto;
@@ -1276,13 +1216,11 @@
     }
 
     .accepted-grid::-webkit-scrollbar,
-    .upload-grid::-webkit-scrollbar,
     .available-products::-webkit-scrollbar {
       height: 6px;
     }
 
     .accepted-grid::-webkit-scrollbar-thumb,
-    .upload-grid::-webkit-scrollbar-thumb,
     .available-products::-webkit-scrollbar-thumb {
       background: rgba(205, 176, 111, 0.58);
     }
@@ -1298,21 +1236,16 @@
     }
 
     .sell-box {
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
     .sell-main {
       padding: clamp(24px, 4vw, 44px);
     }
 
-    .sell-side,
-    .upload-card {
-      padding: 24px;
-    }
-
-    .sell-main,
-    .sell-side,
-    .upload-card {
+    .sell-main {
       background: var(--panel);
       border: 1px solid var(--line);
       color: var(--white);
@@ -1320,35 +1253,17 @@
     }
 
     .sell-main h2,
-    .sell-main .kicker,
-    .sell-side-title,
-    .upload-card h3 {
+    .sell-main .kicker {
       color: var(--gold);
     }
 
-    .sell-main p,
-    .sell-side,
-    .upload-card,
-    .mini-list,
-    .upload-grid ul {
+    .sell-main p {
       color: var(--white);
     }
 
     .sell-main .button {
       background: var(--gold);
       color: #0b0a08;
-    }
-
-    .sell-side-title {
-      margin-bottom: 10px;
-      font-weight: 950;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .upload-card {
-      flex: 0 0 clamp(240px, 30vw, 330px);
-      scroll-snap-align: start;
     }
 
     .photo-zoom {
@@ -1506,16 +1421,6 @@
         flex-basis: min(52vw, 220px);
       }
 
-      .sell-box {
-        display: grid;
-        grid-template-columns: 1fr;
-      }
-
-      .upload-grid {
-        margin-inline: -12px;
-        padding-inline: 12px;
-      }
-
       footer {
         display: grid;
         gap: 18px;
@@ -1653,46 +1558,11 @@
           <p class="kicker">Cómo vender</p>
           <h2>Vende en BRUTAG</h2>
           <p>Completa el formulario con una prenda por envío. Sube fotos claras, marca, talla, estado real y precio esperado para revisar rápido.</p>
-          <a class="button tally-link" id="sell-button" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Abrir Tally</a>
+          <div class="actions">
+            <a class="button tally-link" id="sell-button" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Abrir Tally</a>
+            <button class="button secondary" type="button" id="publish-guide-button">Antes de subir tu prenda</button>
+          </div>
         </div>
-        <div class="sell-side">
-          <p class="sell-side-title">Fotos mínimas</p>
-          <ul class="mini-list">
-            <li>Frente completo de la prenda.</li>
-            <li>Espalda completa de la prenda.</li>
-            <li>Etiqueta de marca y talla.</li>
-            <li>Detalles, manchas o desgaste si existen.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="upload-grid" aria-label="Guía para subir productos a Tally">
-        <article class="upload-card">
-          <h3>Datos claros</h3>
-          <ul>
-            <li>Tipo de prenda.</li>
-            <li>Marca y talla.</li>
-            <li>Estado real de la prenda.</li>
-            <li>Precio esperado.</li>
-          </ul>
-        </article>
-        <article class="upload-card">
-          <h3>Fotos claras</h3>
-          <ul>
-            <li>Usar buena luz y fondo simple.</li>
-            <li>Mostrar etiquetas y detalles.</li>
-            <li>Una prenda por formulario.</li>
-          </ul>
-        </article>
-        <article class="upload-card">
-          <h3>Revisión</h3>
-          <ul>
-            <li>BRUTAG revisa estilo y estado.</li>
-            <li>No todo producto será aceptado.</li>
-            <li>La respuesta llega por DM.</li>
-            <li>La venta se coordina caso a caso.</li>
-          </ul>
-        </article>
       </div>
     </section>
   </main>
@@ -1780,6 +1650,33 @@
     </div>
   </div>
 
+  <div class="modal" id="publish-guide-modal" aria-hidden="true">
+    <div class="modal-content modal-content-wide" role="dialog" aria-modal="true" aria-labelledby="publish-guide-title">
+      <button class="modal-close" type="button" data-close-modal="publish-guide-modal">×</button>
+      <h2 id="publish-guide-title">Antes de subir tu prenda</h2>
+      <div class="conditions-content">
+        <h3>Fotos</h3>
+        <ul>
+          <li>Frente y espalda completos.</li>
+          <li>Etiqueta de marca y talla.</li>
+          <li>Detalles, manchas o desgaste si existen.</li>
+          <li>Buena luz y fondo simple.</li>
+        </ul>
+
+        <h3>Datos</h3>
+        <ul>
+          <li>Tipo de prenda, marca y talla.</li>
+          <li>Estado real del producto.</li>
+          <li>Precio esperado.</li>
+          <li>Una prenda por formulario.</li>
+        </ul>
+
+        <h3>Revisión</h3>
+        <p>BRUTAG revisa estilo y estado. No todo producto será aceptado y la respuesta llega por DM.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="photo-modal" aria-hidden="true">
     <div class="modal-content photo-modal-content" role="dialog" aria-modal="true" aria-label="Vista ampliada del producto">
       <button class="modal-close" type="button" data-close-modal="photo-modal">×</button>
@@ -1815,6 +1712,8 @@
     const availableProducts = document.querySelector(".available-products");
     const conditionsButton = document.querySelector("#conditions-button");
     const conditionsModal = document.querySelector("#conditions-modal");
+    const publishGuideButton = document.querySelector("#publish-guide-button");
+    const publishGuideModal = document.querySelector("#publish-guide-modal");
     const photoModal = document.querySelector("#photo-modal");
     const photoModalImage = document.querySelector("#photo-modal-image");
     let currentBuyMessage = "";
@@ -2126,6 +2025,10 @@
 
     if (conditionsButton) {
       conditionsButton.addEventListener("click", () => openModal(conditionsModal));
+    }
+
+    if (publishGuideButton) {
+      publishGuideButton.addEventListener("click", () => openModal(publishGuideModal));
     }
 
     if (copyBuyMessageButton) {
