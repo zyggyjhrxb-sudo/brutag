@@ -1857,14 +1857,21 @@
     }
 
     function categoryFromText(value) {
-      const normalized = normalizeKey(value);
-      if (normalized.includes("poleron")) return "poleron";
-      if (normalized.includes("polera")) return "polera";
-      if (normalized.includes("pantalon")) return "pantalon";
-      if (normalized.includes("chaqueta")) return "chaqueta";
-      if (normalized.includes("parka")) return "parka";
-      if (normalized.includes("zapatilla")) return "zapatilla";
-      if (normalized.includes("jockey")) return "jockey";
+      const words = String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .split(/[^a-z0-9]+/)
+        .filter(Boolean);
+
+      const hasWord = (matches) => words.some((word) => matches.includes(word));
+      if (hasWord(["poleron", "polerones"])) return "poleron";
+      if (hasWord(["polera", "poleras"])) return "polera";
+      if (hasWord(["pantalon", "pantalones"])) return "pantalon";
+      if (hasWord(["chaqueta", "chaquetas"])) return "chaqueta";
+      if (hasWord(["parka", "parkas"])) return "parka";
+      if (hasWord(["zapatilla", "zapatillas"])) return "zapatilla";
+      if (hasWord(["jockey", "jockeys"])) return "jockey";
       return "";
     }
 
