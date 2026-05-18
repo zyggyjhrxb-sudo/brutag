@@ -1485,6 +1485,77 @@
         gap: 18px;
       }
     }
+
+    /* ===== BRUTAG HERO PHOTO BACKGROUND ===== */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(420px, 52vw, 620px);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 100vw;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .hero::before {
+      z-index: -2;
+      background-image: url("brutag-hero-profile.jpg");
+      background-position: center right;
+      background-size: cover;
+      background-repeat: no-repeat;
+      filter: grayscale(1) contrast(1.1);
+    }
+
+    .hero::after {
+      z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(11, 10, 8, 0.96) 0%, rgba(11, 10, 8, 0.82) 42%, rgba(11, 10, 8, 0.58) 68%, rgba(11, 10, 8, 0.82) 100%),
+        linear-gradient(180deg, rgba(11, 10, 8, 0.38) 0%, rgba(11, 10, 8, 0.82) 100%);
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 3px 24px rgba(0, 0, 0, 0.72);
+    }
+
+    .hero .product-marquee {
+      background: rgba(11, 10, 8, 0.24);
+    }
+
+    .hero .hero-lead {
+      color: rgba(247, 244, 239, 0.82);
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 430px;
+      }
+
+      .hero::before {
+        background-position: 68% center;
+      }
+
+      .hero::after {
+        background:
+          linear-gradient(180deg, rgba(11, 10, 8, 0.88) 0%, rgba(11, 10, 8, 0.66) 42%, rgba(11, 10, 8, 0.94) 100%),
+          linear-gradient(90deg, rgba(11, 10, 8, 0.92) 0%, rgba(11, 10, 8, 0.64) 100%);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        min-height: 390px;
+      }
+    }
   </style>
 </head>
 <body>
