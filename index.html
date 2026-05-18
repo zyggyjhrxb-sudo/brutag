@@ -331,6 +331,7 @@
     }
 
     .product-gallery figure {
+      position: relative;
       aspect-ratio: 1;
       display: grid;
       place-items: center;
@@ -1239,9 +1240,30 @@
     }
 
     .available-products .product-grid {
-      flex: 0 0 min(940px, 92vw);
+      flex: 0 0 min(1120px, 94vw);
       scroll-snap-align: start;
       scroll-snap-stop: always;
+    }
+
+    @media (min-width: 769px) {
+      .available-products .product-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(360px, 0.86fr);
+        min-height: clamp(430px, 44vw, 620px);
+      }
+
+      .available-products .product-gallery,
+      .available-products .product-info {
+        min-height: clamp(430px, 44vw, 620px);
+      }
+
+      .available-products .product-gallery {
+        grid-auto-rows: 1fr;
+      }
+
+      .available-products .product-gallery figure {
+        height: 100%;
+        aspect-ratio: auto;
+      }
     }
 
     .sell-box {
@@ -1292,6 +1314,33 @@
 
     .photo-zoom:hover img {
       transform: scale(1.03);
+    }
+
+    .photo-preview {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      z-index: 2;
+      max-width: calc(100% - 24px);
+      padding: 8px 10px;
+      background: rgba(17, 17, 15, 0.94);
+      border: 1px solid rgba(205, 176, 111, 0.62);
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 950;
+      letter-spacing: 0.12em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 160ms ease, transform 160ms ease;
+      pointer-events: none;
+    }
+
+    .photo-zoom:hover .photo-preview,
+    .photo-zoom:focus-visible .photo-preview {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .product-more-card {
@@ -1526,11 +1575,13 @@
             <figure>
               <button class="photo-zoom" type="button" data-photo-src="poleron-carhartt-frente.jpeg" data-photo-alt="Polerón Carhartt vista frontal">
                 <img src="poleron-carhartt-frente.jpeg" alt="Polerón Carhartt vista frontal">
+                <span class="photo-preview">Vista previa</span>
               </button>
             </figure>
             <figure>
               <button class="photo-zoom" type="button" data-photo-src="poleron-carhartt-espalda.jpeg" data-photo-alt="Polerón Carhartt vista espalda">
                 <img src="poleron-carhartt-espalda.jpeg" alt="Polerón Carhartt vista espalda">
+                <span class="photo-preview">Vista previa</span>
               </button>
             </figure>
           </div>
@@ -2140,13 +2191,32 @@
       return `$${Number(numericValue).toLocaleString("es-CL")}`;
     }
 
+    function formatSize(value) {
+      return String(value || "").trim().toLocaleUpperCase("es-CL");
+    }
+
+    function capitalizeFirst(value) {
+      const text = String(value || "").trim();
+      if (!text) return "";
+
+      const lowerText = text.toLocaleLowerCase("es-CL");
+      return lowerText.charAt(0).toLocaleUpperCase("es-CL") + lowerText.slice(1);
+    }
+
+    function titleCase(value) {
+      return String(value || "")
+        .trim()
+        .toLocaleLowerCase("es-CL")
+        .replace(/(^|[\s/&-])([a-záéíóúñ])/gi, (match, prefix, letter) => `${prefix}${letter.toLocaleUpperCase("es-CL")}`);
+    }
+
     function createProductHtml(product, index) {
-      const type = getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto";
-      const brand = getValue(product, ["Marca"]) || "";
-      const size = getValue(product, ["Talla"]);
-      const status = getValue(product, ["Estado", "Estado del producto"]);
+      const type = titleCase(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto");
+      const brand = titleCase(getValue(product, ["Marca"]) || "");
+      const size = formatSize(getValue(product, ["Talla"]));
+      const status = capitalizeFirst(getValue(product, ["Estado", "Estado del producto"]));
       const price = getValue(product, ["Precio", "Precio esperado"]);
-      const description = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
+      const description = capitalizeFirst(getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]));
       const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
 
       const productName = [type, brand].filter(Boolean).join(" ") || `Producto BRUTAG ${index + 1}`;
@@ -2157,6 +2227,7 @@
             <figure>
               <button class="photo-zoom" type="button" data-photo-src="${photo}" data-photo-alt="${productName}">
                 <img src="${photo}" alt="${productName}">
+                <span class="photo-preview">Vista previa</span>
               </button>
             </figure>`).join("");
 
