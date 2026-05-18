@@ -306,12 +306,13 @@
     }
 
     .available-products {
-      display: grid;
+      display: flex;
       gap: 18px;
-    }
-
-    .available-products .product-grid:nth-of-type(n + 7) {
-      display: none;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 0 14px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
     }
 
     .product-gallery {
@@ -421,8 +422,8 @@
     }
 
     .accepted-card {
-      min-height: 104px;
-      padding: 18px;
+      min-height: 68px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -439,7 +440,7 @@
 
     .accepted-card strong {
       color: var(--white);
-      font-size: 1.05rem;
+      font-size: 0.86rem;
       text-align: center;
       text-transform: uppercase;
     }
@@ -1197,6 +1198,8 @@
     }
 
     .carousel-hint {
+      display: block;
+      margin: 0 0 12px;
       color: var(--gold);
       font-size: 0.78rem;
       font-weight: 900;
@@ -1226,13 +1229,19 @@
     }
 
     .accepted-card {
-      flex: 0 0 clamp(170px, 22vw, 240px);
-      min-height: 118px;
+      flex: 0 0 clamp(96px, 12vw, 142px);
+      min-height: 62px;
       scroll-snap-align: start;
     }
 
     .accepted-card strong {
-      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-size: clamp(0.72rem, 1.1vw, 0.92rem);
+    }
+
+    .available-products .product-grid {
+      flex: 0 0 min(940px, 92vw);
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
 
     .sell-box {
@@ -1418,7 +1427,8 @@
       }
 
       .accepted-card {
-        flex-basis: min(52vw, 220px);
+        flex-basis: min(34vw, 138px);
+        min-height: 58px;
       }
 
       footer {
@@ -1505,11 +1515,11 @@
           <h2>Colección activa</h2>
         </div>
         <div class="section-actions">
-          <span class="carousel-hint">Desliza →</span>
           <button class="button secondary" type="button" id="more-products-button">Ver más productos disponibles</button>
         </div>
       </div>
 
+      <span class="carousel-hint">Desliza →</span>
       <div class="available-products" id="catalogo" aria-label="Listado de productos disponibles">
         <div class="product-grid" id="polerones" data-product-type-section="Polerón" data-product-category="poleron">
           <div class="product-gallery">
@@ -1560,7 +1570,7 @@
           <p>Completa el formulario con una prenda por envío. Sube fotos claras, marca, talla, estado real y precio esperado para revisar rápido.</p>
           <div class="actions">
             <a class="button tally-link" id="sell-button" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Abrir Tally</a>
-            <button class="button secondary" type="button" id="publish-guide-button">Antes de subir tu prenda</button>
+            <button class="button secondary" type="button" id="publish-guide-button">Guía de publicación</button>
           </div>
         </div>
       </div>
@@ -1653,7 +1663,7 @@
   <div class="modal" id="publish-guide-modal" aria-hidden="true">
     <div class="modal-content modal-content-wide" role="dialog" aria-modal="true" aria-labelledby="publish-guide-title">
       <button class="modal-close" type="button" data-close-modal="publish-guide-modal">×</button>
-      <h2 id="publish-guide-title">Antes de subir tu prenda</h2>
+      <h2 id="publish-guide-title">Guía de publicación</h2>
       <div class="conditions-content">
         <h3>Fotos</h3>
         <ul>
