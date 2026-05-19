@@ -2150,6 +2150,101 @@
       }
     }
   </style>
+  <style>
+    /* Indicadores móviles: 'Desliza' y gradientes en los bordes */
+    .scroll-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .scroll-hint .arrow {
+      display: inline-block;
+      transition: transform 600ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .scroll-hint.pulse .arrow {
+      transform: translateX(6px);
+    }
+
+    /* Ajustes específicos para móviles pequeños */
+    @media (max-width: 900px) {
+      .carousel-hint,
+      .scroll-hint {
+        display: block;
+        font-size: 0.68rem;
+        margin-bottom: 10px;
+        color: var(--gold);
+        text-align: left;
+      }
+
+      .available-products,
+      .accepted-grid,
+      .product-marquee {
+        position: relative;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
+      }
+
+      .available-products::before,
+      .available-products::after,
+      .accepted-grid::before,
+      .accepted-grid::after,
+      .product-marquee::before,
+      .product-marquee::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 48px;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .available-products::before,
+      .accepted-grid::before,
+      .product-marquee::before {
+        left: 0;
+        background: linear-gradient(90deg, rgba(11,11,11,0.95), rgba(11,11,11,0));
+      }
+
+      .available-products::after,
+      .accepted-grid::after,
+      .product-marquee::after {
+        right: 0;
+        background: linear-gradient(270deg, rgba(11,11,11,0.95), rgba(11,11,11,0));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .available-products .actions .button,
+      .available-products .actions a.button,
+      .available-products .actions .buy-button,
+      .available-products .actions .tally-link {
+        width: 100%;
+        min-width: 0;
+        display: block;
+      }
+
+      .available-products .product-info {
+        padding: 12px;
+      }
+
+      .carousel-hint,
+      .scroll-hint {
+        margin-left: 8px;
+      }
+
+      .nav-inner {
+        padding-inline: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="nav">
@@ -2951,6 +3046,66 @@
     }
 
     loadProductsFromSheet();
+  </script>
+
+  <script>
+    /* Mejora móvil: inyecta pistas de 'Desliza' y gradientes; se quitan al interactuar */
+    (function () {
+      function attachScrollHints() {
+        const selectors = ['.available-products', '.accepted-grid', '.product-marquee'];
+        selectors.forEach((sel) => {
+          document.querySelectorAll(sel).forEach((el) => {
+            if (el.dataset.hintAttached === 'true') return;
+            el.dataset.hintAttached = 'true';
+
+            const section = el.closest('section') || el.parentElement;
+            if (!section) return;
+
+            // No duplicar si ya existe una pista visual
+            if (section.querySelector('.scroll-hint') || section.querySelector('.carousel-hint')) return;
+
+            const hint = document.createElement('span');
+            hint.className = 'scroll-hint';
+            hint.setAttribute('role', 'note');
+            hint.textContent = 'Desliza ';
+            const arrow = document.createElement('span');
+            arrow.className = 'arrow';
+            arrow.textContent = '→';
+            hint.appendChild(arrow);
+
+            // Insertar la pista antes del contenedor para que sea visible en móvil
+            section.insertBefore(hint, el);
+
+            // Pulsar visual breve
+            setTimeout(() => hint.classList.add('pulse'), 120);
+            setTimeout(() => hint.classList.remove('pulse'), 2000);
+
+            // Accesibilidad: marcar contenedor como desplazable horizontalmente
+            if (window.matchMedia('(max-width: 900px)').matches) {
+              el.setAttribute('aria-label', el.getAttribute('aria-label') || 'Desplazable horizontalmente, desliza para ver más');
+            }
+
+            const removeHint = () => {
+              try { hint.remove(); } catch (e) { /* ignore */ }
+            };
+
+            el.addEventListener('touchstart', removeHint, { once: true, passive: true });
+            el.addEventListener('scroll', removeHint, { once: true, passive: true });
+            el.addEventListener('pointerdown', removeHint, { once: true });
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachScrollHints);
+      } else {
+        attachScrollHints();
+      }
+
+      // Re-ejecutar cuando se agregan productos dinámicamente
+      const observer = new MutationObserver(() => attachScrollHints());
+      observer.observe(document.body, { childList: true, subtree: true });
+    })();
   </script>
 </body>
 </html>
