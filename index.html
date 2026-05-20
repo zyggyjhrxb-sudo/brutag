@@ -2301,7 +2301,7 @@
     }
 
     .product-extra-details[hidden] {
-      display: none !important;
+      display: grid !important;
     }
 
     .product-details-button {
@@ -2390,15 +2390,62 @@
     @media (min-width: 769px) {
       .available-products .product-info {
         justify-content: center;
+        align-content: center;
+        gap: 22px;
+        padding: clamp(24px, 4vw, 42px);
+      }
+
+      .available-products .product-info h3 {
+        font-size: clamp(2.2rem, 5vw, 4.4rem);
+        line-height: 1.08;
+      }
+
+      .available-products .price {
+        font-size: clamp(1.6rem, 4vw, 2.8rem);
+        line-height: 1;
+      }
+
+      .available-products .detail-list,
+      .available-products .product-summary-list,
+      .available-products .product-extra-details {
+        display: grid !important;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: var(--muted);
+        font-size: 1rem;
+        font-weight: 650;
+      }
+
+      .available-products .detail-list li,
+      .available-products .product-summary-list li,
+      .available-products .product-extra-details li {
+        display: block;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+        overflow: visible;
+        -webkit-line-clamp: unset;
+        -webkit-box-orient: unset;
+      }
+
+      .available-products .detail-list strong,
+      .available-products .product-summary-list strong,
+      .available-products .product-extra-details strong {
+        color: var(--white);
       }
 
       .available-products .actions {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
       }
 
       .available-products .actions .button {
-        padding-inline: 12px;
+        width: 100%;
+        min-height: 52px;
+        padding-inline: 18px;
+        font-size: 0.86rem;
       }
     }
 
@@ -2482,9 +2529,6 @@
         font-size: 0.9rem;
       }
 
-      .available-products .detail-list:not(.product-extra-details) {
-        display: none;
-      }
 
       .available-products .actions {
         display: grid;
@@ -2494,17 +2538,12 @@
 
       .available-products .actions .button,
       .available-products .actions a.button,
-      .available-products .actions .buy-button,
-      .available-products .actions .tally-link {
+      .available-products .actions .buy-button {
         width: 100%;
         min-height: 40px;
         padding: 0 10px;
         font-size: 0.62rem;
         letter-spacing: 0.11em;
-      }
-
-      .available-products .actions .tally-link {
-        grid-column: span 2;
       }
 
       .product-more-card {
@@ -2680,7 +2719,7 @@
             <ul class="detail-list product-summary-list">
               <li><strong>Talla:</strong> XL</li>
             </ul>
-            <ul class="detail-list product-extra-details" hidden>
+            <ul class="detail-list product-extra-details">
               <li><strong>Estado:</strong> Nuevo</li>
               <li><strong>Stock:</strong> Disponible</li>
               <li><strong>Descripción:</strong> Polerón Grizzly en buen estado general. Tiene algunos detalles visibles en las fotos.</li>
@@ -2688,7 +2727,6 @@
             <div class="actions">
               <a class="button buy-button" href="https://ig.me/m/brutag__?text=Hola%20BRUTAG%2C%20quiero%20comprar%20este%20producto%3A%20Poler%C3%B3n%20Grizzly.%0ALink%3A%20https%3A%2F%2Fbrutag.vercel.app%2F%3Fproducto%3Dproducto-poleron-grizzly%23producto-poleron-grizzly%0A%C2%BFA%C3%BAn%20est%C3%A1%20disponible%3F" target="_blank" rel="noopener" data-product-name="Polerón Grizzly" data-product-id="producto-poleron-grizzly">Comprar</a>
               <button class="button secondary product-details-button" type="button">Ver más</button>
-              <a class="button secondary tally-link" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Vender</a>
             </div>
           </article>
         </div>
@@ -2767,7 +2805,6 @@
           <ul class="product-detail-list" id="product-detail-list"></ul>
           <div class="actions">
             <a class="button" id="product-detail-buy" href="https://ig.me/m/brutag__" target="_blank" rel="noopener">Comprar</a>
-            <a class="button secondary" href="https://tally.so/r/J9eK1Y" target="_blank" rel="noopener">Vender</a>
           </div>
         </div>
       </div>
