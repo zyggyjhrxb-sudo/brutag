@@ -43,11 +43,14 @@
       --page: min(1120px, calc(100% - 32px));
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
     html {
+      font-size: clamp(14px, 1.2vw, 18px);
       scroll-behavior: smooth;
       background: var(--black);
     }
@@ -66,6 +69,7 @@
     img {
       display: block;
       width: 100%;
+      max-width: 100%;
       height: auto;
     }
 
@@ -2632,6 +2636,42 @@
       .section-actions .button {
         min-height: 38px;
         font-size: 0.62rem;
+      }
+    }
+  </style>
+  <style>
+    /* ===== BRUTAG RESPONSIVE BASE UTILITIES ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .row > * {
+      flex: 1 1 250px;
+    }
+
+    .ocultar-movil {
+      display: block;
+    }
+
+    .solo-movil {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .ocultar-movil {
+        display: none !important;
+      }
+
+      .solo-movil {
+        display: block !important;
       }
     }
   </style>
