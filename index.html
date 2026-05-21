@@ -2282,19 +2282,11 @@
     }
 
     .product-summary-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-      gap: 14px;
+      display: block;
     }
 
     .size-pill {
-      min-width: 86px;
-      padding: 9px 12px;
-      border: 1px solid rgba(205, 176, 111, 0.46);
-      color: var(--white);
-      text-align: center;
-      text-transform: uppercase;
+      display: none !important;
     }
 
     .size-pill span {
@@ -2317,7 +2309,11 @@
     }
 
     .product-extra-details[hidden] {
-      display: grid !important;
+      display: none !important;
+    }
+
+    .available-products .product-extra-details[hidden] {
+      display: none !important;
     }
 
     .product-details-button {
@@ -2404,41 +2400,45 @@
     }
 
     @media (min-width: 769px) {
+      .available-products .product-grid {
+        flex: 0 0 min(1120px, calc(100vw - 64px));
+        max-width: min(1120px, calc(100vw - 64px));
+        grid-template-columns: minmax(0, 1fr) minmax(360px, 0.86fr);
+      }
+
       .available-products .product-info {
         justify-content: center;
         align-content: center;
-        gap: 22px;
-        padding: clamp(24px, 4vw, 42px);
+        gap: clamp(10px, 1.35vw, 16px);
+        padding: clamp(22px, 2.8vw, 34px);
       }
 
       .available-products .product-info h3 {
-        font-size: clamp(2.2rem, 5vw, 4.4rem);
-        line-height: 1.08;
+        font-size: clamp(2.2rem, 4.4vw, 4rem);
+        line-height: 0.98;
       }
 
       .available-products .price {
-        font-size: clamp(1.6rem, 4vw, 2.8rem);
+        font-size: clamp(1.7rem, 3.4vw, 2.75rem);
         line-height: 1;
       }
 
       .available-products .detail-list,
-      .available-products .product-summary-list,
-      .available-products .product-extra-details {
+      .available-products .product-summary-list {
         display: grid !important;
         gap: 12px;
         margin: 0;
         padding: 0;
         list-style: none;
         color: var(--muted);
-        font-size: 1rem;
+        font-size: clamp(0.82rem, 1.12vw, 1rem);
         font-weight: 650;
       }
 
       .available-products .detail-list li,
-      .available-products .product-summary-list li,
-      .available-products .product-extra-details li {
+      .available-products .product-summary-list li {
         display: block;
-        padding-bottom: 12px;
+        padding-bottom: 8px;
         border-bottom: 1px solid var(--line);
         overflow: visible;
         -webkit-line-clamp: unset;
@@ -2446,22 +2446,21 @@
       }
 
       .available-products .detail-list strong,
-      .available-products .product-summary-list strong,
-      .available-products .product-extra-details strong {
+      .available-products .product-summary-list strong {
         color: var(--white);
       }
 
       .available-products .actions {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
       }
 
       .available-products .actions .button {
         width: 100%;
-        min-height: 52px;
-        padding-inline: 18px;
-        font-size: 0.86rem;
+        min-height: 44px;
+        padding-inline: 12px;
+        font-size: 0.72rem;
       }
     }
 
@@ -2530,6 +2529,17 @@
 
       .available-products .price {
         font-size: clamp(1.35rem, 6.8vw, 1.95rem);
+      }
+
+      .available-products .product-summary-list {
+        display: grid !important;
+        gap: 6px;
+        font-size: 0.78rem;
+      }
+
+      .available-products .product-summary-list li {
+        padding-bottom: 7px;
+        border-bottom: 1px solid var(--line);
       }
 
       .size-pill {
@@ -2730,7 +2740,6 @@
             <h3>Polerón Grizzly</h3>
             <div class="product-summary-row">
               <div class="price">$20.000</div>
-              <div class="size-pill"><span>Talla</span><strong>XL</strong></div>
             </div>
             <ul class="detail-list product-summary-list">
               <li><strong>Talla:</strong> XL</li>
@@ -3541,7 +3550,6 @@
             <h3>${productName}</h3>
             <div class="product-summary-row">
               <div class="price">${displayPrice || "Precio por DM"}</div>
-              <div class="size-pill"><span>Talla</span><strong>${size || "DM"}</strong></div>
             </div>
             <ul class="detail-list product-summary-list">
               <li><strong>Talla:</strong> ${size || "Por confirmar"}</li>
