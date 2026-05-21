@@ -2675,6 +2675,45 @@
       }
     }
   </style>
+  <style>
+    /* ===== BRUTAG MOBILE TOUCH + CATEGORY FIX ===== */
+    @media (max-width: 768px) {
+      .accepted-grid,
+      .available-products {
+        touch-action: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+      }
+
+      .accepted-grid {
+        gap: 8px;
+        padding-inline: 14px;
+        scroll-padding-inline: 14px;
+      }
+
+      .accepted-card {
+        flex: 0 0 clamp(104px, 29vw, 116px);
+        min-height: 54px;
+        padding: 8px 10px;
+      }
+
+      .accepted-card strong {
+        font-size: clamp(0.62rem, 2.35vw, 0.72rem);
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+
+      .accepted-grid::before,
+      .accepted-grid::after {
+        width: 12px;
+      }
+
+      .available-products::before,
+      .available-products::after {
+        width: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="nav">
