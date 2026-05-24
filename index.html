@@ -3007,6 +3007,53 @@
       responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pub?gid=0&single=true&output=csv"
     };
 
+    const localProductBackup = [
+      {
+        Nombre: "Polerón Grizzly",
+        Tipo: "Polerón",
+        Marca: "Grizzly",
+        Talla: "XL",
+        Estado: "Nuevo",
+        Precio: "20000",
+        Descripción: "Polerón Grizzly en buen estado general. Tiene algunos detalles visibles en las fotos.",
+        Fotos: "poleron-grizzly-frente.jpeg\npoleron-grizzly-espalda.jpeg",
+        Publicado: "SI"
+      },
+      {
+        Nombre: "Polerón",
+        Tipo: "Polerón",
+        Talla: "",
+        Estado: "Buen estado",
+        Precio: "40000",
+        Descripción: "Polerón publicado en BRUTAG.",
+        Fotos: `https://storage.tally.so/private/IMG_4028.jpeg?id=EAP2Jq&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkVBUDJKcSIsImZvcm1JZCI6Iko5ZUsxWSIsImlhdCI6MTc3ODkwOTQ0N30.DWAZQW2fr78up3-UqC_rYORLPfU9Cs7X5FlkLoeCO88&signature=195a704f445cf73890f2d36affa3333d8e80d6c985b1ea6bc6f3ede68c2172fb
+https://storage.tally.so/private/IMG_4027.jpeg?id=qgb9Kk&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InFnYjlLayIsImZvcm1JZCI6Iko5ZUsxWSIsImlhdCI6MTc3ODkwOTQ0N30.9JzC0hr_YNECAIO5HwVnlfYxIXe9dyDmkk9hHy_A6HY&signature=dc57c42aefffade28637f0244180dc31294dc42713120cc4215d56128698da0d`,
+        Publicado: "SI"
+      },
+      {
+        Nombre: "Polera Blanca",
+        Tipo: "Polera",
+        Talla: "",
+        Estado: "Buen estado",
+        Precio: "10000",
+        Descripción: "Polera blanca publicada en BRUTAG.",
+        Fotos: `https://storage.tally.so/private/IMG_5637.jpeg?id=AaJ1Oy&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkFhSjFPeSIsImZvcm1JZCI6Iko5ZUsxWSIsImlhdCI6MTc3ODk1NzgyNH0.QKloQ4CPEtQ0qwGsBMCqoS2TblNa2xQci1ThWm3LqQ0&signature=e41090a026a3efde4c93eeb2a18b549e3729211e2844ca2632281aaf0e2fcd0d
+https://storage.tally.so/private/IMG_5429.jpeg?id=rgKzRo&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJnS3pSbyIsImZvcm1JZCI6Iko5ZUsxWSIsImlhdCI6MTc3ODk1NzgyNH0.aTQeYzgYWwb2X2IjF-D1rl8lPPgTYIqgpJKl5SDVOjg&signature=c7c5fdea3190e030007cf5126a4372c100492172b8ce6bb604f9734760919c74`,
+        Publicado: "SI"
+      },
+      {
+        Nombre: "Pantalón Negro Baggy",
+        Tipo: "Pantalón",
+        Talla: "",
+        Estado: "",
+        Precio: "20000",
+        Descripción: "Pantalón negro baggy publicado en BRUTAG.",
+        Fotos: `https://storage.tally.so/private/IMG_0774.png?id=jgprW4&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImpncHJXNCIsImZvcm1JZCI6Iko5ZUsxWSIsImlhdCI6MTc3OTYwODY0Mn0.YJ7LF6ZVlPp0bbZyIRd0I3wik3nHc-nGnJrm6dmlwXU&signature=28a4b30d20298a36304735d68ab23a4be6f60ce9804c3978603e8340e736218a
+https://storage.tally.so/private/29C00DBD-519B-4257-A4CA-0A8272041C92.jpeg?id=NEgxYj&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6Ik5FZ3hZaiIsImZvcm1JZCI6Iko5ZUsxWSIsImlhdCI6MTc3OTYwODY0Mn0.luHPBWKO8936ZrHcx3XI8L-VD45Xg23ealx_RXQke5A&signature=549e761729b07c800e43ca729104f316675917975972e261f191898f8beb0543`,
+        Publicado: "SI"
+      }
+    ];
+
     const toast = document.querySelector("#toast");
     const toastMessage = document.querySelector("#toast-message");
     const tallyLinks = document.querySelectorAll(".tally-link");
@@ -3188,6 +3235,23 @@
       if (hasWord(["zapatilla", "zapatillas"])) return "zapatilla";
       if (hasWord(["jockey", "jockeys"])) return "jockey";
       return "";
+    }
+
+    function categoryDisplayName(category) {
+      return {
+        poleron: "Polerón",
+        polera: "Polera",
+        pantalon: "Pantalón",
+        chaqueta: "Chaqueta",
+        parka: "Parka",
+        zapatilla: "Zapatillas",
+        jockey: "Jockey"
+      }[category] || "";
+    }
+
+    function formatProductType(value) {
+      const category = categoryFromText(value);
+      return categoryDisplayName(category) || titleCase(value);
     }
 
     function productCategory(product) {
@@ -3555,6 +3619,158 @@
       return "";
     }
 
+    function isPublishValue(value) {
+      return ["si", "sí", "no"].includes(String(value || "").trim().toLocaleLowerCase("es-CL"));
+    }
+
+    function isImageValue(value) {
+      const text = String(value || "").trim();
+      return /\.(jpe?g|png|webp|gif)(\?|$)/i.test(text) || /storage\.tally\.so/i.test(text);
+    }
+
+    function isInstagramValue(value) {
+      return /^@[\w.]+$/.test(String(value || "").trim()) || /instagram\.com/i.test(String(value || ""));
+    }
+
+    function isPriceValue(value) {
+      const text = String(value || "").trim();
+      if (!text) return false;
+      if (isImageValue(text) || isPublishValue(text) || isInstagramValue(text)) return false;
+      return /\d/.test(text) && !/estado|nuevo|uso|detalle/i.test(text);
+    }
+
+    function isStatusValue(value) {
+      const normalized = normalizeKey(value);
+      return [
+        "nuevo",
+        "nueva",
+        "buenestado",
+        "muybuenestado",
+        "pocouso",
+        "usado",
+        "usada",
+        "condetalles",
+        "detalles"
+      ].includes(normalized);
+    }
+
+    function compactProductCells(product) {
+      return (product.__cells || [])
+        .map((value) => String(value || "").trim())
+        .filter(Boolean);
+    }
+
+    function findCompactValue(product, predicate) {
+      return compactProductCells(product).find(predicate) || "";
+    }
+
+    function inferProductName(type, brand, description, fallbackName) {
+      const directName = titleCase(fallbackName);
+      if (directName) return directName;
+
+      if (type && brand) return [type, brand].join(" ");
+
+      const cleanDescription = titleCase(description)
+        .replace(/\s+/g, " ")
+        .replace(/\.$/, "")
+        .trim();
+      if (!cleanDescription) return "";
+
+      const words = cleanDescription.split(" ").filter(Boolean);
+      const category = categoryFromText(cleanDescription);
+      if (category) {
+        const categoryLabel = categoryDisplayName(category) || titleCase(category);
+        const maxWords = category === "pantalon" ? 3 : 2;
+        const productWords = words.slice(0, maxWords);
+        if (productWords.length) productWords[0] = categoryLabel;
+        return productWords.join(" ") || categoryLabel;
+      }
+
+      return words.slice(0, 3).join(" ") || [type, brand].filter(Boolean).join(" ");
+    }
+
+    function findLocalProductBackup(productName, description) {
+      const productKey = normalizeKey([productName, description].filter(Boolean).join(" "));
+      return localProductBackup.find((product) => {
+        const backupName = normalizeKey(getValue(product, ["Nombre", "Nombre del producto"]));
+        return backupName && productKey.includes(backupName);
+      }) || null;
+    }
+
+    function normalizeSheetProduct(product) {
+      const directType = formatProductType(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]));
+      const directBrand = titleCase(getValue(product, ["Marca"]));
+      const directSize = formatSize(getValue(product, ["Talla"]));
+      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Estado del producto"]));
+      const directPrice = getValue(product, ["Precio", "Precio esperado"]);
+      const directDescription = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
+      const directPhotos = getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]);
+      const directPublished = getValue(product, ["Publicado"]);
+
+      const status = directStatus || capitalizeFirst(findCompactValue(product, isStatusValue));
+      const price = isPriceValue(directPrice)
+        ? directPrice
+        : findCompactValue(product, isPriceValue);
+      const description = (!isPriceValue(directDescription) && !isStatusValue(directDescription) && !isInstagramValue(directDescription) && !isImageValue(directDescription))
+        ? capitalizeFirst(directDescription)
+        : capitalizeFirst(findCompactValue(product, (value) => (
+          !isPriceValue(value)
+          && !isStatusValue(value)
+          && !isInstagramValue(value)
+          && !isPublishValue(value)
+          && !isImageValue(value)
+          && String(value || "").trim().length > 2
+        )));
+      const photos = directPhotos || compactProductCells(product).filter(isImageValue).join("\n");
+      const published = directPublished || findCompactValue(product, isPublishValue);
+      const inferredType = directType || categoryDisplayName(categoryFromText(description));
+      const productName = inferProductName(
+        inferredType,
+        directBrand,
+        description,
+        getValue(product, ["Nombre", "Nombre del producto"])
+      );
+      const localBackup = findLocalProductBackup(productName, description);
+      const backupSize = localBackup ? formatSize(getValue(localBackup, ["Talla"])) : "";
+
+      return {
+        ...product,
+        Nombre: productName,
+        Tipo: inferredType || directType,
+        Marca: directBrand,
+        Talla: directSize || backupSize,
+        Estado: status,
+        Precio: price,
+        Descripción: description,
+        Fotos: photos,
+        Publicado: published,
+        __productIndex: product.__productIndex
+      };
+    }
+
+    function createSheetProduct(headers, row, rowIndex) {
+      return normalizeSheetProduct(headers.reduce((product, header, index) => {
+        const cleanHeader = String(header || "").trim();
+        const key = cleanHeader || `__col_${index + 1}`;
+        const safeKey = Object.prototype.hasOwnProperty.call(product, key) ? `${key}_${index + 1}` : key;
+        product[safeKey] = row[index] || "";
+        return product;
+      }, {
+        __cells: row,
+        __headers: headers,
+        __productIndex: rowIndex
+      }));
+    }
+
+    function hasPublishableProductData(product) {
+      const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
+      const name = getValue(product, ["Nombre", "Nombre del producto"]);
+      const description = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
+      const price = getValue(product, ["Precio", "Precio esperado"]);
+
+      return photos.length > 0 && Boolean(name || description || price);
+    }
+
     function getImages(value) {
       return String(value || "")
         .split(/,|\n/)
@@ -3570,7 +3786,12 @@
       const numericValue = raw.replace(/[^\d]/g, "");
       if (!numericValue) return raw;
 
-      return `$${Number(numericValue).toLocaleString("es-CL")}`;
+      let amount = Number(numericValue);
+      if (amount > 0 && amount < 1000 && /(?:clp|\$)/i.test(raw)) {
+        amount *= 1000;
+      }
+
+      return `$${amount.toLocaleString("es-CL")}`;
     }
 
     function formatSize(value) {
@@ -3593,6 +3814,8 @@
     }
 
     function createProductHtml(product, index) {
+      if (!hasPublishableProductData(product)) return "";
+
       const type = titleCase(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto");
       const brand = titleCase(getValue(product, ["Marca"]) || "");
       const size = formatSize(getValue(product, ["Talla"]));
@@ -3601,11 +3824,11 @@
       const description = capitalizeFirst(getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]));
       const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
 
-      const productName = [type, brand].filter(Boolean).join(" ") || `Producto BRUTAG ${index + 1}`;
+      const productName = titleCase(getValue(product, ["Nombre", "Nombre del producto"])) || [type, brand].filter(Boolean).join(" ") || `Producto BRUTAG ${index + 1}`;
       const productIndex = Number.isInteger(product.__productIndex) ? product.__productIndex : index;
       const productId = productIdFromName(productName, productIndex);
       const category = productCategory(product);
-      const imageFigures = (photos.length ? photos : ["poleron-grizzly-frente.jpeg"]).map((photo) => `
+      const imageFigures = photos.map((photo) => `
             <figure>
               <button class="photo-zoom" type="button" data-photo-src="${photo}" data-photo-alt="${productName}">
                 <img src="${photo}" alt="${productName}">
@@ -3658,20 +3881,32 @@
         const rows = parseCsv(csvText).filter((row) => row.some(Boolean));
         const headers = rows.shift() || [];
 
-        const products = rows.map((row, rowIndex) => headers.reduce((product, header, index) => {
-          product[header] = row[index] || "";
-          product.__productIndex = rowIndex;
-          return product;
-        }, {}))
-        .filter((product) => shouldPublish(getValue(product, ["Publicado"])));
+        const products = rows.map((row, rowIndex) => createSheetProduct(headers, row, rowIndex))
+          .filter((product) => shouldPublish(getValue(product, ["Publicado"])))
+          .filter(hasPublishableProductData);
 
-        if (!products.length) return;
+        if (!products.length) {
+          renderLocalProductBackup();
+          return;
+        }
 
         loadedProducts = products;
         renderAvailableProducts();
       } catch (error) {
         console.warn(error);
+        renderLocalProductBackup();
       }
+    }
+
+    function renderLocalProductBackup() {
+      if (!availableProducts || !localProductBackup.length) return false;
+
+      loadedProducts = localProductBackup.map((product, index) => ({
+        ...product,
+        __productIndex: index
+      }));
+
+      return renderAvailableProducts();
     }
 
     loadProductsFromSheet();
