@@ -58,20 +58,34 @@ Flujo:
 
 La web solo publica productos cuando `Publicado` dice `SI`. Si esta vacio o dice `NO`, el producto queda oculto.
 
-## Conectar el nuevo Tally a la web
+## Conectar el Sheet privado a la web
 
-Links conectados ahora:
+La web ya no usa CSV publico. BRUTAG lee el Google Sheet privado desde `/api/products` y sirve las fotos privadas de Drive desde `/api/image`.
 
-```js
-tallyFormUrl: "https://tally.so/r/J9eK1Y",
-responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQ7pYOhDkz65vvTsSfmMs2oUC26d_jmW7CMH0mZt3X5bc5_IqAaBokhnKWeTn_Peimf4BMgyUbrB-4/pub?gid=0&single=true&output=csv"
+Columnas minimas compatibles:
+
+```txt
+Publicado
+Nombre del producto
+Tipo de producto
+Marca
+Talla
+Estado
+Precio esperado
+Descripcion del producto
+Fotos Drive
 ```
 
-Si cambias de Tally o de Sheet mas adelante, en `index.html` actualiza:
+`Fotos Drive` acepta links o IDs de imagenes de Google Drive separados por coma o salto de linea.
 
-```js
-tallyFormUrl: "PEGA_AQUI_EL_LINK_DEL_NUEVO_TALLY",
-responsesCsvUrl: "PEGA_AQUI_EL_CSV_PUBLICADO_DEL_GOOGLE_SHEET"
+En Vercel configura estos secretos:
+
+```txt
+GOOGLE_SERVICE_ACCOUNT_EMAIL
+GOOGLE_PRIVATE_KEY
+GOOGLE_SHEET_ID
+GOOGLE_SHEET_NAME
+GOOGLE_DRIVE_FOLDER_ID
 ```
 
-Para obtener `responsesCsvUrl`, publica el Google Sheet como CSV desde `Archivo > Compartir > Publicar en la web`.
+Comparte el Sheet y la carpeta de fotos con `GOOGLE_SERVICE_ACCOUNT_EMAIL` como lector.
