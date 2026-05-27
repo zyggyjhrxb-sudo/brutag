@@ -3857,7 +3857,8 @@
       }
 
       try {
-        const response = await fetch(siteIntegrations.responsesCsvUrl, { cache: "no-store" });
+        const cacheBustUrl = `${siteIntegrations.responsesCsvUrl}&_t=${Date.now()}`;
+        const response = await fetch(cacheBustUrl, { cache: "no-store" });
         if (!response.ok) throw new Error("No se pudo cargar Google Sheets");
 
         const csvText = await response.text();
@@ -3884,6 +3885,14 @@
     }
 
     loadProductsFromSheet();
+
+    // Refresca el catálogo cada 5 minutos para publicar/despublicar sin recargar
+    setInterval(loadProductsFromSheet, 5 * 60 * 1000);
+
+    // Refresca también cuando el usuario vuelve al tab
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) loadProductsFromSheet();
+    });
   </script>
 
 </body>
