@@ -2998,7 +2998,19 @@
       responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQ7pYOhDkz65vvTsSfmMs2oUC26d_jmW7CMH0mZt3X5bc5_IqAaBokhnKWeTn_Peimf4BMgyUbrB-4/pub?gid=0&single=true&output=csv"
     };
 
-    const localProductBackup = [];
+    const localProductBackup = [
+      {
+        "Nombre": "Polerón Grizzly",
+        "Tipo": "Polerón",
+        "Marca": "Grizzly",
+        "Talla": "M",
+        "Estado": "Muy buen estado",
+        "Precio": "25000",
+        "Descripción": "Polerón Grizzly negro original, logo estampado al frente y en la manga. Tela gruesa de algodón, capucha con cordones. Listo para usar.",
+        "Fotos": "poleron-grizzly-frente.jpeg,poleron-grizzly-espalda.jpeg",
+        "Publicado": "SI"
+      }
+    ];
 
     const toast = document.querySelector("#toast");
     const toastMessage = document.querySelector("#toast-message");
@@ -3848,11 +3860,29 @@
         </div>`;
     }
 
+    function buildBackupProducts() {
+      return localProductBackup
+        .map((product, rowIndex) => normalizeSheetProduct({ ...product, __cells: Object.values(product), __headers: Object.keys(product), __productIndex: rowIndex }))
+        .filter((product) => shouldPublish(getValue(product, publishFieldNames)))
+        .filter(hasPublishableProductData);
+    }
+
+    function useBackupProducts(reason) {
+      const backup = buildBackupProducts();
+      if (!backup.length) {
+        loadedProducts = [];
+        renderEmptyCatalog();
+        return;
+      }
+      if (reason) console.info(`[BRUTAG] usando productos de respaldo: ${reason}`);
+      loadedProducts = backup;
+      renderAvailableProducts();
+    }
+
     async function loadProductsFromSheet() {
       if (!availableProducts) return;
       if (!siteIntegrations.responsesCsvUrl) {
-        loadedProducts = [];
-        renderEmptyCatalog();
+        useBackupProducts("sin CSV configurado");
         return;
       }
 
@@ -3870,8 +3900,7 @@
           .filter(hasPublishableProductData);
 
         if (!products.length) {
-          loadedProducts = [];
-          renderEmptyCatalog();
+          useBackupProducts("Sheet vacío o sin productos con Publicado=SI");
           return;
         }
 
@@ -3879,8 +3908,7 @@
         renderAvailableProducts();
       } catch (error) {
         console.warn(error);
-        loadedProducts = [];
-        renderEmptyCatalog();
+        useBackupProducts("error al leer Google Sheets");
       }
     }
 
