@@ -3934,37 +3934,61 @@
 
     async function loadProductsFromSheet() {
       if (!availableProducts) return;
-      if (!siteIntegrations.productsApiUrl) {
-        useBackupProducts("sin API configurada");
+
+      // 1. Intenta la API privada (Google Sheets con credenciales en Vercel)
+      let sheetProducts = [];
+      if (siteIntegrations.productsApiUrl) {
+        try {
+          const separator = siteIntegrations.productsApiUrl.includes("?") ? "&" : "?";
+          const cacheBustUrl = `${siteIntegrations.productsApiUrl}${separator}_t=${Date.now()}`;
+          const response = await fetch(cacheBustUrl, { cache: "no-store" });
+          if (response.ok) {
+            const payload = await response.json();
+            sheetProducts = (Array.isArray(payload.products) ? payload.products : [])
+              .map((product, index) => normalizeSheetProduct({
+                ...product,
+                __productIndex: Number.isInteger(product.__productIndex) ? product.__productIndex : index
+              }))
+              .filter(hasPublishableProductData);
+          }
+        } catch (error) {
+          console.warn("[BRUTAG] API privada no disponible:", error.message);
+        }
+      }
+
+      // 2. Si la API no dio nada, intenta el CSV público (Google Sheets publicado)
+      if (!sheetProducts.length && siteIntegrations.responsesCsvUrl) {
+        try {
+          const csvSep = siteIntegrations.responsesCsvUrl.includes("?") ? "&" : "?";
+          const csvUrl = `${siteIntegrations.responsesCsvUrl}${csvSep}_t=${Date.now()}`;
+          const csvResponse = await fetch(csvUrl, { cache: "no-store" });
+          if (csvResponse.ok) {
+            const csvText = await csvResponse.text();
+            const rows = parseCsv(csvText).filter((r) => r.some(Boolean));
+            if (rows.length > 1) {
+              const headers = rows[0];
+              sheetProducts = rows.slice(1)
+                .map((row, index) => createSheetProduct(headers, row, index))
+                .filter(hasPublishableProductData);
+            }
+          }
+        } catch (error) {
+          console.warn("[BRUTAG] CSV público no disponible:", error.message);
+        }
+      }
+
+      // 3. Mezcla con backup: el Sheet manda por nombre, lo que no está en el Sheet
+      //    se mantiene del backup. Si el Sheet no tiene nada, el backup completo aparece.
+      const merged = mergeSheetWithBackup(sheetProducts);
+
+      if (!merged.length) {
+        loadedProducts = [];
+        renderEmptyCatalog();
         return;
       }
 
-      try {
-        const separator = siteIntegrations.productsApiUrl.includes("?") ? "&" : "?";
-        const cacheBustUrl = `${siteIntegrations.productsApiUrl}${separator}_t=${Date.now()}`;
-        const response = await fetch(cacheBustUrl, { cache: "no-store" });
-        if (!response.ok) throw new Error("No se pudo cargar el catálogo privado");
-
-        const payload = await response.json();
-        const sheetProducts = (Array.isArray(payload.products) ? payload.products : [])
-          .map((product, index) => normalizeSheetProduct({
-            ...product,
-            __productIndex: Number.isInteger(product.__productIndex) ? product.__productIndex : index
-          }))
-          .filter(hasPublishableProductData);
-
-        if (!sheetProducts.length) {
-          loadedProducts = [];
-          renderEmptyCatalog();
-          return;
-        }
-
-        loadedProducts = sheetProducts;
-        renderAvailableProducts();
-      } catch (error) {
-        console.warn(error);
-        useBackupProducts("error al leer API privada");
-      }
+      loadedProducts = merged;
+      renderAvailableProducts();
     }
 
     loadProductsFromSheet();
