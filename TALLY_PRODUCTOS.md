@@ -64,7 +64,7 @@ Links conectados ahora:
 
 ```js
 tallyFormUrl: "https://tally.so/r/J9eK1Y",
-responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUYPwO4VHtcH5_ZZLEcCo2FXbYO4LUsan_Vb3dAtMr9YaGXz81B9WWDs3SDVQwwDpz3OBAKwyBXL97/pub?gid=0&single=true&output=csv"
+responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQ7pYOhDkz65vvTsSfmMs2oUC26d_jmW7CMH0mZt3X5bc5_IqAaBokhnKWeTn_Peimf4BMgyUbrB-4/pub?gid=0&single=true&output=csv"
 ```
 
 Si cambias de Tally o de Sheet mas adelante, en `index.html` actualiza:
