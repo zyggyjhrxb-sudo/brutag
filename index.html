@@ -2995,7 +2995,7 @@
       instagramDmUrl: "https://ig.me/m/brutag__",
       instagramProfileUrl: "https://www.instagram.com/brutag__/",
       tallyFormUrl: "https://tally.so/r/J9eK1Y",
-      responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQ7pYOhDkz65vvTsSfmMs2oUC26d_jmW7CMH0mZt3X5bc5_IqAaBokhnKWeTn_Peimf4BMgyUbrB-4/pub?gid=0&single=true&output=csv"
+      productsApiUrl: "/api/products"
     };
 
     const localProductBackup = [
@@ -3591,6 +3591,16 @@
         .replace(/[^a-z0-9]/g, "");
     }
 
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[character]));
+    }
+
     function shouldPublish(value) {
       const normalized = normalizeKey(value);
       return ["si", "yes", "true", "aprobado", "publicado"].includes(normalized);
@@ -3816,12 +3826,12 @@
 
       const productName = titleCase(getValue(product, ["Nombre", "Nombre del producto"])) || [type, brand].filter(Boolean).join(" ") || `Producto BRUTAG ${index + 1}`;
       const productIndex = Number.isInteger(product.__productIndex) ? product.__productIndex : index;
-      const productId = productIdFromName(productName, productIndex);
+      const productId = getValue(product, ["Id", "ID", "Producto ID", "Product ID"]) || productIdFromName(productName, productIndex);
       const category = productCategory(product);
       const imageFigures = photos.map((photo) => `
             <figure>
-              <button class="photo-zoom" type="button" data-photo-src="${photo}" data-photo-alt="${productName}">
-                <img src="${photo}" alt="${productName}">
+              <button class="photo-zoom" type="button" data-photo-src="${escapeHtml(photo)}" data-photo-alt="${escapeHtml(productName)}">
+                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}">
                 <span class="photo-preview">Vista previa</span>
               </button>
             </figure>`).join("");
@@ -3831,7 +3841,7 @@
       const buyUrl = instagramUrlWithMessage(buyMessage);
 
       return `
-        <div class="product-grid" id="${productId}" data-product-type-section="${type}" data-product-category="${category}">
+        <div class="product-grid" id="${escapeHtml(productId)}" data-product-type-section="${escapeHtml(type)}" data-product-category="${escapeHtml(category)}">
           <div class="product-gallery">${imageFigures}
           </div>
 
@@ -3839,36 +3849,79 @@
             <div class="tag-row">
               <span class="tag">Disponible</span>
             </div>
-            <h3>${productName}</h3>
+            <h3>${escapeHtml(productName)}</h3>
             <div class="product-summary-row">
-              <div class="price">${displayPrice || "Precio por DM"}</div>
+              <div class="price">${escapeHtml(displayPrice || "Precio por DM")}</div>
             </div>
             <ul class="detail-list product-summary-list">
-              <li><strong>Talla:</strong> ${size || "Por confirmar"}</li>
+              <li><strong>Talla:</strong> ${escapeHtml(size || "Por confirmar")}</li>
             </ul>
             <ul class="detail-list product-extra-details" hidden>
-              <li><strong>Estado:</strong> ${status || "Por confirmar"}</li>
+              <li><strong>Estado:</strong> ${escapeHtml(status || "Por confirmar")}</li>
               <li><strong>Stock:</strong> Disponible</li>
-              <li><strong>Descripción:</strong> ${description || "Producto publicado en BRUTAG"}</li>
+              <li><strong>Descripción:</strong> ${escapeHtml(description || "Producto publicado en BRUTAG")}</li>
             </ul>
             <div class="actions">
-              <a class="button buy-button" href="${buyUrl}" target="_blank" rel="noopener" data-product-name="${productName}" data-product-id="${productId}">Comprar</a>
+              <a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
               <button class="button secondary product-details-button" type="button">Ver más</button>
-              <a class="button secondary tally-link" href="${siteIntegrations.tallyFormUrl}" target="_blank" rel="noopener">Vender</a>
+              <a class="button secondary tally-link" href="${escapeHtml(siteIntegrations.tallyFormUrl)}" target="_blank" rel="noopener">Vender</a>
             </div>
           </article>
         </div>`;
     }
 
-    function buildBackupProducts() {
+    function rawBackupProducts() {
       return localProductBackup
-        .map((product, rowIndex) => normalizeSheetProduct({ ...product, __cells: Object.values(product), __headers: Object.keys(product), __productIndex: rowIndex }))
+        .map((product, rowIndex) => normalizeSheetProduct({ ...product, __cells: Object.values(product), __headers: Object.keys(product), __productIndex: rowIndex }));
+    }
+
+    function publishableBackupProducts() {
+      return rawBackupProducts()
         .filter((product) => shouldPublish(getValue(product, publishFieldNames)))
         .filter(hasPublishableProductData);
     }
 
+    function productMatchKey(product) {
+      return normalizeKey(getValue(product, ["Nombre", "Nombre del producto"]));
+    }
+
+    function mergeSheetWithBackup(sheetProducts) {
+      // Sheet "manda" sobre el backup hardcodeado:
+      // - Si una fila del Sheet matchea por nombre con un producto del backup,
+      //   el SI/NO y los campos del Sheet ganan (permite ocultar el polerón con NO)
+      // - Si una fila del Sheet no matchea, se agrega como producto nuevo (si SI)
+      // - Si un producto del backup no aparece en el Sheet, se mantiene con su SI por defecto
+      const sheetByKey = new Map();
+      for (const product of sheetProducts) {
+        const key = productMatchKey(product);
+        if (key) sheetByKey.set(key, product);
+      }
+
+      const merged = [];
+      const usedSheetKeys = new Set();
+
+      for (const backup of rawBackupProducts()) {
+        const key = productMatchKey(backup);
+        const override = key ? sheetByKey.get(key) : null;
+        if (override) {
+          usedSheetKeys.add(key);
+          if (shouldPublish(getValue(override, publishFieldNames))) merged.push(override);
+        } else if (shouldPublish(getValue(backup, publishFieldNames))) {
+          merged.push(backup);
+        }
+      }
+
+      for (const product of sheetProducts) {
+        const key = productMatchKey(product);
+        if (key && usedSheetKeys.has(key)) continue;
+        merged.push(product);
+      }
+
+      return merged.filter(hasPublishableProductData);
+    }
+
     function useBackupProducts(reason) {
-      const backup = buildBackupProducts();
+      const backup = publishableBackupProducts();
       if (!backup.length) {
         loadedProducts = [];
         renderEmptyCatalog();
@@ -3881,41 +3934,43 @@
 
     async function loadProductsFromSheet() {
       if (!availableProducts) return;
-      if (!siteIntegrations.responsesCsvUrl) {
-        useBackupProducts("sin CSV configurado");
+      if (!siteIntegrations.productsApiUrl) {
+        useBackupProducts("sin API configurada");
         return;
       }
 
       try {
-        const cacheBustUrl = `${siteIntegrations.responsesCsvUrl}&_t=${Date.now()}`;
+        const separator = siteIntegrations.productsApiUrl.includes("?") ? "&" : "?";
+        const cacheBustUrl = `${siteIntegrations.productsApiUrl}${separator}_t=${Date.now()}`;
         const response = await fetch(cacheBustUrl, { cache: "no-store" });
-        if (!response.ok) throw new Error("No se pudo cargar Google Sheets");
+        if (!response.ok) throw new Error("No se pudo cargar el catálogo privado");
 
-        const csvText = await response.text();
-        const rows = parseCsv(csvText).filter((row) => row.some(Boolean));
-        const headers = rows.shift() || [];
-
-        const products = rows.map((row, rowIndex) => createSheetProduct(headers, row, rowIndex))
-          .filter((product) => shouldPublish(getValue(product, publishFieldNames)))
+        const payload = await response.json();
+        const sheetProducts = (Array.isArray(payload.products) ? payload.products : [])
+          .map((product, index) => normalizeSheetProduct({
+            ...product,
+            __productIndex: Number.isInteger(product.__productIndex) ? product.__productIndex : index
+          }))
           .filter(hasPublishableProductData);
 
-        if (!products.length) {
-          useBackupProducts("Sheet vacío o sin productos con Publicado=SI");
+        if (!sheetProducts.length) {
+          loadedProducts = [];
+          renderEmptyCatalog();
           return;
         }
 
-        loadedProducts = products;
+        loadedProducts = sheetProducts;
         renderAvailableProducts();
       } catch (error) {
         console.warn(error);
-        useBackupProducts("error al leer Google Sheets");
+        useBackupProducts("error al leer API privada");
       }
     }
 
     loadProductsFromSheet();
 
-    // Refresca el catálogo cada 5 minutos para publicar/despublicar sin recargar
-    setInterval(loadProductsFromSheet, 5 * 60 * 1000);
+    // Refresca el catálogo con frecuencia para publicar/despublicar sin recargar.
+    setInterval(loadProductsFromSheet, 15 * 1000);
 
     // Refresca también cuando el usuario vuelve al tab
     document.addEventListener("visibilitychange", () => {
