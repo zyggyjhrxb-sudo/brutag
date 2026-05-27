@@ -2995,7 +2995,8 @@
       instagramDmUrl: "https://ig.me/m/brutag__",
       instagramProfileUrl: "https://www.instagram.com/brutag__/",
       tallyFormUrl: "https://tally.so/r/J9eK1Y",
-      productsApiUrl: "/api/products"
+      productsApiUrl: "/api/products",
+      responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMvKo4ew3lIN973dmA_C4Akb1PTrsAV99aWYT-3uCDzUztYXX218arF1Ge4-JQOvDkUIe0bqb9WqWk/pub?gid=833914508&single=true&output=csv"
     };
 
     const localProductBackup = [
@@ -3702,7 +3703,7 @@
       const directType = formatProductType(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]));
       const directBrand = titleCase(getValue(product, ["Marca"]));
       const directSize = formatSize(getValue(product, ["Talla"]));
-      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Estado del producto"]));
+      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
       const directPrice = getValue(product, ["Precio", "Precio esperado"]);
       const directDescription = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
       const directPhotos = getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]);
@@ -3819,7 +3820,7 @@
       const type = titleCase(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto");
       const brand = titleCase(getValue(product, ["Marca"]) || "");
       const size = formatSize(getValue(product, ["Talla"]));
-      const status = capitalizeFirst(getValue(product, ["Estado", "Estado del producto"]));
+      const status = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion"]));
       const price = getValue(product, ["Precio", "Precio esperado"]);
       const description = capitalizeFirst(getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]));
       const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
