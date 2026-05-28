@@ -2996,7 +2996,7 @@
       instagramProfileUrl: "https://www.instagram.com/brutag__/",
       tallyFormUrl: "https://tally.so/r/J9eK1Y",
       productsApiUrl: "/api/products",
-      responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMvKo4ew3lIN973dmA_C4Akb1PTrsAV99aWYT-3uCDzUztYXX218arF1Ge4-JQOvDkUIe0bqb9WqWk/pub?gid=833914508&single=true&output=csv"
+      responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQOflr6BkjVFsDVU0gsXR5xZydYfVS7fYqXF0P0MUS6XCuw_ViF6TU3OkcZ52xt5lPt541RcYqfGja/pub?output=csv"
     };
 
     const localProductBackup = [
@@ -3224,7 +3224,7 @@
     }
 
     function productCategory(product) {
-      return categoryFromText(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]));
+      return categoryFromText(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria", "¿Qué tipo de producto quieres vender?"]));
     }
 
     function createMoreProductsCard(count) {
@@ -3656,6 +3656,11 @@
       ].includes(normalized);
     }
 
+    function isTermsValue(value) {
+      const text = String(value || "").toLowerCase();
+      return /acepto\s+los\s+t[eé]rminos|t[eé]rminos\s+y\s+condiciones/i.test(text) || /^true$|^false$/i.test(String(value || "").trim());
+    }
+
     function compactProductCells(product) {
       return (product.__cells || [])
         .map((value) => String(value || "").trim())
@@ -3700,20 +3705,20 @@
     }
 
     function normalizeSheetProduct(product) {
-      const directType = formatProductType(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]));
+      const directType = formatProductType(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria", "¿Qué tipo de producto quieres vender?", "Que tipo de producto quieres vender"]));
       const directBrand = titleCase(getValue(product, ["Marca"]));
-      const directSize = formatSize(getValue(product, ["Talla"]));
+      const directSize = formatSize(getValue(product, ["Talla", "Talla del producto"]));
       const directStatus = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
       const directPrice = getValue(product, ["Precio", "Precio esperado"]);
       const directDescription = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
-      const directPhotos = getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]);
+      const directPhotos = getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes", "Sube entre 2 y 6 fotos del producto. Si tiene detalles, deben mostrarse en las fotos.", "Sube entre 2 y 6 fotos del producto", "Sube fotos", "Fotos del producto"]);
       const directPublished = getValue(product, publishFieldNames);
 
       const status = directStatus || capitalizeFirst(findCompactValue(product, isStatusValue));
       const price = isPriceValue(directPrice)
         ? directPrice
         : findCompactValue(product, isPriceValue);
-      const description = (!isPriceValue(directDescription) && !isStatusValue(directDescription) && !isInstagramValue(directDescription) && !isImageValue(directDescription))
+      const description = (!isPriceValue(directDescription) && !isStatusValue(directDescription) && !isInstagramValue(directDescription) && !isImageValue(directDescription) && !isTermsValue(directDescription))
         ? capitalizeFirst(directDescription)
         : capitalizeFirst(findCompactValue(product, (value) => (
           !isPriceValue(value)
@@ -3721,6 +3726,7 @@
           && !isInstagramValue(value)
           && !isPublishValue(value)
           && !isImageValue(value)
+          && !isTermsValue(value)
           && String(value || "").trim().length > 2
         )));
       const photos = directPhotos || compactProductCells(product).filter(isImageValue).join("\n");
