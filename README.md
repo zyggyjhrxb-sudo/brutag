@@ -47,18 +47,25 @@ En la parte final de `index.html`, busca `siteIntegrations` para revisar tus lin
 ```js
 productionUrl: "https://brutag.vercel.app/",
 tallyFormUrl: "https://tally.so/r/J9eK1Y",
-productsApiUrl: "/api/products"
+productsApiUrl: "/api/products",
+responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMvKo4ew3lIN973dmA_C4Akb1PTrsAV99aWYT-3uCDzUztYXX218arF1Ge4-JQOvDkUIe0bqb9WqWk/pub?gid=833914508&single=true&output=csv"
 ```
 
-Los botones “Vender” y “Abrir Tally” usan `tallyFormUrl`. El catálogo público se carga desde `/api/products`, que lee un Google Sheet privado y muestra solo filas donde `Publicado` diga `SI`.
+Los botones “Vender” y “Abrir Tally” usan `tallyFormUrl`. El catálogo se carga así:
 
-Importa [brutag-productos-template.csv](/Users/Agustin/BRUTAG/brutag-productos-template.csv) en Google Sheets para partir con las columnas correctas:
+1. Primero intenta `/api/products` (Sheet privado con credenciales en Vercel).
+2. Si falla, usa `responsesCsvUrl` (Sheet publicado como CSV).
+3. En ambos casos solo muestra filas donde `Publicado` diga `SI`.
+
+El Sheet `Sube tu producto a BRUTAG - limpio` tiene estas columnas (Tally las crea automáticamente, salvo `Publicado` que la agregas tú):
 
 ```txt
-Publicado, Nombre del producto, Tipo de producto, Marca, Talla, Estado, Precio esperado, Descripcion del producto, Fotos Drive
+ID Envío, ID Respuesta, Fecha y Hora, Talla, Categoría, Marca, Condición, Precio, Descripción, Instagram, Fotos, Publicado
 ```
 
-En `Fotos Drive`, pega links o IDs de archivos de imagen en Drive separados por coma o salto de línea. Las fotos no necesitan quedar públicas: BRUTAG las sirve mediante `/api/image` solo si el producto está aprobado.
+En `Fotos` aceptamos URLs de Tally storage, links de Drive públicos, o cualquier CDN — separadas por coma o salto de línea. El nombre del producto se genera combinando `Categoría + Marca` (ej. `Polerón Grizzly`).
+
+Para Drive privado usa `/api/image` y configura los secretos de Google en Vercel.
 
 Configura estos secretos en Vercel:
 
