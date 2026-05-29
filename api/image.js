@@ -1,4 +1,4 @@
-const { fetchDriveImage, getApprovedPhoto } = require("../lib/google-products");
+const { fetchProductImage, getApprovedPhoto } = require("../lib/google-products");
 
 function queryValue(req, name) {
   if (req.query && req.query[name] != null) return req.query[name];
@@ -31,7 +31,7 @@ module.exports = async function imageHandler(req, res) {
       return sendJson(res, 404, { error: "Imagen no publicada" });
     }
 
-    const image = await fetchDriveImage(approvedPhoto.fileId);
+    const image = await fetchProductImage(approvedPhoto.photoRef);
     res.statusCode = 200;
     res.setHeader("Content-Type", image.mimeType);
     res.setHeader("Cache-Control", "no-store, max-age=0");
