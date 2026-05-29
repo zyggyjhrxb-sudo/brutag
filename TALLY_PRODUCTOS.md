@@ -1,6 +1,10 @@
 # Tally + Google Sheets + BRUTAG
 
-Guía actualizada al formulario real `https://tally.so/r/J9eK1Y` conectado al Sheet `Sube tu producto a BRUTAG - limpio`.
+Guía actualizada al formulario real `https://tally.so/r/J9eK1Y` conectado al Sheet de BRUTAG:
+
+```txt
+https://docs.google.com/spreadsheets/d/1ipdNIqrYMFxh68Y8RzozyOfqf5-yg8ZMf1xsffoX2VI/edit
+```
 
 ## Columnas que llegan al Google Sheet
 
@@ -52,7 +56,7 @@ Tally crea estas columnas automáticamente. No cambies los nombres a menos que t
 
 1. El vendedor llena el formulario en `https://tally.so/r/J9eK1Y`.
 2. Tally crea una nueva fila en el Sheet con `Publicado` vacío.
-3. Revisas la fila en `Sube tu producto a BRUTAG - limpio`.
+3. Revisas la fila en el Google Sheet de BRUTAG.
 4. Si quieres publicarlo, escribes `SI` en la columna `Publicado`.
 5. En menos de 15 segundos el producto aparece en `https://brutag.vercel.app/` sin redeploy.
 6. Para ocultarlo, cambia `Publicado` a `NO` o deja la celda vacía. Desaparece igual de rápido.
@@ -61,14 +65,14 @@ Tally crea estas columnas automáticamente. No cambies los nombres a menos que t
 
 La web lee el Sheet de dos formas:
 
-1. **API privada `/api/products`** (preferida): usa la cuenta de servicio de Google si los secretos de Vercel están configurados (`GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_SHEET_ID`, etc.). Permite Sheet privado y fotos privadas en Drive.
+1. **API privada `/api/products`** (preferida): usa la cuenta de servicio de Google si los secretos de Vercel están configurados (`GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_SHEET_ID`, etc.). Por defecto apunta al Sheet `1ipdNIqrYMFxh68Y8RzozyOfqf5-yg8ZMf1xsffoX2VI`, pestaña `Hoja 1`.
 2. **CSV público** (fallback actual): el Sheet está publicado en la web como CSV. La URL está en `siteIntegrations.responsesCsvUrl` dentro de `index.html`:
 
 ```txt
 https://docs.google.com/spreadsheets/d/e/2PACX-1vQMvKo4ew3lIN973dmA_C4Akb1PTrsAV99aWYT-3uCDzUztYXX218arF1Ge4-JQOvDkUIe0bqb9WqWk/pub?gid=833914508&single=true&output=csv
 ```
 
-Si cambias el Sheet o lo despublicas, actualiza esa constante y vuelve a desplegar.
+Si cambias el Sheet, actualiza `GOOGLE_SHEET_ID` en Vercel y vuelve a desplegar.
 
 ## La columna `Publicado`
 
