@@ -51,7 +51,13 @@ productsApiUrl: "/api/products",
 responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMvKo4ew3lIN973dmA_C4Akb1PTrsAV99aWYT-3uCDzUztYXX218arF1Ge4-JQOvDkUIe0bqb9WqWk/pub?gid=833914508&single=true&output=csv"
 ```
 
-Los botones “Vender” y “Abrir Tally” usan `tallyFormUrl`. El catálogo se carga así:
+Los botones “Vender” y “Abrir Tally” usan `tallyFormUrl`. El catálogo queda conectado al Google Sheet:
+
+```txt
+https://docs.google.com/spreadsheets/d/1ipdNIqrYMFxh68Y8RzozyOfqf5-yg8ZMf1xsffoX2VI/edit
+```
+
+La carga funciona así:
 
 1. Primero intenta `/api/products` (Sheet privado con credenciales en Vercel).
 2. Si falla, usa `responsesCsvUrl` (Sheet publicado como CSV).
@@ -72,12 +78,12 @@ Configura estos secretos en Vercel:
 ```txt
 GOOGLE_SERVICE_ACCOUNT_EMAIL
 GOOGLE_PRIVATE_KEY
-GOOGLE_SHEET_ID
+GOOGLE_SHEET_ID=1ipdNIqrYMFxh68Y8RzozyOfqf5-yg8ZMf1xsffoX2VI
 GOOGLE_SHEET_NAME
 GOOGLE_DRIVE_FOLDER_ID
 ```
 
-Comparte el Google Sheet y la carpeta de fotos con el email de la cuenta de servicio. Usa permiso de lector.
+La pestaña actual del Sheet se llama `Hoja 1`; si la renombras, actualiza `GOOGLE_SHEET_NAME`. Comparte el Google Sheet y la carpeta de fotos con el email de la cuenta de servicio. Usa permiso de lector.
 
 Para armar un formulario nuevo, usa [TALLY_PRODUCTOS.md](/Users/Agustin/BRUTAG/TALLY_PRODUCTOS.md). La web solo muestra filas donde la columna `Publicado` diga `SI`; si está vacío o dice `NO`, el producto queda oculto.
 
