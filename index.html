@@ -2927,19 +2927,59 @@
       .hero .product-marquee { margin: 0 auto; }
     }
 
-    /* ── Fix scroll: overflow-x clip en lugar de hidden ──
-       "hidden" en body bloquea touch-scroll en iOS y
-       en los carruseles internos */
-    html  { overflow-x: clip !important; }
-    body  { overflow-x: clip !important; }
+    /* ── Fix scroll: hidden solo en html evita scroll lateral de página
+       sin interferir con carruseles internos ni con iOS Safari ── */
+    html { overflow-x: hidden !important; }
+    body { overflow-x: visible !important; }
 
-    /* Fix: fades del carrusel con fondo blanco */
-    @media (max-width: 900px) {
+    /* ── Desktop: lista vertical de productos (no carrusel) ──
+       El carrusel horizontal es patrón móvil; en desktop los
+       usuarios no saben que deben deslizar lateralmente. */
+    @media (min-width: 769px) {
+      .available-products {
+        flex-direction: column !important;
+        overflow: visible !important;
+        scroll-snap-type: none !important;
+        padding-bottom: 0 !important;
+        gap: 28px !important;
+      }
+      .available-products .product-grid {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.82fr) !important;
+      }
+      .available-products .product-gallery,
+      .available-products .product-info {
+        height: auto !important;
+        min-height: 0 !important;
+      }
+      .available-products .product-gallery figure {
+        aspect-ratio: 3 / 4;
+        height: auto !important;
+      }
+      .available-products .product-gallery img {
+        object-fit: contain !important;
+      }
+      .product-more-card {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 80px !important;
+        aspect-ratio: auto !important;
+        padding: 28px 32px !important;
+      }
+      .carousel-cue { display: none !important; }
+    }
+
+    /* ── Móvil: fades del carrusel con fondo blanco ── */
+    @media (max-width: 768px) {
       .available-products::before, .accepted-grid::before {
-        background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0) 100%) !important;
       }
       .available-products::after, .accepted-grid::after {
-        background: linear-gradient(270deg, #fff 0%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(270deg, #fff 0%, rgba(255,255,255,0) 100%) !important;
       }
     }
 
