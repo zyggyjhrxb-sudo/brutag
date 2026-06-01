@@ -2803,12 +2803,13 @@
     }
 
     /* Marquee */
-    .product-marquee {
-      border-top-color: rgba(0, 0, 0, 0.25);
-      border-bottom-color: rgba(0, 0, 0, 0.12);
-      background: transparent;
+    .product-marquee,
+    .hero .product-marquee {
+      border-top-color: rgba(0, 0, 0, 0.18);
+      border-bottom-color: rgba(0, 0, 0, 0.10);
+      background: transparent !important;
     }
-    .product-track span { color: var(--acento); }
+    .product-track span { color: #555; }
 
     /* Botones */
     .button { background: var(--acento); color: #fff; border-color: var(--acento); }
@@ -2904,6 +2905,17 @@
       }
     }
 
+    /* Hero subtitle */
+    .hero-subtitle {
+      margin: 0;
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--gris);
+      text-align: center;
+      text-transform: none;
+    }
+
     /* Hero centrado en móvil también */
     @media (max-width: 768px) {
       .hero {
@@ -2911,11 +2923,45 @@
         text-align: center;
         justify-items: center !important;
       }
-      .hero h1, .hero .kicker, .hero .hero-lead { text-align: center; }
-      .hero .kicker { justify-content: center; }
-      .hero .kicker::before { display: none; }
+      .hero h1 { text-align: center; }
       .hero .product-marquee { margin: 0 auto; }
     }
+
+    /* ── Fix scroll: overflow-x clip en lugar de hidden ──
+       "hidden" en body bloquea touch-scroll en iOS y
+       en los carruseles internos */
+    html  { overflow-x: clip !important; }
+    body  { overflow-x: clip !important; }
+
+    /* Fix: fades del carrusel con fondo blanco */
+    @media (max-width: 900px) {
+      .available-products::before, .accepted-grid::before {
+        background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0) 100%);
+      }
+      .available-products::after, .accepted-grid::after {
+        background: linear-gradient(270deg, #fff 0%, rgba(255,255,255,0) 100%);
+      }
+    }
+
+    /* Fix: texto largo en tarjetas no desborda */
+    .product-info h3,
+    .available-products .product-info h3 {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    /* Fix: footer no se corta en móvil */
+    footer {
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-inline: 16px;
+    }
+
+    /* Fix: nav no desborda en pantallas muy pequeñas */
+    .brand { max-width: 55vw; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Fix: sell-main texto visible */
+    .sell-main p { color: rgba(255,255,255,0.75) !important; }
   </style>
 </head>
 <body>
@@ -2932,10 +2978,9 @@
 
   <main id="inicio">
     <section class="hero" aria-label="Inicio">
-      <p class="kicker">Colección · Otoño 2026</p>
-      <h1>Viste <span>con fuerza</span></h1>
-      <p class="hero-lead">Ropa usada para el hombre que no pide permiso.<br>Calidad brutal, estilo sin concesiones.</p>
-      <div class="product-marquee" aria-label="Categorías de productos BRUTAG">
+      <h1>Viste <span>con estilo</span></h1>
+      <p class="hero-subtitle">Ropa usada de hombre</p>
+      <div class="product-marquee" aria-label="Categorías de productos VURTAG">
         <div class="product-track">
           <span>Polerones</span>
           <span>Pantalones</span>
@@ -2959,7 +3004,6 @@
     <section id="productos" aria-label="Productos que recibe BRUTAG">
       <div class="section-head">
         <div>
-          <p class="kicker">Tipos que recibimos</p>
           <h2>Productos para vender <span>y comprar</span></h2>
         </div>
       </div>
@@ -2992,7 +3036,6 @@
     <section id="drop" aria-label="Productos disponibles">
       <div class="section-head">
         <div>
-          <p class="kicker">Colección actual</p>
           <h2>Productos disponibles</h2>
         </div>
         <div class="section-actions">
