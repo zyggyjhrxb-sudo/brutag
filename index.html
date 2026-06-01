@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BRUTAG | Ropa usada de hombre</title>
-  <meta name="description" content="BRUTAG vende ropa usada para hombre. Compra por DM a @brutag__ con link directo del producto.">
+  <title>VURTAG | Ropa usada de hombre</title>
+  <meta name="description" content="VURTAG vende ropa usada para hombre. Compra por DM a @brutag__ con link directo del producto.">
   <meta name="google-site-verification" content="PEGA_AQUI_TU_CODIGO_DE_GOOGLE_SEARCH_CONSOLE">
   <link rel="canonical" href="https://brutag.vercel.app/">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="BRUTAG">
-  <meta property="og:title" content="BRUTAG | Ropa usada de hombre">
+  <meta property="og:site_name" content="VURTAG">
+  <meta property="og:title" content="VURTAG | Ropa usada de hombre">
   <meta property="og:description" content="Colección de ropa usada seleccionada. Compra por DM a @brutag__.">
   <meta property="og:url" content="https://brutag.vercel.app/">
   <meta property="og:image" content="https://brutag.vercel.app/poleron-grizzly-frente.jpeg">
@@ -19,7 +19,7 @@
     {
       "@context": "https://schema.org",
       "@type": "ClothingStore",
-      "name": "BRUTAG",
+      "name": "VURTAG",
       "url": "https://brutag.vercel.app/",
       "description": "Ropa usada para hombre con compra directa por DM.",
       "sameAs": [
@@ -2736,11 +2736,192 @@
       }
     }
   </style>
+  <style>
+    /* ===== VURTAG — TEMA CLARO (override final) ===== */
+    :root {
+      --bg:        #ffffff;
+      --tinta:     #000000;
+      --acento:    #000000;
+      --borde:     #000000;
+      --gris:      #666666;
+
+      /* remapeo de variables existentes */
+      --black:     #ffffff;
+      --panel:     #ffffff;
+      --panel-2:   #f5f5f5;
+      --gold:      #000000;
+      --gold-dark: #000000;
+      --coffee:    #000000;
+      --white:     #000000;
+      --muted:     #666666;
+      --line:      rgba(0, 0, 0, 0.13);
+      --shadow:    0 4px 20px rgba(0, 0, 0, 0.07);
+    }
+
+    html  { background: var(--bg); }
+
+    body {
+      background: var(--bg);
+      color: var(--tinta);
+      font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    }
+
+    /* Nav sticky */
+    .nav {
+      position: sticky;
+      background: var(--bg);
+      border-bottom: 2px solid var(--borde);
+      backdrop-filter: none;
+    }
+    .brand, .brand .brand-accent { color: var(--tinta); }
+    .nav-links, .nav-links a { color: var(--tinta); }
+    .nav-links a:hover { color: var(--acento); }
+    .nav-links .nav-sell { color: var(--acento); }
+
+    /* Hero sin foto, centrado */
+    .hero {
+      min-height: auto !important;
+      padding: 64px 16px !important;
+      text-align: center;
+      justify-items: center !important;
+      border-bottom: 2px solid var(--borde);
+    }
+    .hero::before, .hero::after { display: none; }
+    .hero > * { text-shadow: none; }
+    .hero h1 { text-align: center; max-width: 100%; }
+
+    /* Acentos y textos */
+    .kicker { color: var(--acento); }
+    .kicker::before { background: var(--acento); }
+    h1 span, h2 span { color: var(--acento); }
+    #productos h2, #productos h2 span { color: var(--tinta); }
+    .hero-lead, .hero .hero-lead {
+      max-width: 560px !important;
+      color: var(--tinta);
+      font-size: clamp(0.84rem, 1.1vw, 1rem);
+      text-align: center;
+    }
+
+    /* Marquee */
+    .product-marquee {
+      border-top-color: rgba(0, 0, 0, 0.25);
+      border-bottom-color: rgba(0, 0, 0, 0.12);
+      background: transparent;
+    }
+    .product-track span { color: var(--acento); }
+
+    /* Botones */
+    .button { background: var(--acento); color: #fff; border-color: var(--acento); }
+    .button:hover { background: var(--tinta); color: #fff; }
+    .button.secondary {
+      border-color: var(--borde);
+      background: transparent;
+      color: var(--tinta);
+    }
+    .button.secondary:hover { background: var(--tinta); color: var(--bg); }
+
+    /* Secciones */
+    section { border-top: 1px solid rgba(22, 21, 20, 0.14); }
+    .section-head .kicker { color: var(--acento); }
+
+    /* Tags */
+    .tag { border-color: rgba(22, 21, 20, 0.22); color: var(--tinta); }
+
+    /* Tarjetas de producto */
+    .product-gallery figure,
+    .product-info,
+    .rules-card,
+    .catalog-empty { background: #fff; border-color: rgba(22, 21, 20, 0.14); }
+    .product-gallery figure,
+    .available-products .product-gallery figure { background: #ede9e0; }
+
+    /* Precios */
+    .price, .product-detail-price { color: var(--acento); }
+
+    /* Listas */
+    .detail-list, .rules-list { color: var(--gris); }
+    .detail-list strong, .rules-list strong,
+    .product-detail-list { color: var(--tinta); }
+    .detail-list li, .rules-list li,
+    .product-detail-list li { border-bottom-color: rgba(22, 21, 20, 0.10); }
+    .product-detail-list strong { color: var(--acento); }
+
+    /* Accepted cards */
+    .accepted-card { background: #fff; border-color: rgba(22, 21, 20, 0.16); }
+    .accepted-card:hover { border-color: var(--acento); background: var(--bg); }
+    .accepted-card strong { color: var(--tinta); }
+
+    /* Sección vender */
+    .sell-main {
+      background: var(--tinta);
+      border-color: var(--tinta);
+      color: #fff;
+    }
+    .sell-main h2, .sell-main .kicker { color: #fff; }
+    .sell-main p { color: rgba(244, 241, 234, 0.72); }
+    .sell-main .button { background: var(--acento); color: #fff; border-color: var(--acento); }
+
+    /* Rules */
+    .rules-card h3 { color: var(--acento); }
+
+    /* Footer */
+    footer { border-top: 2px solid var(--borde); color: var(--gris); }
+    footer a, .footer-brand, .footer-condition-button { color: var(--acento); }
+
+    /* Toast */
+    .toast { background: var(--tinta); border-color: rgba(0, 0, 0, 0.4); }
+    .toast strong { color: var(--acento); }
+    .toast p { color: rgba(244, 241, 234, 0.78); }
+
+    /* Modales */
+    .modal-content { background: var(--bg); border-color: rgba(22, 21, 20, 0.18); }
+    .modal-content h2, .modal-content p { color: var(--tinta); }
+    .modal-close { border-color: rgba(22, 21, 20, 0.22); background: transparent; color: var(--tinta); }
+    .buy-message-box { background: #fff; border-color: rgba(22, 21, 20, 0.16); color: var(--tinta); }
+    .conditions-content h3 { color: var(--acento); }
+    .conditions-content p, .conditions-content ul { color: var(--tinta); }
+    .photo-modal-content { background: var(--bg); }
+    .product-detail-gallery button { background: #ede9e0; border-color: rgba(22, 21, 20, 0.12); }
+
+    /* Tarjeta "ver más" */
+    .product-more-card {
+      border-color: rgba(0, 0, 0, 0.35);
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--acento);
+    }
+
+    /* Scrollbars */
+    .accepted-grid::-webkit-scrollbar-thumb,
+    .available-products::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.25); }
+
+    /* Fade lateral en carrusel */
+    @media (max-width: 900px) {
+      .available-products::before, .accepted-grid::before {
+        background: linear-gradient(90deg, var(--bg), rgba(244,241,234,0));
+      }
+      .available-products::after, .accepted-grid::after {
+        background: linear-gradient(270deg, var(--bg), rgba(244,241,234,0));
+      }
+    }
+
+    /* Hero centrado en móvil también */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 48px 16px !important;
+        text-align: center;
+        justify-items: center !important;
+      }
+      .hero h1, .hero .kicker, .hero .hero-lead { text-align: center; }
+      .hero .kicker { justify-content: center; }
+      .hero .kicker::before { display: none; }
+      .hero .product-marquee { margin: 0 auto; }
+    }
+  </style>
 </head>
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="#inicio">BRUT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
+      <a class="brand" href="#inicio">VURT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
       <nav class="nav-links" aria-label="Principal">
         <a class="nav-products" href="#productos">Productos</a>
         <a class="nav-collection" href="#drop">Colección</a>
@@ -2811,7 +2992,7 @@
     <section id="drop" aria-label="Productos disponibles">
       <div class="section-head">
         <div>
-          <p class="kicker">Productos disponibles</p>
+          <p class="kicker">Colección actual</p>
           <h2>Productos disponibles</h2>
         </div>
         <div class="section-actions">
@@ -2828,6 +3009,7 @@
       </div>
     </section>
 
+    <section id="polerones" aria-label="Polerones disponibles" hidden></section>
     <section id="poleras" aria-label="Poleras disponibles" hidden></section>
     <section id="pantalones" aria-label="Pantalones disponibles" hidden></section>
     <section id="chaquetas" aria-label="Chaquetas disponibles" hidden></section>
@@ -2839,7 +3021,7 @@
       <div class="sell-box">
         <div class="sell-main">
           <p class="kicker">Cómo vender</p>
-          <h2>Vende en BRUTAG</h2>
+          <h2>Vende en VURTAG</h2>
           <p>Completa el formulario con una prenda por envío. Sube fotos claras, marca, talla, estado real y precio esperado para revisar rápido.</p>
           <div class="actions">
             <a class="button tally-link" id="sell-button" href="#" target="_blank" rel="noopener">Vender</a>
@@ -2851,10 +3033,10 @@
   </main>
 
   <footer>
-    <span class="footer-brand">BRUTAG · Ropa usada de hombre</span>
+    <span class="footer-brand">VURTAG · Ropa usada de hombre</span>
     <a href="https://brutag.vercel.app/">brutag.vercel.app</a>
     <a href="https://instagram.com/brutag__" target="_blank" rel="noopener">@brutag__</a>
-    <button class="footer-condition-button" type="button" id="conditions-button">Condiciones BRUTAG</button>
+    <button class="footer-condition-button" type="button" id="conditions-button">Condiciones VURTAG</button>
   </footer>
 
   <div class="modal" id="more-products-modal" aria-hidden="true">
@@ -2909,13 +3091,13 @@
   <div class="modal" id="conditions-modal" aria-hidden="true">
     <div class="modal-content modal-content-wide" role="dialog" aria-modal="true" aria-labelledby="conditions-modal-title">
       <button class="modal-close" type="button" data-close-modal="conditions-modal">×</button>
-      <h2 id="conditions-modal-title">Condiciones BRUTAG</h2>
+      <h2 id="conditions-modal-title">Condiciones VURTAG</h2>
       <div class="conditions-content">
         <h3>Publicaciones</h3>
         <p>Cada vendedor es responsable de que el producto sea original y que la descripción, talla, fotos y estado sean reales.</p>
 
         <h3>Comisión</h3>
-        <p>BRUTAG cobra una comisión del 10% por cada venta realizada.</p>
+        <p>VURTAG cobra una comisión del 10% por cada venta realizada.</p>
 
         <h3>Envíos</h3>
         <ul>
@@ -2939,7 +3121,7 @@
         <p>No se aceptan devoluciones ni reembolsos sin devolución del producto. El período de revisión de 24 horas existe para verificar que todo llegue correctamente.</p>
 
         <h3>Responsabilidad</h3>
-        <p>BRUTAG actúa solo como intermediario y no se hace responsable por:</p>
+        <p>VURTAG actúa solo como intermediario y no se hace responsable por:</p>
         <ul>
           <li>Falsificaciones.</li>
           <li>Errores de talla.</li>
@@ -2972,7 +3154,7 @@
         </ul>
 
         <h3>Revisión</h3>
-        <p>BRUTAG revisa estilo y estado. No todo producto será aceptado y la respuesta llega por DM.</p>
+        <p>VURTAG revisa estilo y estado. No todo producto será aceptado y la respuesta llega por DM.</p>
       </div>
     </div>
   </div>
@@ -3866,7 +4048,7 @@
             <ul class="detail-list product-extra-details" hidden>
               <li><strong>Estado:</strong> ${escapeHtml(status || "Por confirmar")}</li>
               <li><strong>Stock:</strong> Disponible</li>
-              <li><strong>Descripción:</strong> ${escapeHtml(description || "Producto publicado en BRUTAG")}</li>
+              <li><strong>Descripción:</strong> ${escapeHtml(description || "Producto publicado en VURTAG")}</li>
             </ul>
             <div class="actions">
               <a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
