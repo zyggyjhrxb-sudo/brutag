@@ -1,13 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Fondo negro -->
   <rect width="100" height="100" fill="#000000"/>
-  <!-- V geométrica bold, limpia, legible a cualquier tamaño -->
-  <polyline
-    points="14,20 50,82 86,20"
-    fill="none"
-    stroke="#ffffff"
-    stroke-width="17"
-    stroke-linecap="square"
-    stroke-linejoin="miter"
-  />
+  <text
+    x="50" y="66"
+    font-family="Arial Black, Impact, 'Helvetica Neue', Arial, sans-serif"
+    font-weight="900"
+    font-size="40"
+    fill="#ffffff"
+    text-anchor="middle"
+    letter-spacing="-1">VTG</text>
 </svg>

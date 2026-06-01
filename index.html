@@ -2838,18 +2838,22 @@
     .rules-card,
     .catalog-empty { background: #fff; border-color: rgba(22, 21, 20, 0.14); }
 
-    /* Imágenes: fondo blanco puro, solo se ve la prenda */
+    /* Imágenes: fondo blanco, contiene la prenda */
     .product-gallery figure,
-    .available-products .product-gallery figure {
-      background: #ffffff;
-      padding: 8px;
-    }
+    .available-products .product-gallery figure { background: #ffffff; }
     .product-gallery img,
     .available-products .product-gallery img {
       object-fit: contain !important;
       object-position: center !important;
-      background: #ffffff;
-      mix-blend-mode: multiply; /* elimina fondos blancos de JPEGs */
+    }
+
+    /* Fix cortes en móvil: nada desborda la pantalla */
+    @media (max-width: 768px) {
+      .section-head { flex-wrap: wrap; }
+      .section-actions { width: 100%; }
+      .section-actions .button { width: 100%; }
+      footer { font-size: 0.82rem; gap: 8px; }
+      .sell-main { padding: 24px 16px !important; }
     }
 
     /* Precios */
@@ -2948,55 +2952,132 @@
     html { overflow-x: hidden !important; }
     body { overflow-x: visible !important; }
 
-    /* ── Desktop: lista vertical de productos (no carrusel) ──
-       El carrusel horizontal es patrón móvil; en desktop los
-       usuarios no saben que deben deslizar lateralmente. */
-    @media (min-width: 769px) {
-      .available-products {
-        flex-direction: column !important;
-        overflow: visible !important;
-        scroll-snap-type: none !important;
-        padding-bottom: 0 !important;
-        gap: 28px !important;
-      }
-      .available-products .product-grid {
-        flex: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-height: 0 !important;
-        grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.82fr) !important;
-      }
-      .available-products .product-gallery,
-      .available-products .product-info {
-        height: auto !important;
-        min-height: 0 !important;
-      }
-      .available-products .product-gallery figure {
-        aspect-ratio: 3 / 4;
-        height: auto !important;
-      }
-      .available-products .product-gallery img {
-        object-fit: contain !important;
-      }
-      .product-more-card {
-        flex: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-height: 80px !important;
-        aspect-ratio: auto !important;
-        padding: 28px 32px !important;
-      }
-      .carousel-cue { display: none !important; }
+    /* ═══════════════════════════════════
+       GRILLA TIPO PULGA
+       Móvil: 2 columnas | Desktop: 4-5 col
+       ═══════════════════════════════════ */
+
+    /* Contenedor: grid en lugar de carrusel */
+    .available-products {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      overflow: visible !important;
+      scroll-snap-type: none !important;
+      padding: 0 !important;
+      -webkit-overflow-scrolling: auto !important;
     }
 
-    /* ── Móvil: fades del carrusel con fondo blanco ── */
-    @media (max-width: 768px) {
-      .available-products::before, .accepted-grid::before {
-        background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0) 100%) !important;
+    /* Tarjeta: columna (foto arriba, info abajo) */
+    .available-products .product-grid {
+      display: flex !important;
+      flex-direction: column !important;
+      flex: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: 0 !important;
+      background: #fff !important;
+      border: 1px solid rgba(0,0,0,0.09) !important;
+      box-shadow: none !important;
+    }
+
+    /* Solo primera foto, cuadrada */
+    .available-products .product-gallery {
+      display: block !important;
+      height: auto !important;
+      padding: 0 !important;
+    }
+    .available-products .product-gallery figure { display: none !important; }
+    .available-products .product-gallery figure:first-child {
+      display: block !important;
+      aspect-ratio: 1 / 1 !important;
+      height: auto !important;
+      min-height: 0 !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      background: #fff !important;
+      padding: 6px !important;
+    }
+    .available-products .product-gallery img {
+      object-fit: contain !important;
+      object-position: center !important;
+    }
+
+    /* Info compacta */
+    .available-products .product-info {
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 8px 10px 10px !important;
+      gap: 4px !important;
+      height: auto !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+
+    /* Precio primero (orden visual como Pulga) */
+    .available-products .price {
+      font-size: 0.92rem !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+      order: -1 !important;
+    }
+
+    /* Nombre del producto: 2 líneas max */
+    .available-products .product-info h3 {
+      font-size: 0.75rem !important;
+      font-weight: 500 !important;
+      line-height: 1.25 !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+    }
+
+    /* Ocultar detalles secundarios — mantener tarjetas limpias */
+    .available-products .tag-row,
+    .available-products .detail-list,
+    .available-products .product-extra-details { display: none !important; }
+
+    /* Botones: solo Comprar y Ver más */
+    .available-products .actions {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 4px !important;
+      margin-top: 6px !important;
+    }
+    .available-products .actions .tally-link { display: none !important; }
+    .available-products .actions .button {
+      min-height: 32px !important;
+      padding: 0 6px !important;
+      font-size: 0.6rem !important;
+      letter-spacing: 0.08em !important;
+    }
+
+    /* Tarjeta "ver más": ocupa las 2 columnas */
+    .product-more-card {
+      grid-column: span 2 !important;
+      flex: none !important;
+      min-height: 52px !important;
+      aspect-ratio: auto !important;
+      padding: 12px !important;
+      font-size: 0.7rem !important;
+    }
+
+    .carousel-cue { display: none !important; }
+
+    /* Desktop: 4-5 columnas automáticas */
+    @media (min-width: 769px) {
+      .available-products {
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)) !important;
+        gap: 16px !important;
       }
-      .available-products::after, .accepted-grid::after {
-        background: linear-gradient(270deg, #fff 0%, rgba(255,255,255,0) 100%) !important;
-      }
+      .available-products .product-gallery figure:first-child { padding: 10px !important; }
+      .available-products .product-info { padding: 10px 12px 14px !important; gap: 6px !important; }
+      .available-products .product-info h3 { font-size: 0.85rem !important; }
+      .available-products .price { font-size: 1rem !important; }
+      .available-products .actions { gap: 6px !important; }
+      .available-products .actions .button { min-height: 36px !important; font-size: 0.65rem !important; }
+      .product-more-card { grid-column: span 1 !important; min-height: 80px !important; }
     }
 
     /* Fix: texto largo en tarjetas no desborda */
