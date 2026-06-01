@@ -3050,11 +3050,16 @@
     }
     .available-products .actions .tally-link { display: none !important; }
     .available-products .actions .button {
+      flex: 0 0 auto !important;
       width: 100% !important;
-      min-height: 34px !important;
+      height: 36px !important;
+      min-height: 0 !important;
+      max-height: 36px !important;
       padding: 0 8px !important;
       font-size: 0.65rem !important;
       letter-spacing: 0.06em !important;
+      line-height: 36px !important;
+      overflow: hidden !important;
     }
 
     /* Tarjeta "ver más": ocupa las 2 columnas */
