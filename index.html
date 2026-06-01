@@ -2833,8 +2833,20 @@
     .product-info,
     .rules-card,
     .catalog-empty { background: #fff; border-color: rgba(22, 21, 20, 0.14); }
+
+    /* Imágenes: fondo blanco puro, solo se ve la prenda */
     .product-gallery figure,
-    .available-products .product-gallery figure { background: #ede9e0; }
+    .available-products .product-gallery figure {
+      background: #ffffff;
+      padding: 8px;
+    }
+    .product-gallery img,
+    .available-products .product-gallery img {
+      object-fit: contain !important;
+      object-position: center !important;
+      background: #ffffff;
+      mix-blend-mode: multiply; /* elimina fondos blancos de JPEGs */
+    }
 
     /* Precios */
     .price, .product-detail-price { color: var(--acento); }
@@ -3054,10 +3066,6 @@
       <p class="carousel-cue">Más productos hacia el lado →</p>
 
       <div class="available-products" id="catalogo" aria-label="Listado de productos disponibles">
-        <div class="catalog-empty" role="status">
-          <h3>No hay productos publicados</h3>
-          <p>Cuando conectes un nuevo Sheet con productos publicados, aparecerán aquí automáticamente.</p>
-        </div>
       </div>
     </section>
 
@@ -3262,6 +3270,7 @@
     let currentBuyMessage = "";
     let loadedProducts = [];
     let activeProductCategory = "all";
+    let lastProductsHash = "";
     const publishFieldNames = [
       "Publicado",
       "Publicar",
@@ -3575,23 +3584,16 @@
       });
     }
 
-    function renderEmptyCatalog(message = "Cuando conectes un nuevo Sheet con productos publicados, aparecerán aquí automáticamente.") {
+    function renderEmptyCatalog() {
       if (!availableProducts) return false;
-
       availableProducts.innerHTML = "";
-      const emptyState = document.createElement("div");
-      emptyState.className = "catalog-empty";
-      emptyState.setAttribute("role", "status");
-
-      const title = document.createElement("h3");
-      title.textContent = "No hay productos publicados";
-
-      const copy = document.createElement("p");
-      copy.textContent = message;
-
-      emptyState.append(title, copy);
-      availableProducts.appendChild(emptyState);
       return false;
+    }
+
+    function getProductsHash(products, category) {
+      return category + "|" + products.map((p) =>
+        [getValue(p, ["Nombre","Nombre del producto"]), getValue(p, ["Precio","Precio esperado"]), getValue(p, ["Fotos","Foto"])].join(":")
+      ).join("|");
     }
 
     function renderAvailableProducts() {
@@ -3604,8 +3606,13 @@
 
       if (!filteredProducts.length) {
         showToast("Aún no hay productos disponibles en esa categoría.");
-        return renderEmptyCatalog("No hay productos publicados en esta categoría por ahora.");
+        return renderEmptyCatalog();
       }
+
+      // ── Anti-parpadeo: no re-renderiza si los datos no cambiaron ──
+      const hash = getProductsHash(filteredProducts, activeProductCategory);
+      if (hash === lastProductsHash && availableProducts.children.length > 0) return true;
+      lastProductsHash = hash;
 
       const visibleProducts = filteredProducts.slice(0, 6);
       const productHtml = visibleProducts.map(createProductHtml).filter(Boolean).join("");
@@ -4224,8 +4231,8 @@
 
     loadProductsFromSheet();
 
-    // Refresca el catálogo con frecuencia para publicar/despublicar sin recargar.
-    setInterval(loadProductsFromSheet, 15 * 1000);
+    // Refresca el catálogo cada 5 segundos para publicar/despublicar casi en tiempo real.
+    setInterval(loadProductsFromSheet, 5 * 1000);
 
     // Refresca también cuando el usuario vuelve al tab
     document.addEventListener("visibilitychange", () => {
