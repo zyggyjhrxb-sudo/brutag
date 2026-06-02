@@ -3065,29 +3065,117 @@
     .available-products .detail-list,
     .available-products .product-extra-details { display: none !important; }
 
-    /* Botones: siempre apilados, compactos */
+    /* Botones: COMPRAR + VER MÁS arriba, CARRITO abajo */
     .available-products .actions {
-      display: flex !important;
-      flex-direction: column !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
       gap: 4px !important;
       margin-top: 6px !important;
     }
     .available-products .actions .tally-link { display: none !important; }
+    .available-products .actions .buy-button {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+    }
+    .available-products .actions .product-details-button {
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+    }
+    .available-products .actions .add-to-cart-btn {
+      grid-column: 1 / -1 !important;
+      grid-row: 2 !important;
+    }
     .available-products .actions .button {
       display: block !important;
-      flex-shrink: 0 !important;
       width: 100% !important;
       height: 32px !important;
-      min-height: 32px !important;
       max-height: 32px !important;
-      padding: 0 8px !important;
-      font-size: 0.62rem !important;
-      letter-spacing: 0.06em !important;
+      padding: 0 6px !important;
+      font-size: 0.6rem !important;
+      letter-spacing: 0.05em !important;
       line-height: 32px !important;
       white-space: nowrap !important;
       overflow: hidden !important;
       text-overflow: ellipsis !important;
       text-align: center !important;
+    }
+
+    /* ===== LOGIN / AUTH ===== */
+    .nav-login-btn {
+      background: none;
+      border: 1px solid currentColor;
+      cursor: pointer;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      color: var(--tinta, #000);
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    .nav-login-btn:hover { background: var(--tinta,#000); color: var(--bg,#fff); }
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tinta,#000);
+    }
+    .nav-logout-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: #888;
+      text-decoration: underline;
+      padding: 0;
+      font-family: inherit;
+    }
+    .nav-user[hidden], .nav-login-btn[hidden] { display: none !important; }
+    .auth-form { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+    .auth-input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      border: 2px solid #000;
+      background: #fff;
+      outline: none;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .auth-input:focus { background: #f9f8f6; }
+    .auth-error {
+      color: #c00;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .auth-error[hidden] { display: none !important; }
+    .auth-toggle {
+      font-size: 0.72rem;
+      text-align: center;
+      color: #666;
+      margin: 0;
+    }
+    .auth-toggle-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-decoration: underline;
+      font-family: inherit;
+    }
+    .auth-note {
+      font-size: 0.62rem;
+      color: #999;
+      text-align: center;
+      margin: 0;
     }
 
     /* Tarjeta "ver más": ocupa las 2 columnas en móvil, 5 en desktop */
@@ -3613,6 +3701,11 @@
         <a class="brand" href="#inicio">VURT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
       </div>
       <nav class="nav-links" aria-label="Principal">
+        <span class="nav-user" id="nav-user" hidden>
+          <span id="nav-user-name"></span>
+          <button class="nav-logout-btn" type="button" id="nav-logout-btn">Salir</button>
+        </span>
+        <button class="nav-login-btn" type="button" id="nav-login-btn">Iniciar sesión</button>
         <a class="nav-publish tally-link" href="#">Publica tu producto</a>
         <button class="cart-btn" type="button" id="cart-btn" aria-label="Carrito de compras">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -3713,6 +3806,25 @@
     </a>
     <button class="footer-condition-button" type="button" id="conditions-button">Condiciones VURTAG</button>
   </footer>
+
+  <!-- Modal autenticación -->
+  <div class="modal" id="auth-modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <button class="modal-close" type="button" data-close-modal="auth-modal">×</button>
+      <h2 id="auth-title">Iniciar sesión</h2>
+      <p class="auth-note">Tu cuenta es solo en este dispositivo. El carrito se guarda automáticamente.</p>
+      <form class="auth-form" id="auth-form" onsubmit="return false">
+        <div id="auth-name-row" hidden>
+          <input class="auth-input" type="text" id="auth-name" placeholder="Tu nombre" autocomplete="name">
+        </div>
+        <input class="auth-input" type="email" id="auth-email" placeholder="Email" autocomplete="email">
+        <input class="auth-input" type="password" id="auth-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="current-password">
+        <p class="auth-error" id="auth-error" hidden></p>
+        <button class="button" type="submit" id="auth-submit">Entrar</button>
+        <p class="auth-toggle">¿No tienes cuenta? <button class="auth-toggle-btn" type="button" id="auth-mode-toggle">Crear una cuenta</button></p>
+      </form>
+    </div>
+  </div>
 
   <!-- Catalog overlay: todos los productos -->
   <div class="catalog-overlay" id="catalog-overlay" hidden>
@@ -4826,7 +4938,7 @@
             </ul>
             <div class="actions">
               <a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
-              <button class="button secondary add-to-cart-btn" type="button" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}" data-product-price="${escapeHtml(displayPrice || '')}" data-product-photo="${escapeHtml(photos[0] || '')}">+ Carrito</button>
+              <button class="button secondary add-to-cart-btn" type="button" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}" data-product-price="${escapeHtml(displayPrice || '')}" data-product-photo="${escapeHtml(photos[0] || '')}">Carrito</button>
               <button class="button secondary product-details-button" type="button">Ver más</button>
             </div>
           </article>
@@ -5001,6 +5113,13 @@
 
     function cartSave() {
       try { localStorage.setItem("vurtag_cart", JSON.stringify(cart)); } catch {}
+      try {
+        const sess = JSON.parse(localStorage.getItem("vurtag_session") || "null");
+        if (sess?.email) {
+          const users = JSON.parse(localStorage.getItem("vurtag_users") || "{}");
+          if (users[sess.email]) { users[sess.email].cart = cart; localStorage.setItem("vurtag_users", JSON.stringify(users)); }
+        }
+      } catch {}
     }
 
     function cartLoad() {
@@ -5189,8 +5308,8 @@
     const brandTypedEl = document.getElementById("brand-typed");
     const siteNav = document.getElementById("site-nav");
     const BRAND_WORD = "VURTAG";
-    const SCROLL_START = 90;    // scroll donde aparece la primera letra
-    const SCROLL_PER_LETTER = 32; // px por letra adicional
+    const SCROLL_START = 90;     // scroll donde aparece la primera letra
+    const SCROLL_PER_LETTER = 100; // ~1 notch de rueda = 1 letra
     let brandActive = false;
     let lastLetterCount = -1;
 
@@ -5226,6 +5345,128 @@
     }
 
     window.addEventListener("scroll", () => updateBrandBar(window.scrollY), { passive: true });
+
+    /* ============================================================
+       AUTENTICACIÓN (localStorage — funciona en este dispositivo)
+    ============================================================ */
+    async function authHash(str) {
+      const buf = new TextEncoder().encode(str);
+      const h = await crypto.subtle.digest("SHA-256", buf);
+      return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2,"0")).join("");
+    }
+    const getAuthUsers = () => { try { return JSON.parse(localStorage.getItem("vurtag_users") || "{}"); } catch { return {}; } };
+    const getAuthSession = () => { try { return JSON.parse(localStorage.getItem("vurtag_session") || "null"); } catch { return null; } };
+
+    async function authRegister(name, email, password) {
+      const users = getAuthUsers();
+      if (users[email]) return { error: "Este email ya tiene una cuenta." };
+      if (password.length < 6) return { error: "La contraseña debe tener al menos 6 caracteres." };
+      const pw = await authHash(email + password);
+      users[email] = { name, email, pw, cart: [] };
+      localStorage.setItem("vurtag_users", JSON.stringify(users));
+      const sess = { name, email };
+      localStorage.setItem("vurtag_session", JSON.stringify(sess));
+      return { ok: true, sess };
+    }
+
+    async function authLogin(email, password) {
+      const users = getAuthUsers();
+      const u = users[email];
+      if (!u) return { error: "Email no encontrado." };
+      const pw = await authHash(email + password);
+      if (u.pw !== pw) return { error: "Contraseña incorrecta." };
+      const sess = { name: u.name, email };
+      localStorage.setItem("vurtag_session", JSON.stringify(sess));
+      if (u.cart?.length) { cart = u.cart; cartSave(); renderCartPanel(); }
+      return { ok: true, sess };
+    }
+
+    function authLogout() {
+      const sess = getAuthSession();
+      if (sess?.email) {
+        const users = getAuthUsers();
+        if (users[sess.email]) { users[sess.email].cart = cart; localStorage.setItem("vurtag_users", JSON.stringify(users)); }
+      }
+      localStorage.removeItem("vurtag_session");
+      cart = []; cartSave(); renderCartPanel();
+      updateAuthUI(null);
+    }
+
+    function updateAuthUI(sess) {
+      const loginBtn = document.getElementById("nav-login-btn");
+      const userEl = document.getElementById("nav-user");
+      const userNameEl = document.getElementById("nav-user-name");
+      if (sess) {
+        loginBtn?.setAttribute("hidden", "");
+        userEl?.removeAttribute("hidden");
+        if (userNameEl) userNameEl.textContent = sess.name || sess.email;
+      } else {
+        loginBtn?.removeAttribute("hidden");
+        userEl?.setAttribute("hidden", "");
+      }
+    }
+
+    // Auth modal
+    const authModal = document.getElementById("auth-modal");
+    let authMode = "login";
+
+    function openAuthModal(mode = "login") {
+      authMode = mode;
+      const isLogin = mode === "login";
+      document.getElementById("auth-title").textContent = isLogin ? "Iniciar sesión" : "Crear cuenta";
+      document.getElementById("auth-submit").textContent = isLogin ? "Entrar" : "Crear cuenta";
+      document.getElementById("auth-mode-toggle").textContent = isLogin ? "Crear una cuenta" : "Ya tengo cuenta";
+      const nameRow = document.getElementById("auth-name-row");
+      isLogin ? nameRow?.setAttribute("hidden","") : nameRow?.removeAttribute("hidden");
+      document.getElementById("auth-error")?.setAttribute("hidden","");
+      document.getElementById("auth-email").value = "";
+      document.getElementById("auth-password").value = "";
+      openModal(authModal);
+    }
+
+    document.getElementById("nav-login-btn")?.addEventListener("click", () => openAuthModal("login"));
+
+    document.getElementById("auth-mode-toggle")?.addEventListener("click", () => {
+      openAuthModal(authMode === "login" ? "register" : "login");
+    });
+
+    document.getElementById("auth-submit")?.addEventListener("click", async () => {
+      const email = (document.getElementById("auth-email")?.value || "").trim();
+      const password = document.getElementById("auth-password")?.value || "";
+      const name = (document.getElementById("auth-name")?.value || "").trim();
+      const errEl = document.getElementById("auth-error");
+      const btn = document.getElementById("auth-submit");
+
+      if (!email || !password) {
+        errEl.textContent = "Completa todos los campos."; errEl.removeAttribute("hidden"); return;
+      }
+
+      btn.textContent = "..."; btn.disabled = true;
+      const result = authMode === "register"
+        ? (name ? await authRegister(name, email, password) : { error: "Ingresa tu nombre." })
+        : await authLogin(email, password);
+      btn.disabled = false;
+
+      if (result.error) {
+        errEl.textContent = result.error; errEl.removeAttribute("hidden");
+        btn.textContent = authMode === "login" ? "Entrar" : "Crear cuenta";
+      } else {
+        closeModal(authModal);
+        updateAuthUI(result.sess);
+      }
+    });
+
+    document.getElementById("auth-form")?.addEventListener("submit", e => e.preventDefault());
+    document.getElementById("nav-logout-btn")?.addEventListener("click", authLogout);
+
+    // Restaurar sesión al cargar
+    const _initSess = getAuthSession();
+    if (_initSess) {
+      updateAuthUI(_initSess);
+      const _initUsers = getAuthUsers();
+      const _initUser = _initUsers[_initSess.email];
+      if (_initUser?.cart?.length) { cart = _initUser.cart; cartSave(); renderCartPanel(); }
+    }
 
     /* ============================================================
        CATALOG OVERLAY: muestra todos los productos
