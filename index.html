@@ -3065,28 +3065,32 @@
     .available-products .detail-list,
     .available-products .product-extra-details { display: none !important; }
 
-    /* Botones: columna en móvil, lado a lado en desktop */
+    /* Botones: siempre apilados, compactos */
     .available-products .actions {
       display: flex !important;
       flex-direction: column !important;
-      gap: 5px !important;
+      gap: 4px !important;
       margin-top: 6px !important;
     }
     .available-products .actions .tally-link { display: none !important; }
     .available-products .actions .button {
-      flex: 0 0 auto !important;
+      display: block !important;
+      flex-shrink: 0 !important;
       width: 100% !important;
-      height: 36px !important;
-      min-height: 0 !important;
-      max-height: 36px !important;
+      height: 32px !important;
+      min-height: 32px !important;
+      max-height: 32px !important;
       padding: 0 8px !important;
-      font-size: 0.65rem !important;
+      font-size: 0.62rem !important;
       letter-spacing: 0.06em !important;
-      line-height: 36px !important;
+      line-height: 32px !important;
+      white-space: nowrap !important;
       overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      text-align: center !important;
     }
 
-    /* Tarjeta "ver más": ocupa las 2 columnas */
+    /* Tarjeta "ver más": ocupa las 2 columnas en móvil, 5 en desktop */
     .product-more-card {
       grid-column: span 2 !important;
       flex: none !important;
@@ -3105,18 +3109,9 @@
         gap: 16px !important;
       }
       .available-products .product-gallery figure:first-child { padding: 10px !important; }
-      .available-products .product-info { padding: 10px 12px 14px !important; gap: 6px !important; }
-      .available-products .product-info h3 { font-size: 0.85rem !important; }
-      .available-products .price { font-size: 1rem !important; }
-      .available-products .actions {
-        flex-direction: row !important;
-        gap: 6px !important;
-      }
-      .available-products .actions .button {
-        flex: 1 !important;
-        min-height: 36px !important;
-        font-size: 0.65rem !important;
-      }
+      .available-products .product-info { padding: 10px 12px 12px !important; gap: 5px !important; }
+      .available-products .product-info h3 { font-size: 0.82rem !important; }
+      .available-products .price { font-size: 0.95rem !important; }
       .product-more-card { grid-column: span 5 !important; min-height: 80px !important; }
     }
 
