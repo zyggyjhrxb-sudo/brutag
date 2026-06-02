@@ -8,13 +8,13 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'%3E%3Crect width='90' height='90' fill='%23000'/%3E%3Ctext x='45' y='62' font-family='Arial Black%2CArial%2Csans-serif' font-weight='900' font-size='38' fill='%23fff' text-anchor='middle' letter-spacing='-2'%3EVTG%3C/text%3E%3C/svg%3E">
   <link rel="shortcut icon" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
-  <meta name="description" content="VURTAG vende ropa usada para hombre. Compra por DM a @vurtag.cl con link directo del producto.">
+  <meta name="description" content="Compra y venta de ropa usada de hombre en Chile. Encuentra prendas seleccionadas de estilo urbano, casual y vintage.">
   <meta name="google-site-verification" content="PEGA_AQUI_TU_CODIGO_DE_GOOGLE_SEARCH_CONSOLE">
   <link rel="canonical" href="https://brutag.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="VURTAG">
   <meta property="og:title" content="VURTAG | Ropa usada de hombre">
-  <meta property="og:description" content="Colección de ropa usada seleccionada. Compra por DM a @vurtag.cl.">
+  <meta property="og:description" content="Compra y venta de ropa usada de hombre en Chile. Prendas de estilo urbano, casual y vintage.">
   <meta property="og:url" content="https://brutag.vercel.app/">
   <meta property="og:image" content="https://brutag.vercel.app/poleron-grizzly-frente.jpeg">
   <meta name="twitter:card" content="summary_large_image">
@@ -3147,6 +3147,352 @@
     /* Fix: sell-main texto visible */
     .sell-main p { color: rgba(255,255,255,0.75) !important; }
 
+    /* ===== NAV OVERRIDE: flex layout ===== */
+    .nav-inner {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 12px !important;
+      min-height: 62px !important;
+      padding-inline: 18px !important;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-links {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 14px !important;
+      width: auto !important;
+      min-width: 0 !important;
+    }
+    .nav-links a, .nav-links .nav-sell {
+      font-size: 0.72rem !important;
+      color: #000 !important;
+      white-space: nowrap !important;
+      letter-spacing: 0.1em !important;
+      font-weight: 700 !important;
+    }
+    .nav-links a:hover { color: #555 !important; }
+    @media (max-width: 520px) {
+      .nav-links .nav-sell,
+      .nav-links .nav-publish { display: none !important; }
+    }
+
+    /* ===== HAMBURGER BUTTON ===== */
+    .hamburger-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 34px;
+      height: 34px;
+      padding: 4px 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #000;
+    }
+
+    /* ===== HAMBURGER OVERLAY ===== */
+    .hamburger-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+    }
+    .hamburger-overlay[hidden] { display: none !important; }
+    .hamburger-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.42);
+    }
+    .hamburger-panel {
+      position: relative;
+      width: min(260px, 78vw);
+      height: 100%;
+      background: #fff;
+      border-right: 2px solid #000;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 0 24px;
+      z-index: 1;
+      overflow-y: auto;
+    }
+    .hamburger-close-btn {
+      align-self: flex-end;
+      margin: 0 14px 18px;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(0,0,0,0.22);
+      background: transparent;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #000;
+    }
+    .hamburger-nav { display: flex; flex-direction: column; }
+    .hamburger-nav-item {
+      display: block;
+      padding: 15px 24px;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #000;
+      background: transparent;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      font-family: inherit;
+    }
+    .hamburger-nav-item:hover { background: #f5f5f5; }
+
+    /* ===== CART BUTTON ===== */
+    .cart-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #000;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .cart-btn svg { width: 20px; height: 20px; }
+    .cart-badge {
+      position: absolute;
+      top: -3px;
+      right: -5px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 3px;
+      background: #000;
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 900;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .cart-badge[hidden] { display: none !important; }
+
+    /* ===== CART MODAL (drawer derecha) ===== */
+    .cart-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      display: flex;
+      align-items: stretch;
+      justify-content: flex-end;
+    }
+    .cart-modal[hidden] { display: none !important; }
+    .cart-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.42);
+      cursor: pointer;
+    }
+    .cart-panel {
+      position: relative;
+      width: min(360px, 100vw);
+      height: 100%;
+      background: #fff;
+      border-left: 2px solid #000;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+    .cart-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .cart-panel-head h3 {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #000;
+    }
+    .cart-panel-close {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(0,0,0,0.22);
+      background: transparent;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #000;
+    }
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cart-empty-msg {
+      text-align: center;
+      padding: 32px 0;
+      color: #666;
+      font-size: 0.85rem;
+    }
+    .cart-item {
+      display: grid;
+      grid-template-columns: 50px 1fr 28px;
+      gap: 10px;
+      align-items: start;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .cart-item-img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      background: #f0ede8;
+      display: block;
+    }
+    .cart-item-info { display: flex; flex-direction: column; gap: 3px; }
+    .cart-item-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #000;
+      line-height: 1.2;
+    }
+    .cart-item-price { font-size: 0.75rem; color: #555; }
+    .cart-item-remove {
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(0,0,0,0.18);
+      background: transparent;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #666;
+      justify-self: end;
+    }
+    .cart-item-remove:hover { background: #000; color: #fff; border-color: #000; }
+    .cart-panel-foot {
+      padding: 14px 18px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cart-panel-foot[hidden] { display: none !important; }
+    .cart-panel-foot .button { min-height: 42px; font-size: 0.76rem; }
+
+    /* ===== SELL COMPACTO ===== */
+    .sell-compact {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 0;
+      flex-wrap: wrap;
+    }
+    .sell-compact-label {
+      margin: 0 0 4px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #666;
+    }
+    .sell-compact-title {
+      margin: 0 0 6px;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #000;
+    }
+    .sell-compact-desc {
+      margin: 0;
+      font-size: 0.83rem;
+      color: #555;
+      max-width: 360px;
+    }
+    .sell-compact-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .sell-compact-actions .button { min-height: 42px; font-size: 0.76rem; }
+    @media (max-width: 600px) {
+      .sell-compact { flex-direction: column; align-items: flex-start; }
+      .sell-compact-actions { width: 100%; }
+      .sell-compact-actions .button { flex: 1; }
+    }
+
+    /* ===== MARQUEE TEXT: negro ===== */
+    .product-track span { color: #000 !important; font-weight: 800 !important; }
+
+    /* ===== TOP BRAND BAR (scroll effect) ===== */
+    .top-brand-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 28px;
+      z-index: 300;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transform: translateY(-100%);
+      transition: transform 280ms ease;
+    }
+    .top-brand-bar.is-active {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .brand-typed {
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+    }
+    .top-brand-cursor {
+      display: inline-block;
+      width: 1px;
+      height: 0.75em;
+      background: #fff;
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink-bar 1s step-end infinite;
+    }
+    @keyframes blink-bar { 50% { opacity: 0; } }
+
     /* ===== MODAL VER MÁS: scrollable ===== */
     #more-products-modal .modal-content {
       max-height: min(88vh, 680px);
@@ -3211,16 +3557,42 @@
   </style>
 </head>
 <body>
-  <header class="nav">
+  <!-- Barra de scroll con efecto de texto -->
+  <div class="top-brand-bar" id="top-brand-bar" aria-hidden="true">
+    <span class="brand-typed" id="brand-typed"></span><span class="top-brand-cursor"></span>
+  </div>
+
+  <header class="nav" id="site-nav">
     <div class="nav-inner">
-      <a class="brand" href="#inicio">VURT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
+      <div class="nav-left">
+        <button class="hamburger-btn" type="button" id="hamburger-btn" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+        <a class="brand" href="#inicio">VURT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
+      </div>
       <nav class="nav-links" aria-label="Principal">
-        <a class="nav-products" href="#productos">Productos</a>
-        <a class="nav-collection" href="#drop">Colección</a>
         <a class="nav-sell" href="#vender">Quiero vender</a>
+        <a class="nav-publish tally-link" href="#">Publicar</a>
+        <button class="cart-btn" type="button" id="cart-btn" aria-label="Carrito de compras">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cart-badge" hidden>0</span>
+        </button>
       </nav>
     </div>
   </header>
+
+  <!-- Menú hamburguesa -->
+  <div class="hamburger-overlay" id="hamburger-overlay" hidden>
+    <div class="hamburger-backdrop" id="hamburger-backdrop"></div>
+    <div class="hamburger-panel" role="dialog" aria-label="Menú de navegación">
+      <button class="hamburger-close-btn" type="button" id="hamburger-close-btn" aria-label="Cerrar menú">×</button>
+      <nav class="hamburger-nav">
+        <button class="hamburger-nav-item" type="button" id="hamburger-explore-btn">Ver más productos</button>
+        <a class="hamburger-nav-item" href="#vender">Quiero vender</a>
+        <a class="hamburger-nav-item tally-link" href="#">Publicar</a>
+      </nav>
+    </div>
+  </div>
 
   <main id="inicio">
     <section class="hero" aria-label="Inicio">
@@ -3228,18 +3600,28 @@
       <p class="hero-subtitle">Ropa usada de hombre</p>
       <div class="product-marquee" aria-label="Categorías de productos VURTAG">
         <div class="product-track">
-          <span>Polerones</span>
-          <span>Pantalones</span>
           <span>Poleras</span>
+          <span>Polerones</span>
+          <span>Camisas</span>
           <span>Chaquetas</span>
           <span>Parkas</span>
+          <span>Pantalones</span>
+          <span>Jeans</span>
+          <span>Buzos</span>
+          <span>Shorts</span>
+          <span>Trajes de baño</span>
           <span>Zapatillas</span>
           <span>Jockeys</span>
-          <span>Polerones</span>
-          <span>Pantalones</span>
           <span>Poleras</span>
+          <span>Polerones</span>
+          <span>Camisas</span>
           <span>Chaquetas</span>
           <span>Parkas</span>
+          <span>Pantalones</span>
+          <span>Jeans</span>
+          <span>Buzos</span>
+          <span>Shorts</span>
+          <span>Trajes de baño</span>
           <span>Zapatillas</span>
           <span>Jockeys</span>
         </div>
@@ -3253,12 +3635,7 @@
         <div>
           <h2>Productos disponibles</h2>
         </div>
-        <div class="section-actions">
-          <button class="button secondary" type="button" id="more-products-button">Ver más productos disponibles</button>
-        </div>
       </div>
-      <p class="carousel-cue">Más productos hacia el lado →</p>
-
       <div class="available-products" id="catalogo" aria-label="Listado de productos disponibles">
       </div>
     </section>
@@ -3271,16 +3648,16 @@
     <section id="zapatillas" aria-label="Zapatillas disponibles" hidden></section>
     <section id="jockeys" aria-label="Jockeys disponibles" hidden></section>
 
-    <section id="vender" aria-label="Vender ropa a BRUTAG">
-      <div class="sell-box">
-        <div class="sell-main">
-          <p class="kicker">Cómo vender</p>
-          <h2>Vende en VURTAG</h2>
-          <p>Completa el formulario con una prenda por envío. Sube fotos claras, marca, talla, estado real y precio esperado para revisar rápido.</p>
-          <div class="actions">
-            <a class="button tally-link" id="sell-button" href="#" target="_blank" rel="noopener">Vender</a>
-            <button class="button secondary" type="button" id="publish-guide-button">Guía de publicación</button>
-          </div>
+    <section id="vender" aria-label="Vende en VURTAG">
+      <div class="sell-compact">
+        <div class="sell-compact-text">
+          <p class="sell-compact-label">Quiero vender</p>
+          <h2 class="sell-compact-title">Vende en VURTAG</h2>
+          <p class="sell-compact-desc">Completa el formulario con fotos, marca, talla y precio. Revisamos rápido.</p>
+        </div>
+        <div class="sell-compact-actions">
+          <a class="button tally-link" id="sell-button" href="#" target="_blank" rel="noopener">Publicar producto</a>
+          <button class="button secondary" type="button" id="publish-guide-button">Ver guía</button>
         </div>
       </div>
     </section>
@@ -3301,10 +3678,9 @@
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="more-products-title">
       <button class="modal-close" type="button" data-close-modal="more-products-modal">×</button>
       <h2 id="more-products-title">Explorar productos</h2>
-      <p>Elige una categoría o mira todo el catálogo disponible.</p>
       <div class="modal-options">
-        <button class="button secondary" type="button" data-close-and-category="poleron">Polerones</button>
         <button class="button secondary" type="button" data-close-and-category="polera">Poleras</button>
+        <button class="button secondary" type="button" data-close-and-category="poleron">Polerones</button>
         <button class="button secondary" type="button" data-close-and-category="camisa">Camisas</button>
         <button class="button secondary" type="button" data-close-and-category="chaqueta">Chaquetas</button>
         <button class="button secondary" type="button" data-close-and-category="parka">Parkas</button>
@@ -3315,7 +3691,7 @@
         <button class="button secondary" type="button" data-close-and-category="traje">Trajes de baño</button>
         <button class="button secondary" type="button" data-close-and-category="zapatilla">Zapatillas</button>
         <button class="button secondary" type="button" data-close-and-category="jockey">Jockeys</button>
-        <button class="button" type="button" data-close-and-category="all">Comprar productos</button>
+        <button class="button" type="button" data-close-and-category="all">Ver todos</button>
         <a class="button tally-link" href="#" target="_blank" rel="noopener">Publicar productos</a>
       </div>
     </div>
@@ -3325,7 +3701,7 @@
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="buy-modal-title">
       <button class="modal-close" type="button" data-close-modal="buy-modal">×</button>
       <h2 id="buy-modal-title">Mensaje copiado</h2>
-      <p>Se copió el texto con el link exacto del producto. Continúa al DM de BRUTAG y pégalo para enviarlo.</p>
+      <p>Se copió el texto con el link del producto. Continúa al DM de VURTAG y pégalo para enviarlo.</p>
       <div class="buy-message-box" id="buy-message-box"></div>
       <div class="actions">
         <a class="button" id="open-instagram-dm" href="https://ig.me/m/vurtag.cl" target="_blank" rel="noopener">Continuar al DM</a>
@@ -3426,6 +3802,38 @@
     <div class="modal-content photo-modal-content" role="dialog" aria-modal="true" aria-label="Vista ampliada del producto">
       <button class="modal-close" type="button" data-close-modal="photo-modal">×</button>
       <img id="photo-modal-image" src="" alt="">
+    </div>
+  </div>
+
+  <!-- Carrito de compras -->
+  <div class="cart-modal" id="cart-modal" hidden>
+    <div class="cart-backdrop" id="cart-backdrop"></div>
+    <div class="cart-panel" role="dialog" aria-label="Carrito de compras" aria-modal="true">
+      <div class="cart-panel-head">
+        <h3>Carrito</h3>
+        <button class="cart-panel-close" type="button" id="cart-panel-close" aria-label="Cerrar carrito">×</button>
+      </div>
+      <div class="cart-items" id="cart-items">
+        <p class="cart-empty-msg" id="cart-empty-msg">El carrito está vacío.</p>
+      </div>
+      <div class="cart-panel-foot" id="cart-panel-foot" hidden>
+        <button class="button" type="button" id="cart-checkout-btn">Comprar todo</button>
+        <button class="button secondary" type="button" id="cart-clear-btn">Vaciar carrito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal confirmación compra carrito -->
+  <div class="modal" id="cart-buy-modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="cart-buy-title">
+      <button class="modal-close" type="button" data-close-modal="cart-buy-modal">×</button>
+      <h2 id="cart-buy-title">Mensaje copiado</h2>
+      <p>Se copió el mensaje con todos tus productos. Pégalo en el DM de VURTAG.</p>
+      <div class="buy-message-box" id="cart-buy-message-box"></div>
+      <div class="actions" style="margin-top:14px">
+        <a class="button" id="cart-open-ig" href="https://ig.me/m/vurtag.cl" target="_blank" rel="noopener">Ir al DM de VURTAG</a>
+        <button class="button secondary" type="button" id="cart-copy-again">Copiar otra vez</button>
+      </div>
     </div>
   </div>
 
@@ -3533,7 +3941,7 @@
 
     function buildBuyMessage(productName, productId) {
       const productUrl = productLink(productId);
-      return `Hola BRUTAG, quiero comprar este producto: ${productName}.\nLink: ${productUrl}\n¿Aún está disponible?`;
+      return `Hola VURTAG, quiero comprar este producto: ${productName}.\nLink: ${productUrl}\n¿Aún está disponible?`;
     }
 
     function instagramUrlWithMessage(message) {
@@ -4329,7 +4737,7 @@
       const description = capitalizeFirst(getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]));
       const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
 
-      const productName = titleCase(getValue(product, ["Nombre", "Nombre del producto"])) || [type, brand].filter(Boolean).join(" ") || `Producto BRUTAG ${index + 1}`;
+      const productName = titleCase(getValue(product, ["Nombre", "Nombre del producto"])) || [type, brand].filter(Boolean).join(" ") || `Producto VURTAG ${index + 1}`;
       const productIndex = Number.isInteger(product.__productIndex) ? product.__productIndex : index;
       const productId = getValue(product, ["Id", "ID", "Producto ID", "Product ID"]) || productIdFromName(productName, productIndex);
       const category = productCategory(product);
@@ -4364,12 +4772,12 @@
             <ul class="detail-list product-extra-details" hidden>
               <li><strong>Estado:</strong> ${escapeHtml(status || "Por confirmar")}</li>
               <li><strong>Stock:</strong> Disponible</li>
-              <li><strong>Descripción:</strong> ${escapeHtml(description || "Producto publicado en VURTAG")}</li>
+              <li><strong>Descripción:</strong> ${escapeHtml(description || "Producto disponible en VURTAG")}</li>
             </ul>
             <div class="actions">
               <a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
+              <button class="button secondary add-to-cart-btn" type="button" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}" data-product-price="${escapeHtml(displayPrice || '')}" data-product-photo="${escapeHtml(photos[0] || '')}">+ Carrito</button>
               <button class="button secondary product-details-button" type="button">Ver más</button>
-              <a class="button secondary tally-link" href="${escapeHtml(siteIntegrations.tallyFormUrl)}" target="_blank" rel="noopener">Vender</a>
             </div>
           </article>
         </div>`;
@@ -4432,7 +4840,7 @@
         renderEmptyCatalog();
         return;
       }
-      if (reason) console.info(`[BRUTAG] usando productos de respaldo: ${reason}`);
+      if (reason) console.info(`[VURTAG] usando productos de respaldo: ${reason}`);
       loadedProducts = backup;
       renderAvailableProducts();
     }
@@ -4478,7 +4886,7 @@
               .filter(hasPublishableProductData);
           }
         } catch (error) {
-          console.warn("[BRUTAG] API privada no disponible:", error.message);
+          console.warn("[VURTAG] API privada no disponible:", error.message);
         }
       }
 
@@ -4497,7 +4905,7 @@
             }
           }
         } catch (error) {
-          console.warn("[BRUTAG] CSV público no disponible:", error.message);
+          console.warn("[VURTAG] CSV público no disponible:", error.message);
         }
       }
 
@@ -4535,6 +4943,238 @@
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) loadProductsFromSheet();
     });
+
+    /* ============================================================
+       CARRITO DE COMPRAS
+    ============================================================ */
+    let cart = [];
+
+    function cartSave() {
+      try { localStorage.setItem("vurtag_cart", JSON.stringify(cart)); } catch {}
+    }
+
+    function cartLoad() {
+      try {
+        const raw = localStorage.getItem("vurtag_cart");
+        if (raw) cart = JSON.parse(raw) || [];
+      } catch {}
+    }
+
+    cartLoad();
+
+    function cartItemHtml(item, idx) {
+      const imgHtml = item.photo
+        ? `<img class="cart-item-img" src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" loading="lazy">`
+        : `<div class="cart-item-img" style="display:flex;align-items:center;justify-content:center;color:#999;font-size:0.65rem;">Sin foto</div>`;
+      return `
+        <div class="cart-item" data-cart-index="${idx}">
+          ${imgHtml}
+          <div class="cart-item-info">
+            <span class="cart-item-name">${escapeHtml(item.name)}</span>
+            <span class="cart-item-price">${escapeHtml(item.price || "Precio por DM")}</span>
+          </div>
+          <button class="cart-item-remove" type="button" data-remove-idx="${idx}" aria-label="Quitar del carrito">×</button>
+        </div>`;
+    }
+
+    function renderCartPanel() {
+      const cartItems = document.getElementById("cart-items");
+      const cartEmptyMsg = document.getElementById("cart-empty-msg");
+      const cartFoot = document.getElementById("cart-panel-foot");
+      const cartBadge = document.getElementById("cart-badge");
+      if (!cartItems) return;
+
+      const count = cart.length;
+
+      // Badge
+      if (cartBadge) {
+        if (count > 0) {
+          cartBadge.textContent = count;
+          cartBadge.removeAttribute("hidden");
+        } else {
+          cartBadge.setAttribute("hidden", "");
+        }
+      }
+
+      if (!count) {
+        cartItems.innerHTML = `<p class="cart-empty-msg">El carrito está vacío.</p>`;
+        if (cartFoot) cartFoot.setAttribute("hidden", "");
+        return;
+      }
+
+      cartItems.innerHTML = cart.map((item, idx) => cartItemHtml(item, idx)).join("");
+      if (cartFoot) cartFoot.removeAttribute("hidden");
+    }
+
+    function addToCart(item) {
+      // Evitar duplicados por id
+      const exists = cart.some((c) => c.id === item.id);
+      if (exists) {
+        showToast(`"${item.name}" ya está en el carrito.`);
+        return;
+      }
+      cart.push(item);
+      cartSave();
+      renderCartPanel();
+      showToast(`"${item.name}" agregado al carrito.`);
+    }
+
+    function removeFromCart(idx) {
+      cart.splice(idx, 1);
+      cartSave();
+      renderCartPanel();
+    }
+
+    function clearCart() {
+      cart = [];
+      cartSave();
+      renderCartPanel();
+    }
+
+    function buildCartMessage() {
+      if (!cart.length) return "";
+      const lines = cart.map((item, i) => {
+        const url = productLink(item.id);
+        return `${i + 1}. ${item.name}${item.price ? " — " + item.price : ""}\n   Link: ${url}`;
+      });
+      return `Hola VURTAG, quiero comprar estos productos:\n${lines.join("\n")}\n¿Están disponibles?`;
+    }
+
+    function openCartModal() {
+      renderCartPanel();
+      const modal = document.getElementById("cart-modal");
+      if (modal) modal.removeAttribute("hidden");
+    }
+
+    function closeCartModal() {
+      const modal = document.getElementById("cart-modal");
+      if (modal) modal.setAttribute("hidden", "");
+    }
+
+    // Cart button en header
+    const cartBtn = document.getElementById("cart-btn");
+    if (cartBtn) cartBtn.addEventListener("click", openCartModal);
+
+    // Cerrar carrito
+    document.getElementById("cart-panel-close")?.addEventListener("click", closeCartModal);
+    document.getElementById("cart-backdrop")?.addEventListener("click", closeCartModal);
+
+    // Quitar producto del carrito (delegación)
+    document.getElementById("cart-items")?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-remove-idx]");
+      if (btn) removeFromCart(Number(btn.dataset.removeIdx));
+    });
+
+    // Vaciar carrito
+    document.getElementById("cart-clear-btn")?.addEventListener("click", () => {
+      clearCart();
+    });
+
+    // Checkout carrito
+    document.getElementById("cart-checkout-btn")?.addEventListener("click", async () => {
+      const message = buildCartMessage();
+      if (!message) return;
+
+      const box = document.getElementById("cart-buy-message-box");
+      if (box) box.textContent = message;
+
+      const igLink = document.getElementById("cart-open-ig");
+      if (igLink) igLink.href = instagramUrlWithMessage(message);
+
+      await copyMessage(message).catch(() => fallbackCopyMessage(message));
+
+      closeCartModal();
+      openModal(document.getElementById("cart-buy-modal"));
+    });
+
+    // Copiar otra vez en modal carrito
+    document.getElementById("cart-copy-again")?.addEventListener("click", async () => {
+      const message = buildCartMessage();
+      if (!message) return;
+      await copyMessage(message).catch(() => fallbackCopyMessage(message));
+      showToast("Mensaje copiado otra vez.");
+    });
+
+    // Agregar al carrito desde tarjetas de producto (delegación de eventos)
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".add-to-cart-btn");
+      if (!btn) return;
+      addToCart({
+        name: btn.dataset.productName || "Producto",
+        id: btn.dataset.productId || "",
+        price: btn.dataset.productPrice || "",
+        photo: btn.dataset.productPhoto || ""
+      });
+    });
+
+    // Inicializar badge al cargar
+    renderCartPanel();
+
+    /* ============================================================
+       MENÚ HAMBURGUESA
+    ============================================================ */
+    function openHamburger() {
+      const overlay = document.getElementById("hamburger-overlay");
+      if (overlay) overlay.removeAttribute("hidden");
+    }
+    function closeHamburger() {
+      const overlay = document.getElementById("hamburger-overlay");
+      if (overlay) overlay.setAttribute("hidden", "");
+    }
+
+    document.getElementById("hamburger-btn")?.addEventListener("click", openHamburger);
+    document.getElementById("hamburger-close-btn")?.addEventListener("click", closeHamburger);
+    document.getElementById("hamburger-backdrop")?.addEventListener("click", closeHamburger);
+
+    // "Ver más productos" desde hamburguesa
+    document.getElementById("hamburger-explore-btn")?.addEventListener("click", () => {
+      closeHamburger();
+      openModal(moreProductsModal);
+    });
+
+    /* ============================================================
+       EFECTO SCROLL: VURTAG en barra superior
+    ============================================================ */
+    const topBrandBar = document.getElementById("top-brand-bar");
+    const brandTypedEl = document.getElementById("brand-typed");
+    const BRAND_WORD = "VURTAG";
+    let brandActive = false;
+    let brandTyped = false;
+    let brandTypeTimer = null;
+
+    function typeBrand() {
+      if (brandTyped || !brandTypedEl) return;
+      brandTyped = true;
+      let i = 0;
+      brandTypedEl.textContent = "";
+      clearInterval(brandTypeTimer);
+      brandTypeTimer = setInterval(() => {
+        if (i < BRAND_WORD.length) {
+          brandTypedEl.textContent = BRAND_WORD.slice(0, i + 1).split("").join(" ");
+          i++;
+        } else {
+          clearInterval(brandTypeTimer);
+        }
+      }, 75);
+    }
+
+    window.addEventListener("scroll", () => {
+      if (!topBrandBar) return;
+      if (window.scrollY > 90) {
+        if (!brandActive) {
+          brandActive = true;
+          topBrandBar.classList.add("is-active");
+          typeBrand();
+        }
+      } else {
+        if (brandActive) {
+          brandActive = false;
+          brandTyped = false;
+          topBrandBar.classList.remove("is-active");
+          if (brandTypedEl) brandTypedEl.textContent = "";
+        }
+      }
+    }, { passive: true });
   </script>
 
 </body>

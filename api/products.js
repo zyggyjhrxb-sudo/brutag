@@ -22,7 +22,7 @@ module.exports = async function productsHandler(req, res) {
   } catch (error) {
     console.error(error);
     return sendJson(res, 503, {
-      error: "No se pudo leer el catálogo privado de BRUTAG"
+      error: "No se pudo leer el catálogo privado de VURTAG"
     });
   }
 };
