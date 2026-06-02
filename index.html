@@ -4316,6 +4316,25 @@
       renderAvailableProducts();
     }
 
+    const PRODUCT_CACHE_KEY = "vurtag_products_v1";
+    const PRODUCT_CACHE_TTL = 10 * 60 * 1000;
+
+    function saveProductsToCache(products) {
+      try {
+        localStorage.setItem(PRODUCT_CACHE_KEY, JSON.stringify({ products, savedAt: Date.now() }));
+      } catch {}
+    }
+
+    function loadProductsFromCache() {
+      try {
+        const raw = localStorage.getItem(PRODUCT_CACHE_KEY);
+        if (!raw) return null;
+        const { products, savedAt } = JSON.parse(raw);
+        if (Date.now() - savedAt > PRODUCT_CACHE_TTL) return null;
+        return Array.isArray(products) ? products : null;
+      } catch { return null; }
+    }
+
     let isFetchingProducts = false;
 
     async function loadProductsFromSheet() {
@@ -4372,10 +4391,18 @@
       }
 
       loadedProducts = merged;
+      saveProductsToCache(merged);
       renderAvailableProducts();
       } finally {
         isFetchingProducts = false;
       }
+    }
+
+    // Muestra productos guardados de inmediato, sin esperar la API
+    const cachedProducts = loadProductsFromCache();
+    if (cachedProducts && cachedProducts.length) {
+      loadedProducts = cachedProducts;
+      renderAvailableProducts();
     }
 
     loadProductsFromSheet();
