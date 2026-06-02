@@ -2960,6 +2960,11 @@
        Móvil: 2 columnas | Desktop: 4-5 col
        ═══════════════════════════════════ */
 
+    /* Transición suave al cargar/actualizar productos */
+    .available-products {
+      transition: opacity 0.22s ease !important;
+    }
+
     /* Contenedor: grid en lugar de carrusel */
     .available-products {
       display: grid !important;
@@ -3721,7 +3726,7 @@
         return renderEmptyCatalog();
       }
 
-      // ── Anti-parpadeo: no re-renderiza si los datos no cambiaron ──
+      // Si los datos no cambiaron, no tocar el DOM
       const hash = getProductsHash(filteredProducts, activeProductCategory);
       if (hash === lastProductsHash && availableProducts.children.length > 0) return true;
       lastProductsHash = hash;
@@ -3730,13 +3735,31 @@
       const productHtml = visibleProducts.map(createProductHtml).filter(Boolean).join("");
       if (!productHtml) return renderEmptyCatalog();
 
-      availableProducts.innerHTML = `${productHtml}${filteredProducts.length > 6 ? createMoreProductsCard(filteredProducts.length) : ""}`;
-      attachBuyButtons(availableProducts);
-      attachPhotoZoom(availableProducts);
-      attachProductDetailButtons(availableProducts);
-      attachMoreProductCards(availableProducts);
-      queueProductPanelSync(availableProducts);
-      window.requestAnimationFrame(scrollToRequestedProduct);
+      const isFirstRender = availableProducts.children.length === 0;
+
+      const applyRender = () => {
+        availableProducts.innerHTML = `${productHtml}${filteredProducts.length > 6 ? createMoreProductsCard(filteredProducts.length) : ""}`;
+        attachBuyButtons(availableProducts);
+        attachPhotoZoom(availableProducts);
+        attachProductDetailButtons(availableProducts);
+        attachMoreProductCards(availableProducts);
+        queueProductPanelSync(availableProducts);
+        window.requestAnimationFrame(scrollToRequestedProduct);
+        // Fade in
+        window.requestAnimationFrame(() => { availableProducts.style.opacity = "1"; });
+      };
+
+      if (isFirstRender) {
+        // Primera carga: aparece suavemente desde 0
+        availableProducts.style.opacity = "0";
+        applyRender();
+      } else {
+        // Re-render: fade out → update → fade in
+        availableProducts.style.opacity = "0";
+        clearTimeout(availableProducts._renderTimer);
+        availableProducts._renderTimer = window.setTimeout(applyRender, 180);
+      }
+
       return true;
     }
 
@@ -4282,8 +4305,12 @@
       renderAvailableProducts();
     }
 
+    let isFetchingProducts = false;
+
     async function loadProductsFromSheet() {
-      if (!availableProducts) return;
+      if (!availableProducts || isFetchingProducts) return;
+      isFetchingProducts = true;
+      try {
 
       // 1. Intenta la API privada (Google Sheets con credenciales en Vercel)
       let sheetProducts = [];
@@ -4339,6 +4366,9 @@
 
       loadedProducts = merged;
       renderAvailableProducts();
+      } finally {
+        isFetchingProducts = false;
+      }
     }
 
     loadProductsFromSheet();
