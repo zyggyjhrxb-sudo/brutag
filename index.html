@@ -4412,8 +4412,8 @@
 
     loadProductsFromSheet();
 
-    // Refresca el catálogo cada 2 minutos.
-    setInterval(loadProductsFromSheet, 2 * 60 * 1000);
+    // Refresca el catálogo cada 10 segundos.
+    setInterval(loadProductsFromSheet, 10 * 1000);
 
     // Refresca también cuando el usuario vuelve al tab
     document.addEventListener("visibilitychange", () => {
