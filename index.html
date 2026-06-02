@@ -2855,6 +2855,11 @@
       object-fit: contain !important;
       object-position: center !important;
       mix-blend-mode: multiply;
+      transition: opacity 0.2s ease;
+    }
+    .product-gallery img:not([src]),
+    .product-gallery img[src=""] {
+      opacity: 0;
     }
 
     /* Fix cortes en móvil: nada desborda la pantalla */
@@ -4215,7 +4220,7 @@
       const imageFigures = photos.map((photo) => `
             <figure>
               <button class="photo-zoom" type="button" data-photo-src="${escapeHtml(photo)}" data-photo-alt="${escapeHtml(productName)}">
-                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}" loading="lazy" decoding="async">
+                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}" decoding="async">
                 <span class="photo-preview">Vista previa</span>
               </button>
             </figure>`).join("");
