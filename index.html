@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VURTAG | Ropa usada de hombre</title>
+  <title>VURTAG | Compra y venta de ropa usada de hombre en Chile</title>
   <!-- Favicon VTG: embebido directo para evitar caché -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'%3E%3Crect width='90' height='90' fill='%23000'/%3E%3Ctext x='45' y='62' font-family='Arial Black%2CArial%2Csans-serif' font-weight='900' font-size='38' fill='%23fff' text-anchor='middle' letter-spacing='-2'%3EVTG%3C/text%3E%3C/svg%3E">
   <link rel="shortcut icon" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <meta name="description" content="Compra y venta de ropa usada de hombre en Chile. Encuentra prendas seleccionadas de estilo urbano, casual y vintage.">
   <meta name="google-site-verification" content="PEGA_AQUI_TU_CODIGO_DE_GOOGLE_SEARCH_CONSOLE">
-  <link rel="canonical" href="https://brutag.vercel.app/">
+  <link rel="canonical" href="https://vurtag.cl/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="VURTAG">
-  <meta property="og:title" content="VURTAG | Ropa usada de hombre">
+  <meta property="og:title" content="VURTAG | Compra y venta de ropa usada de hombre">
   <meta property="og:description" content="Compra y venta de ropa usada de hombre en Chile. Prendas de estilo urbano, casual y vintage.">
-  <meta property="og:url" content="https://brutag.vercel.app/">
-  <meta property="og:image" content="https://brutag.vercel.app/poleron-grizzly-frente.jpeg">
+  <meta property="og:url" content="https://vurtag.cl/">
+  <meta property="og:image" content="https://vurtag.cl/poleron-grizzly-frente.jpeg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://oauth2.googleapis.com">
   <link rel="preconnect" href="https://sheets.googleapis.com">
@@ -27,8 +27,8 @@
       "@context": "https://schema.org",
       "@type": "ClothingStore",
       "name": "VURTAG",
-      "url": "https://brutag.vercel.app/",
-      "description": "Ropa usada para hombre con compra directa por DM.",
+      "url": "https://vurtag.cl/",
+      "description": "Compra y venta de ropa usada de hombre en Chile.",
       "sameAs": [
         "https://instagram.com/vurtag.cl"
       ]
@@ -3493,6 +3493,53 @@
     }
     @keyframes blink-bar { 50% { opacity: 0; } }
 
+    /* ===== NAV: oculto al hacer scroll ===== */
+    .nav { transition: opacity 300ms ease, visibility 300ms ease; }
+    .nav.nav--hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+
+    /* ===== CATALOG OVERLAY: todos los productos ===== */
+    .catalog-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: var(--bg, #fff);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .catalog-overlay[hidden] { display: none !important; }
+    .catalog-overlay-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--bg, #fff);
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid var(--borde, #000);
+    }
+    .catalog-back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 0;
+      color: var(--tinta, #000);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .catalog-back-btn:hover { opacity: 0.5; }
+    .catalog-overlay-body {
+      padding: 24px 16px 64px;
+      max-width: var(--page, 1280px);
+      margin: 0 auto;
+    }
+
     /* ===== MODAL VER MÁS: scrollable ===== */
     #more-products-modal .modal-content {
       max-height: min(88vh, 680px);
@@ -3571,8 +3618,7 @@
         <a class="brand" href="#inicio">VURT<span class="brand-accent">A</span><span class="brand-accent">G</span></a>
       </div>
       <nav class="nav-links" aria-label="Principal">
-        <a class="nav-sell" href="#vender">Quiero vender</a>
-        <a class="nav-publish tally-link" href="#">Publicar</a>
+        <a class="nav-publish tally-link" href="#">Publica tu producto</a>
         <button class="cart-btn" type="button" id="cart-btn" aria-label="Carrito de compras">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="cart-badge" id="cart-badge" hidden>0</span>
@@ -3587,9 +3633,8 @@
     <div class="hamburger-panel" role="dialog" aria-label="Menú de navegación">
       <button class="hamburger-close-btn" type="button" id="hamburger-close-btn" aria-label="Cerrar menú">×</button>
       <nav class="hamburger-nav">
-        <button class="hamburger-nav-item" type="button" id="hamburger-explore-btn">Ver más productos</button>
-        <a class="hamburger-nav-item" href="#vender">Quiero vender</a>
-        <a class="hamburger-nav-item tally-link" href="#">Publicar</a>
+        <a class="hamburger-nav-item tally-link" href="#">Publica tu producto</a>
+        <button class="hamburger-nav-item" type="button" id="hamburger-comprar-btn">Comprar</button>
       </nav>
     </div>
   </div>
@@ -3626,7 +3671,7 @@
           <span>Jockeys</span>
         </div>
       </div>
-      <a class="button" href="#drop">Ver colección &rarr;</a>
+      <button class="button" type="button" id="hero-catalog-btn">Ver colección</button>
     </section>
 
 
@@ -3674,6 +3719,16 @@
     <button class="footer-condition-button" type="button" id="conditions-button">Condiciones VURTAG</button>
   </footer>
 
+  <!-- Catalog overlay: todos los productos -->
+  <div class="catalog-overlay" id="catalog-overlay" hidden>
+    <div class="catalog-overlay-header">
+      <button class="catalog-back-btn" id="catalog-overlay-close">← Volver</button>
+    </div>
+    <div class="catalog-overlay-body">
+      <div class="available-products" id="catalog-overlay-products" aria-label="Todos los productos"></div>
+    </div>
+  </div>
+
   <div class="modal" id="more-products-modal" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="more-products-title">
       <button class="modal-close" type="button" data-close-modal="more-products-modal">×</button>
@@ -3691,7 +3746,7 @@
         <button class="button secondary" type="button" data-close-and-category="traje">Trajes de baño</button>
         <button class="button secondary" type="button" data-close-and-category="zapatilla">Zapatillas</button>
         <button class="button secondary" type="button" data-close-and-category="jockey">Jockeys</button>
-        <button class="button" type="button" data-close-and-category="all">Ver todos</button>
+        <button class="button" type="button" id="open-catalog-overlay-btn">Ver todos</button>
         <a class="button tally-link" href="#" target="_blank" rel="noopener">Publicar productos</a>
       </div>
     </div>
@@ -3716,7 +3771,7 @@
       <div class="product-detail-layout">
         <div class="product-detail-gallery" id="product-detail-gallery"></div>
         <div class="product-detail-text">
-          <h2 id="product-detail-title">Producto BRUTAG</h2>
+          <h2 id="product-detail-title">Producto VURTAG</h2>
           <div class="product-detail-price" id="product-detail-price"></div>
           <ul class="product-detail-list" id="product-detail-list"></ul>
           <div class="actions">
@@ -3744,7 +3799,7 @@
           <li>Regiones: despacho entre 1 y 7 días hábiles.</li>
           <li>El vendedor es responsable de enviar correctamente el producto a la dirección entregada.</li>
           <li>El comprador es responsable de ingresar correctamente su dirección.</li>
-          <li>BRUTAG no se hace responsable por envíos ni problemas de transporte.</li>
+          <li>VURTAG no se hace responsable por envíos ni problemas de transporte.</li>
         </ul>
 
         <h3>Confirmación y reclamos</h3>
@@ -3851,7 +3906,7 @@
 
   <script>
     const siteIntegrations = {
-      productionUrl: "https://brutag.vercel.app/",
+      productionUrl: "https://vurtag.cl/",
       instagramDmUrl: "https://ig.me/m/vurtag.cl",
       instagramProfileUrl: "https://www.instagram.com/vurtag.cl/",
       tallyFormUrl: "https://tally.so/r/J9eK1Y",
@@ -3968,9 +4023,9 @@
 
       copyMessage(currentBuyMessage).then((copied) => {
         const messageReady = copied || fallbackCopied;
-        showToast(messageReady ? "Mensaje con link copiado. Pégalo en el DM de BRUTAG." : "Copia el mensaje y pégalo en el DM de BRUTAG.");
+        showToast(messageReady ? "Mensaje con link copiado. Pégalo en el DM de VURTAG." : "Copia el mensaje y pégalo en el DM de VURTAG.");
       }).catch(() => {
-        showToast(fallbackCopied ? "Mensaje con link copiado. Pégalo en el DM de BRUTAG." : "Copia el mensaje y pégalo en el DM de BRUTAG.");
+        showToast(fallbackCopied ? "Mensaje con link copiado. Pégalo en el DM de VURTAG." : "Copia el mensaje y pégalo en el DM de VURTAG.");
       });
 
       openModal(buyModal);
@@ -4121,7 +4176,7 @@
     function openProductDetail(card) {
       if (!card || !productDetailModal) return;
 
-      const title = card.querySelector(".product-info h3")?.textContent?.trim() || "Producto BRUTAG";
+      const title = card.querySelector(".product-info h3")?.textContent?.trim() || "Producto VURTAG";
       const price = card.querySelector(".price")?.textContent?.trim() || "Precio por DM";
       const buyButton = card.querySelector(".buy-button");
       const productName = buyButton?.dataset.productName || title;
@@ -4321,7 +4376,7 @@
 
     function attachBuyButtons(scope = document) {
       scope.querySelectorAll(".buy-button").forEach((button) => {
-        const productName = button.dataset.productName || "Producto BRUTAG";
+        const productName = button.dataset.productName || "Producto VURTAG";
         const productId = button.dataset.productId || productIdFromName(productName);
         const message = buildBuyMessage(productName, productId);
         button.href = instagramUrlWithMessage(message);
@@ -4432,7 +4487,7 @@
       productDetailBuy.addEventListener("click", (event) => {
         event.preventDefault();
         closeModal(productDetailModal);
-        openBuyFlow(productDetailBuy.dataset.productName || "Producto BRUTAG", productDetailBuy.dataset.productId || "producto");
+        openBuyFlow(productDetailBuy.dataset.productName || "Producto VURTAG", productDetailBuy.dataset.productId || "producto");
       });
     }
 
@@ -5133,48 +5188,90 @@
     });
 
     /* ============================================================
-       EFECTO SCROLL: VURTAG en barra superior
+       EFECTO SCROLL: VURTAG letra a letra según posición de scroll
     ============================================================ */
     const topBrandBar = document.getElementById("top-brand-bar");
     const brandTypedEl = document.getElementById("brand-typed");
+    const siteNav = document.getElementById("site-nav");
     const BRAND_WORD = "VURTAG";
+    const SCROLL_START = 90;    // scroll donde aparece la primera letra
+    const SCROLL_PER_LETTER = 32; // px por letra adicional
     let brandActive = false;
-    let brandTyped = false;
-    let brandTypeTimer = null;
+    let lastLetterCount = -1;
 
-    function typeBrand() {
-      if (brandTyped || !brandTypedEl) return;
-      brandTyped = true;
-      let i = 0;
-      brandTypedEl.textContent = "";
-      clearInterval(brandTypeTimer);
-      brandTypeTimer = setInterval(() => {
-        if (i < BRAND_WORD.length) {
-          brandTypedEl.textContent = BRAND_WORD.slice(0, i + 1).split("").join(" ");
-          i++;
-        } else {
-          clearInterval(brandTypeTimer);
-        }
-      }, 75);
-    }
+    function updateBrandBar(scrollY) {
+      if (!topBrandBar || !brandTypedEl) return;
 
-    window.addEventListener("scroll", () => {
-      if (!topBrandBar) return;
-      if (window.scrollY > 90) {
-        if (!brandActive) {
-          brandActive = true;
-          topBrandBar.classList.add("is-active");
-          typeBrand();
-        }
-      } else {
+      if (scrollY < SCROLL_START) {
         if (brandActive) {
           brandActive = false;
-          brandTyped = false;
+          lastLetterCount = -1;
           topBrandBar.classList.remove("is-active");
-          if (brandTypedEl) brandTypedEl.textContent = "";
+          brandTypedEl.textContent = "";
+          siteNav?.classList.remove("nav--hidden");
         }
+        return;
       }
-    }, { passive: true });
+
+      if (!brandActive) {
+        brandActive = true;
+        topBrandBar.classList.add("is-active");
+        siteNav?.classList.add("nav--hidden");
+      }
+
+      const count = Math.min(BRAND_WORD.length, Math.max(0,
+        Math.floor((scrollY - SCROLL_START) / SCROLL_PER_LETTER)
+      ));
+      if (count !== lastLetterCount) {
+        lastLetterCount = count;
+        brandTypedEl.textContent = count > 0
+          ? BRAND_WORD.slice(0, count).split("").join(" ")
+          : "";
+      }
+    }
+
+    window.addEventListener("scroll", () => updateBrandBar(window.scrollY), { passive: true });
+
+    /* ============================================================
+       CATALOG OVERLAY: muestra todos los productos
+    ============================================================ */
+    const catalogOverlay = document.getElementById("catalog-overlay");
+    const catalogOverlayProducts = document.getElementById("catalog-overlay-products");
+
+    function openCatalogOverlay() {
+      if (!catalogOverlay || !catalogOverlayProducts) return;
+      if (!loadedProducts.length) {
+        applyProductCategory("all");
+        return;
+      }
+      const html = loadedProducts.map((p, i) => createProductHtml(p, i)).filter(Boolean).join("");
+      catalogOverlayProducts.innerHTML = html || "<p style='padding:32px;text-align:center'>Sin productos disponibles.</p>";
+      attachBuyButtons(catalogOverlayProducts);
+      attachPhotoZoom(catalogOverlayProducts);
+      attachProductDetailButtons(catalogOverlayProducts);
+      catalogOverlay.removeAttribute("hidden");
+      catalogOverlay.scrollTop = 0;
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCatalogOverlay() {
+      if (!catalogOverlay) return;
+      catalogOverlay.setAttribute("hidden", "");
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("catalog-overlay-close")?.addEventListener("click", closeCatalogOverlay);
+    document.getElementById("hero-catalog-btn")?.addEventListener("click", openCatalogOverlay);
+    document.getElementById("open-catalog-overlay-btn")?.addEventListener("click", () => {
+      closeModal(moreProductsModal);
+      openCatalogOverlay();
+    });
+
+    // "Comprar" en hamburguesa → sección de productos
+    document.getElementById("hamburger-comprar-btn")?.addEventListener("click", () => {
+      closeHamburger();
+      scrollToSection("drop");
+    });
   </script>
 
 </body>
