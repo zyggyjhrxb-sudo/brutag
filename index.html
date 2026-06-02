@@ -2960,9 +2960,13 @@
        Móvil: 2 columnas | Desktop: 4-5 col
        ═══════════════════════════════════ */
 
-    /* Transición suave al cargar/actualizar productos */
-    .available-products {
-      transition: opacity 0.22s ease !important;
+    /* Tarjetas aparecen con fade-in CSS puro (no depende de JS ni timers) */
+    @keyframes vurtag-card-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .available-products .product-grid {
+      animation: vurtag-card-in 0.25s ease both;
     }
 
     /* Contenedor: grid en lugar de carrusel */
@@ -3735,31 +3739,15 @@
       const productHtml = visibleProducts.map(createProductHtml).filter(Boolean).join("");
       if (!productHtml) return renderEmptyCatalog();
 
-      const isFirstRender = availableProducts.children.length === 0;
-
-      const applyRender = () => {
-        availableProducts.innerHTML = `${productHtml}${filteredProducts.length > 6 ? createMoreProductsCard(filteredProducts.length) : ""}`;
-        attachBuyButtons(availableProducts);
-        attachPhotoZoom(availableProducts);
-        attachProductDetailButtons(availableProducts);
-        attachMoreProductCards(availableProducts);
-        queueProductPanelSync(availableProducts);
-        window.requestAnimationFrame(scrollToRequestedProduct);
-        // Fade in
-        window.requestAnimationFrame(() => { availableProducts.style.opacity = "1"; });
-      };
-
-      if (isFirstRender) {
-        // Primera carga: aparece suavemente desde 0
-        availableProducts.style.opacity = "0";
-        applyRender();
-      } else {
-        // Re-render: fade out → update → fade in
-        availableProducts.style.opacity = "0";
-        clearTimeout(availableProducts._renderTimer);
-        availableProducts._renderTimer = window.setTimeout(applyRender, 180);
-      }
-
+      // Actualización directa — sin setTimeout ni opacity en contenedor
+      // (evita que el tab en segundo plano deje la página pegada con opacity 0)
+      availableProducts.innerHTML = `${productHtml}${filteredProducts.length > 6 ? createMoreProductsCard(filteredProducts.length) : ""}`;
+      attachBuyButtons(availableProducts);
+      attachPhotoZoom(availableProducts);
+      attachProductDetailButtons(availableProducts);
+      attachMoreProductCards(availableProducts);
+      queueProductPanelSync(availableProducts);
+      window.requestAnimationFrame(scrollToRequestedProduct);
       return true;
     }
 
