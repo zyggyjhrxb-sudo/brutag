@@ -18,6 +18,9 @@
   <meta property="og:url" content="https://brutag.vercel.app/">
   <meta property="og:image" content="https://brutag.vercel.app/poleron-grizzly-frente.jpeg">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://oauth2.googleapis.com">
+  <link rel="preconnect" href="https://sheets.googleapis.com">
+  <link rel="dns-prefetch" href="https://www.googleapis.com">
 
   <script type="application/ld+json">
     {
@@ -4212,7 +4215,7 @@
       const imageFigures = photos.map((photo) => `
             <figure>
               <button class="photo-zoom" type="button" data-photo-src="${escapeHtml(photo)}" data-photo-alt="${escapeHtml(productName)}">
-                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}">
+                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}" loading="lazy" decoding="async">
                 <span class="photo-preview">Vista previa</span>
               </button>
             </figure>`).join("");

@@ -3,7 +3,7 @@ const { getApprovedProducts, publicProduct } = require("../lib/google-products")
 function sendJson(res, statusCode, payload) {
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Cache-Control", "no-store, max-age=0");
+  res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
   res.end(JSON.stringify(payload));
 }
 

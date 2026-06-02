@@ -34,7 +34,7 @@ module.exports = async function imageHandler(req, res) {
     const image = await fetchProductImage(approvedPhoto.photoRef);
     res.statusCode = 200;
     res.setHeader("Content-Type", image.mimeType);
-    res.setHeader("Cache-Control", "no-store, max-age=0");
+    res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.end(image.bytes);
     return null;
