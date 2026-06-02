@@ -4156,12 +4156,24 @@
       const raw = String(value || "").trim();
       if (!raw) return "";
 
-      const numericValue = raw.replace(/[^\d]/g, "");
-      if (!numericValue) return raw;
+      // Queda solo dígitos, puntos y comas
+      let clean = raw.replace(/[^0-9.,]/g, "");
+      if (!clean) return raw;
 
-      let amount = Number(numericValue);
+      // Si termina en decimales (1-2 dígitos después de punto o coma)
+      // → centavos no existen en CLP, los sacamos
+      // Ej: "25000.00" → "25000" | "25000,5" → "25000"
+      clean = clean.replace(/[.,]\d{1,2}$/, "");
+
+      // Sacamos todos los separadores de miles que quedan
+      const digits = clean.replace(/[.,]/g, "");
+      const amount = Number(digits);
+
+      if (!amount || isNaN(amount)) return raw;
+
+      // Heurística: si alguien escribió "25" queriendo decir "$25.000"
       if (amount > 0 && amount < 1000 && /(?:clp|\$)/i.test(raw)) {
-        amount *= 1000;
+        return `$${(amount * 1000).toLocaleString("es-CL")}`;
       }
 
       return `$${amount.toLocaleString("es-CL")}`;
