@@ -3098,10 +3098,10 @@
 
     .carousel-cue { display: none !important; }
 
-    /* Desktop: 4-5 columnas automáticas */
+    /* Desktop: 5 columnas fijas */
     @media (min-width: 769px) {
       .available-products {
-        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)) !important;
+        grid-template-columns: repeat(5, 1fr) !important;
         gap: 16px !important;
       }
       .available-products .product-gallery figure:first-child { padding: 10px !important; }
@@ -3117,7 +3117,7 @@
         min-height: 36px !important;
         font-size: 0.65rem !important;
       }
-      .product-more-card { grid-column: span 1 !important; min-height: 80px !important; }
+      .product-more-card { grid-column: span 5 !important; min-height: 80px !important; }
     }
 
     /* Fix: texto largo en tarjetas no desborda */
@@ -3146,6 +3146,68 @@
 
     /* Fix: sell-main texto visible */
     .sell-main p { color: rgba(255,255,255,0.75) !important; }
+
+    /* ===== MODAL VER MÁS: scrollable ===== */
+    #more-products-modal .modal-content {
+      max-height: min(88vh, 680px);
+      overflow-y: auto;
+    }
+    #more-products-modal .modal-options {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #more-products-modal .modal-options .button {
+      font-size: 0.72rem;
+      min-height: 44px;
+    }
+
+    /* ===== NOTIFICACIÓN: sin productos en categoría ===== */
+    .no-cat-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+    }
+    .no-cat-overlay[hidden] { display: none !important; }
+    .no-cat-box {
+      position: relative;
+      width: min(560px, 100%);
+      padding: 52px 36px 44px;
+      background: #fff;
+      border: 2px solid #000;
+      text-align: center;
+    }
+    .no-cat-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 1px solid rgba(0, 0, 0, 0.28);
+      background: transparent;
+      color: #000;
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .no-cat-close:hover { background: #000; color: #fff; }
+    .no-cat-text {
+      margin: 0;
+      font-size: clamp(1.3rem, 4vw, 1.85rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.25;
+      color: #000;
+    }
   </style>
 </head>
 <body>
@@ -3238,18 +3300,23 @@
   <div class="modal" id="more-products-modal" aria-hidden="true">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="more-products-title">
       <button class="modal-close" type="button" data-close-modal="more-products-modal">×</button>
-      <h2 id="more-products-title">¿Qué quieres ver?</h2>
-      <p>Elige una categoría para revisar los productos disponibles.</p>
+      <h2 id="more-products-title">Explorar productos</h2>
+      <p>Elige una categoría o mira todo el catálogo disponible.</p>
       <div class="modal-options">
         <button class="button secondary" type="button" data-close-and-category="poleron">Polerones</button>
         <button class="button secondary" type="button" data-close-and-category="polera">Poleras</button>
-        <button class="button secondary" type="button" data-close-and-category="pantalon">Pantalones</button>
+        <button class="button secondary" type="button" data-close-and-category="camisa">Camisas</button>
         <button class="button secondary" type="button" data-close-and-category="chaqueta">Chaquetas</button>
         <button class="button secondary" type="button" data-close-and-category="parka">Parkas</button>
+        <button class="button secondary" type="button" data-close-and-category="pantalon">Pantalones</button>
+        <button class="button secondary" type="button" data-close-and-category="jeans">Jeans</button>
+        <button class="button secondary" type="button" data-close-and-category="buzo">Buzos</button>
+        <button class="button secondary" type="button" data-close-and-category="short">Shorts</button>
+        <button class="button secondary" type="button" data-close-and-category="traje">Trajes de baño</button>
         <button class="button secondary" type="button" data-close-and-category="zapatilla">Zapatillas</button>
         <button class="button secondary" type="button" data-close-and-category="jockey">Jockeys</button>
-        <button class="button secondary" type="button" data-close-and-category="all">Ver todo</button>
-        <a class="button tally-link" href="#" target="_blank" rel="noopener">Publicar producto</a>
+        <button class="button" type="button" data-close-and-category="all">Comprar productos</button>
+        <a class="button tally-link" href="#" target="_blank" rel="noopener">Publicar productos</a>
       </div>
     </div>
   </div>
@@ -3362,6 +3429,13 @@
     </div>
   </div>
 
+  <div class="no-cat-overlay" id="no-cat-overlay" hidden>
+    <div class="no-cat-box">
+      <button class="no-cat-close" type="button" id="no-cat-close" aria-label="Cerrar">×</button>
+      <p class="no-cat-text">Aún no hay productos de este tipo disponibles</p>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
     <strong>Mensaje listo</strong>
     <p id="toast-message">Copiamos el mensaje y abrimos Instagram.</p>
@@ -3406,6 +3480,8 @@
     let currentBuyMessage = "";
     let loadedProducts = [];
     let activeProductCategory = "all";
+    let isHomepageMode = true;
+    let noCatTimer = null;
     let lastProductsHash = "";
     const publishFieldNames = [
       "Publicado",
@@ -3499,6 +3575,14 @@
       toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 5200);
     }
 
+    function showNoCategoryNotification() {
+      const overlay = document.getElementById("no-cat-overlay");
+      if (!overlay) return;
+      overlay.removeAttribute("hidden");
+      clearTimeout(noCatTimer);
+      noCatTimer = window.setTimeout(() => overlay.setAttribute("hidden", ""), 3000);
+    }
+
     function fallbackCopyMessage(message) {
       const field = document.createElement("textarea");
       field.value = message;
@@ -3565,9 +3649,14 @@
       const hasWord = (matches) => words.some((word) => matches.includes(word));
       if (hasWord(["poleron", "polerones"])) return "poleron";
       if (hasWord(["polera", "poleras"])) return "polera";
-      if (hasWord(["pantalon", "pantalones"])) return "pantalon";
+      if (hasWord(["camisa", "camisas"])) return "camisa";
       if (hasWord(["chaqueta", "chaquetas"])) return "chaqueta";
       if (hasWord(["parka", "parkas"])) return "parka";
+      if (hasWord(["pantalon", "pantalones"])) return "pantalon";
+      if (hasWord(["jeans", "jean"])) return "jeans";
+      if (hasWord(["buzo", "buzos"])) return "buzo";
+      if (hasWord(["short", "shorts"])) return "short";
+      if (hasWord(["traje", "trajes"])) return "traje";
       if (hasWord(["zapatilla", "zapatillas"])) return "zapatilla";
       if (hasWord(["jockey", "jockeys"])) return "jockey";
       return "";
@@ -3577,9 +3666,14 @@
       return {
         poleron: "Polerón",
         polera: "Polera",
-        pantalon: "Pantalón",
+        camisa: "Camisa",
         chaqueta: "Chaqueta",
         parka: "Parka",
+        pantalon: "Pantalón",
+        jeans: "Jeans",
+        buzo: "Buzo",
+        short: "Short",
+        traje: "Traje de baño",
         zapatilla: "Zapatillas",
         jockey: "Jockey"
       }[category] || "";
@@ -3595,7 +3689,7 @@
     }
 
     function createMoreProductsCard(count) {
-      const label = count > 6 ? `Ver más productos disponibles (${count - 6} más)` : "Ver más productos disponibles";
+      const label = count > 10 ? `Ver más productos disponibles (${count - 10} más)` : "Ver más productos disponibles";
       return `<button class="product-more-card" type="button" data-open-more-products>${label}</button>`;
     }
 
@@ -3727,7 +3821,7 @@
     }
 
     function getProductsHash(products, category) {
-      return category + "|" + products.map((p) =>
+      return (isHomepageMode ? "home" : "full") + "|" + category + "|" + products.map((p) =>
         [getValue(p, ["Nombre","Nombre del producto"]), getValue(p, ["Precio","Precio esperado"]), getValue(p, ["Fotos","Foto"])].join(":")
       ).join("|");
     }
@@ -3741,8 +3835,8 @@
         : loadedProducts.filter((product) => productCategory(product) === activeProductCategory);
 
       if (!filteredProducts.length) {
-        showToast("Aún no hay productos disponibles en esa categoría.");
-        return renderEmptyCatalog();
+        showNoCategoryNotification();
+        return false;
       }
 
       // Si los datos no cambiaron, no tocar el DOM
@@ -3750,13 +3844,11 @@
       if (hash === lastProductsHash && availableProducts.children.length > 0) return true;
       lastProductsHash = hash;
 
-      const visibleProducts = filteredProducts.slice(0, 6);
+      const visibleProducts = isHomepageMode ? filteredProducts.slice(0, 10) : filteredProducts;
       const productHtml = visibleProducts.map(createProductHtml).filter(Boolean).join("");
       if (!productHtml) return renderEmptyCatalog();
 
-      // Actualización directa — sin setTimeout ni opacity en contenedor
-      // (evita que el tab en segundo plano deje la página pegada con opacity 0)
-      availableProducts.innerHTML = `${productHtml}${filteredProducts.length > 6 ? createMoreProductsCard(filteredProducts.length) : ""}`;
+      availableProducts.innerHTML = `${productHtml}${(isHomepageMode && filteredProducts.length > 10) ? createMoreProductsCard(filteredProducts.length) : ""}`;
       attachBuyButtons(availableProducts);
       attachPhotoZoom(availableProducts);
       attachProductDetailButtons(availableProducts);
@@ -3779,7 +3871,7 @@
       });
 
       if (!visibleCount) {
-        showToast("Aún no hay productos disponibles en esa categoría.");
+        showNoCategoryNotification();
         productCards.forEach((card) => {
           card.hidden = false;
         });
@@ -3791,9 +3883,18 @@
     }
 
     function applyProductCategory(category) {
+      const prevCategory = activeProductCategory;
+      const prevMode = isHomepageMode;
+      isHomepageMode = false;
       activeProductCategory = category || "all";
       const hasCategory = loadedProducts.length ? renderAvailableProducts() : filterStaticProducts(activeProductCategory);
-      if (hasCategory) scrollToSection("drop");
+      if (!hasCategory) {
+        // Restaurar estado anterior si no hay productos en esa categoría
+        isHomepageMode = prevMode;
+        activeProductCategory = prevCategory;
+      } else {
+        scrollToSection("drop");
+      }
     }
 
     function attachPhotoZoom(scope = document) {
@@ -3895,6 +3996,21 @@
     if (publishGuideButton) {
       publishGuideButton.addEventListener("click", () => openModal(publishGuideModal));
     }
+
+    const noCatClose = document.getElementById("no-cat-close");
+    if (noCatClose) {
+      noCatClose.addEventListener("click", () => {
+        clearTimeout(noCatTimer);
+        const overlay = document.getElementById("no-cat-overlay");
+        if (overlay) overlay.setAttribute("hidden", "");
+      });
+    }
+    document.getElementById("no-cat-overlay")?.addEventListener("click", (e) => {
+      if (e.target.id === "no-cat-overlay") {
+        clearTimeout(noCatTimer);
+        document.getElementById("no-cat-overlay").setAttribute("hidden", "");
+      }
+    });
 
     if (copyBuyMessageButton) {
       copyBuyMessageButton.addEventListener("click", async () => {
