@@ -3359,7 +3359,7 @@
       instagramProfileUrl: "https://www.instagram.com/vurtag.cl/",
       tallyFormUrl: "https://tally.so/r/J9eK1Y",
       productsApiUrl: "/api/products",
-      responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMvKo4ew3lIN973dmA_C4Akb1PTrsAV99aWYT-3uCDzUztYXX218arF1Ge4-JQOvDkUIe0bqb9WqWk/pub?output=csv"
+      responsesCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMvKo4ew3lIN973dmA_C4Akb1PTrsAV99aWYT-3uCDzUztYXX218arF1Ge4-JQOvDkUIe0bqb9WqWk/pub?gid=833914508&single=true&output=csv"
     };
 
     const localProductBackup = [];
@@ -4159,8 +4159,9 @@
 
       if (!amount || isNaN(amount)) return raw;
 
-      // Heurística: si alguien escribió "25" queriendo decir "$25.000"
-      if (amount > 0 && amount < 1000 && /(?:clp|\$)/i.test(raw)) {
+      // En CLP no existen precios < $1.000 para ropa usada.
+      // Si alguien escribió "25" → $25.000, "10" → $10.000, etc.
+      if (amount > 0 && amount < 1000) {
         return `$${(amount * 1000).toLocaleString("es-CL")}`;
       }
 
