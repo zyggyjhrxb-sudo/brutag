@@ -2839,13 +2839,20 @@
     .rules-card,
     .catalog-empty { background: #fff; border-color: rgba(22, 21, 20, 0.14); }
 
-    /* Imágenes: fondo blanco, contiene la prenda */
+    /* ── Imágenes: fondo blanco + elimina fondo de la foto ──
+       mix-blend-mode: multiply convierte píxeles blancos/claros
+       del fondo en transparentes → solo se ve la prenda.
+       Funciona para ropa oscura y de colores sobre cualquier fondo.
+       Para prendas blancas o muy claras el efecto es menor. */
     .product-gallery figure,
-    .available-products .product-gallery figure { background: #ffffff; }
+    .available-products .product-gallery figure {
+      background: #ffffff !important;
+    }
     .product-gallery img,
     .available-products .product-gallery img {
       object-fit: contain !important;
       object-position: center !important;
+      mix-blend-mode: multiply;
     }
 
     /* Fix cortes en móvil: nada desborda la pantalla */
@@ -3013,6 +3020,7 @@
     .available-products .product-gallery img {
       object-fit: contain !important;
       object-position: center !important;
+      mix-blend-mode: multiply !important;
     }
 
     /* Info compacta */
@@ -3747,6 +3755,7 @@
       attachProductDetailButtons(availableProducts);
       attachMoreProductCards(availableProducts);
       queueProductPanelSync(availableProducts);
+      processProductImages(availableProducts);
       window.requestAnimationFrame(scrollToRequestedProduct);
       return true;
     }
@@ -4371,6 +4380,129 @@
         isFetchingProducts = false;
       }
     }
+
+    // ===== ELIMINACIÓN DE FONDO POR CANVAS =====
+
+    // Detecta los N colores más comunes en los bordes de la imagen
+    function sampleEdgeColors(data, w, h, topN) {
+      const buckets = new Map();
+      const step = Math.max(1, Math.floor(Math.min(w, h) / 50));
+      const add = (i) => {
+        // Cuantiza a 24 niveles por canal (bucket de ~10 valores)
+        const key = (Math.round(data[i] / 10) * 10) + "," +
+                    (Math.round(data[i + 1] / 10) * 10) + "," +
+                    (Math.round(data[i + 2] / 10) * 10);
+        buckets.set(key, (buckets.get(key) || 0) + 1);
+      };
+      for (let x = 0; x < w; x += step) {
+        add(x * 4);
+        add(((h - 1) * w + x) * 4);
+      }
+      for (let y = 1; y < h - 1; y += step) {
+        add(y * w * 4);
+        add((y * w + w - 1) * 4);
+      }
+      return [...buckets.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, topN)
+        .map(([key]) => key.split(",").map(Number));
+    }
+
+    function floodFillWhite(data, w, h) {
+      // Obtiene hasta 5 colores dominantes de los bordes
+      const bgColors = sampleEdgeColors(data, w, h, 5);
+
+      // Si todos los colores dominantes son casi blancos, no hay nada que hacer
+      if (bgColors.every(([r, g, b]) => r > 230 && g > 230 && b > 230)) return;
+
+      const thresholdSq = 52 * 52;
+      const isBackground = (r, g, b) => bgColors.some(([br, bg2, bb]) => {
+        const dr = r - br, dg = g - bg2, db = b - bb;
+        return dr * dr + dg * dg + db * db <= thresholdSq;
+      });
+
+      const total = w * h;
+      const visited = new Uint8Array(total);
+      const qx = new Int16Array(total);
+      const qy = new Int16Array(total);
+      let qHead = 0, qTail = 0;
+
+      const seed = (x, y) => {
+        const pos = y * w + x;
+        if (visited[pos]) return;
+        visited[pos] = 1;
+        qx[qTail] = x; qy[qTail++] = y;
+      };
+
+      for (let x = 0; x < w; x++) { seed(x, 0); seed(x, h - 1); }
+      for (let y = 1; y < h - 1; y++) { seed(0, y); seed(w - 1, y); }
+
+      while (qHead < qTail) {
+        const x = qx[qHead], y = qy[qHead++];
+        const i = (y * w + x) * 4;
+
+        if (isBackground(data[i], data[i + 1], data[i + 2])) {
+          data[i] = data[i + 1] = data[i + 2] = 255;
+          if (x > 0)     seed(x - 1, y);
+          if (x < w - 1) seed(x + 1, y);
+          if (y > 0)     seed(x, y - 1);
+          if (y < h - 1) seed(x, y + 1);
+        }
+      }
+    }
+
+    async function applyBgRemoval(imgEl) {
+      if (imgEl.dataset.bgDone === "1") return;
+      imgEl.dataset.bgDone = "1";
+
+      const originalSrc = imgEl.getAttribute("src");
+
+      const tryProcess = (src) => new Promise((resolve) => {
+        const tmp = new Image();
+        tmp.crossOrigin = "anonymous";
+        tmp.onload = () => {
+          try {
+            const MAX = 900;
+            const scale = Math.min(1, MAX / Math.max(tmp.naturalWidth, tmp.naturalHeight));
+            const w = Math.round(tmp.naturalWidth * scale) || 1;
+            const h = Math.round(tmp.naturalHeight * scale) || 1;
+
+            const canvas = document.createElement("canvas");
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            ctx.drawImage(tmp, 0, 0, w, h);
+
+            const id = ctx.getImageData(0, 0, w, h);
+            floodFillWhite(id.data, w, h);
+            ctx.putImageData(id, 0, 0);
+
+            resolve(canvas.toDataURL("image/jpeg", 0.88));
+          } catch {
+            resolve(null);
+          }
+        };
+        tmp.onerror = () => resolve(null);
+        tmp.src = src;
+      });
+
+      let result = await tryProcess(originalSrc);
+      if (!result) {
+        result = await tryProcess(`/api/proxy?url=${encodeURIComponent(originalSrc)}`);
+      }
+      if (result) imgEl.src = result;
+    }
+
+    function processProductImages(scope = document) {
+      scope.querySelectorAll(".product-gallery img").forEach((img) => {
+        const run = () => applyBgRemoval(img);
+        if (img.complete && img.naturalWidth > 0) {
+          run();
+        } else {
+          img.addEventListener("load", run, { once: true });
+        }
+      });
+    }
+    // ===== FIN ELIMINACIÓN DE FONDO =====
 
     loadProductsFromSheet();
 
