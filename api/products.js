@@ -14,7 +14,7 @@ module.exports = async function productsHandler(req, res) {
   }
 
   try {
-    const products = await getApprovedProducts();
+    const products = await getApprovedProducts({ forceRefresh: true });
     return sendJson(res, 200, {
       products: products.map(publicProduct),
       updatedAt: new Date().toISOString()
