@@ -3871,6 +3871,454 @@
       color: #000;
     }
   </style>
+  <style>
+    /* ===== VURTAG — HEADER FINAL (único bloque de overrides) =====
+       Este bloque tiene la mayor especificidad y debe quedar al final.
+       Cubre mobile y desktop con reglas claras y sin conflictos.
+    ===== */
+
+    /* ── Hamburger: eliminado en todas las vistas ── */
+    .hamburger-btn {
+      display: none !important;
+    }
+
+    /* ── Ícono persona: oculto por defecto, mostrar con JS/media ── */
+    .nav-login-icon { display: none; width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-login-label { display: inline; }
+
+    /* ── Fades laterales de carrusel: eliminados (ahora es grilla) ── */
+    .available-products::before,
+    .available-products::after { display: none !important; }
+
+    /* ══════════════════════════════════════════════
+       NAV — DESKTOP (≥ 641px)
+       VURTAG izq · Publica · Persona · Carrito der
+    ══════════════════════════════════════════════ */
+    @media (min-width: 641px) {
+      /* Contenedor nav: sin max-width, pegado al borde izq */
+      .nav-inner {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding-inline: 10px clamp(14px, 2.5vw, 36px) !important;
+        min-height: 60px !important;
+        gap: 16px !important;
+      }
+      .nav-left { gap: 0 !important; }
+
+      /* Nav-links: fila derecha */
+      .nav-links {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 20px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* PUBLICA: texto negro limpio, sin caja */
+      .nav-links .nav-publish,
+      .nav-links a.nav-publish {
+        display: inline-flex !important;
+        align-items: center !important;
+        padding: 0 !important;
+        font-size: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+      }
+      .nav-links .nav-publish::before,
+      .nav-links a.nav-publish::before {
+        content: attr(data-short);
+        font-size: 0.76rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.09em !important;
+        text-transform: uppercase !important;
+        color: #000 !important;
+        line-height: 1 !important;
+        font-family: inherit !important;
+      }
+
+      /* LOGIN: solo ícono persona, sin borde ni relleno */
+      .nav-login-icon { display: block !important; }
+      .nav-login-label { display: none !important; }
+      .nav-login-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 32px !important; height: 32px !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        color: #000 !important;
+        cursor: pointer !important;
+      }
+      .nav-login-btn:hover { background: transparent !important; }
+
+      /* CARRITO */
+      .cart-btn {
+        width: 32px !important; height: 32px !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+        color: #000 !important;
+      }
+
+      /* Usuario logueado */
+      .nav-user {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 0.66rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
+        color: #000 !important;
+      }
+    }
+
+    /* ══════════════════════════════════════════════
+       NAV — MOBILE (≤ 640px)
+       VURTAG izq · PUBLICAR · Persona · Carrito der
+       Centro limpio, grupo derecho compacto
+    ══════════════════════════════════════════════ */
+    @media (max-width: 640px) {
+      /* Contenedor: espacio entre VURTAG (izq) y grupo (der) */
+      .nav-inner {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding-inline: 12px 18px !important; /* 18px derecha = aire para el carrito */
+        min-height: 52px !important;
+        gap: 0 !important;
+      }
+      .nav-left { gap: 0 !important; flex-shrink: 0 !important; }
+
+      /* VURTAG */
+      .brand {
+        font-size: clamp(1.2rem, 6vw, 1.5rem) !important;
+        letter-spacing: 0.13em !important;
+        white-space: nowrap !important;
+      }
+
+      /* Nav-links: grupo compacto a la derecha */
+      .nav-links {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 14px !important;     /* espacio cómodo entre los 3 elementos */
+        flex-shrink: 0 !important;
+      }
+
+      /* PUBLICAR: texto negro corto, sin caja — usa "Publicar" en móvil */
+      .nav-links .nav-publish,
+      .nav-links a.nav-publish {
+        display: inline-flex !important;
+        align-items: center !important;
+        padding: 0 !important;
+        font-size: 0 !important;   /* oculta el texto HTML largo */
+        border: none !important;
+        background: transparent !important;
+        text-decoration: none !important;
+        flex-shrink: 0 !important;
+        cursor: pointer !important;
+      }
+      /* "Publicar" — versión corta para móvil */
+      .nav-links .nav-publish::before,
+      .nav-links a.nav-publish::before {
+        content: "Publicar" !important;
+        font-size: 0.62rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.04em !important;
+        text-transform: none !important;
+        color: #000 !important;
+        line-height: 1 !important;
+        font-family: inherit !important;
+      }
+
+      /* LOGIN: solo ícono persona, sin bordes */
+      .nav-login-icon { display: block !important; width: 20px !important; height: 20px !important; }
+      .nav-login-label { display: none !important; }
+      .nav-login-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 0 !important;   /* sin min-width forzado: evita que ocupe demasiado */
+        padding: 0 4px !important; /* padding lateral mínimo para touch */
+        border: none !important;
+        background: transparent !important;
+        color: #000 !important;
+        flex-shrink: 0 !important;
+        cursor: pointer !important;
+      }
+
+      /* CARRITO: visible, con margen al borde */
+      .cart-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        color: #000 !important;
+        flex-shrink: 0 !important;
+        cursor: pointer !important;
+      }
+      .cart-btn svg { width: 20px !important; height: 20px !important; }
+
+      /* Usuario logueado compacto */
+      .nav-user { font-size: 0.48rem !important; gap: 4px !important; max-width: 72px !important; }
+      #nav-user-name { max-width: 38px !important; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
+      .nav-logout-btn { font-size: 0.4rem !important; }
+      .nav-collection { display: none !important; }
+    }
+
+    /* ══════════════════════════════════════════════
+       PRODUCTOS: bordes nítidos + estado cargando
+    ══════════════════════════════════════════════ */
+    .available-products .product-grid {
+      border: 1.5px solid rgba(0,0,0,0.14) !important;
+      box-shadow: none !important;
+    }
+    .available-products .product-gallery figure {
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    .catalog-loading {
+      grid-column: 1 / -1;
+      padding: 40px 16px;
+      text-align: center;
+      color: #888;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+  </style>
+  <style>
+    /* ===== HERO ACTIONS ===== */
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-actions .button {
+      min-height: 48px;
+    }
+    @media (max-width: 600px) {
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .hero-actions .button {
+        width: 100%;
+        min-height: 46px;
+      }
+    }
+
+    /* ===== SECCIÓN FILTROS ===== */
+    #filtros {
+      border-top: 1px solid rgba(0,0,0,0.12);
+    }
+    .filter-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .filter-top-left h2 {
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #000;
+      margin: 0 0 4px;
+      letter-spacing: 0;
+    }
+    .filter-top-left p {
+      font-size: 0.84rem;
+      color: #666;
+      margin: 0;
+    }
+    .filter-top-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .filter-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .filter-stat-label {
+      font-size: 0.6rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #888;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .filter-stat-count {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #000;
+      line-height: 1;
+    }
+    .filter-clear-btn {
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.22);
+      color: #555;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 9px 18px;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 38px;
+    }
+    .filter-clear-btn:hover { background: #f5f5f5; color: #000; }
+
+    .filter-ver-btn {
+      min-height: 42px;
+      padding: 0 22px;
+      font-size: 0.74rem;
+    }
+
+    .filter-blocks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+    @media (max-width: 680px) {
+      .filter-blocks { grid-template-columns: 1fr; }
+      .filter-top-right { width: 100%; justify-content: space-between; }
+      .filter-stat { align-items: flex-start; }
+    }
+
+    .filter-block {
+      padding: 22px 20px 20px;
+      border: 1px solid rgba(0,0,0,0.13);
+      background: #fff;
+    }
+    .filter-block-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .filter-block-title {
+      font-size: 0.66rem;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #000;
+      margin: 0;
+    }
+    .filter-block-sub {
+      font-size: 0.6rem;
+      color: #999;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      min-height: 32px;
+    }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 11px;
+      border: 1px solid rgba(0,0,0,0.18);
+      background: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      font-family: inherit;
+      color: #000;
+      transition: border-color 120ms, background 120ms, color 120ms;
+      white-space: nowrap;
+    }
+    .filter-chip:hover { border-color: #000; background: #f7f7f7; }
+    .filter-chip.is-active { background: #000; color: #fff; border-color: #000; }
+    .filter-chip-count {
+      font-size: 0.6rem;
+      font-weight: 600;
+      opacity: 0.6;
+    }
+    .filter-chip.is-active .filter-chip-count { opacity: 0.75; }
+
+    .filter-size-input-wrap { margin-top: 12px; }
+    .filter-size-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid rgba(0,0,0,0.18);
+      font-size: 0.8rem;
+      font-family: inherit;
+      background: #fff;
+      outline: none;
+      box-sizing: border-box;
+      color: #000;
+    }
+    .filter-size-input:focus { border-color: #000; }
+    .filter-size-input::placeholder { color: #aaa; font-size: 0.76rem; }
+
+    .filter-empty-note {
+      font-size: 0.68rem;
+      color: #bbb;
+      margin: 0;
+    }
+
+    /* Mensaje sin resultados dentro del catálogo */
+    .filter-no-results-card {
+      grid-column: 1 / -1;
+      padding: clamp(40px,8vw,80px) 24px;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: #fff;
+      position: relative;
+    }
+    .filter-no-results-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(0,0,0,0.2);
+      background: transparent;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #000;
+    }
+    .filter-no-results-close:hover { background: #000; color: #fff; }
+    .filter-no-results-text {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.25;
+      color: #000;
+      margin: 0 0 20px;
+    }
+  </style>
 </head>
 <body>
   <!-- Barra de scroll con efecto de texto -->
@@ -3891,8 +4339,10 @@
           <span id="nav-user-name"></span>
           <button class="nav-logout-btn" type="button" id="nav-logout-btn">Salir</button>
         </span>
-        <button class="nav-login-btn" type="button" id="nav-login-btn">Iniciar sesión</button>
-        <a class="nav-publish tally-link" href="#">Publica tu producto</a>
+        <button class="nav-login-btn" type="button" id="nav-login-btn" aria-label="Iniciar sesión">
+          <svg class="nav-login-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.5 3.6-6 8-6s8 2.5 8 6"/></svg>
+          <span class="nav-login-label">Iniciar sesión</span>
+        </button>
         <button class="cart-btn" type="button" id="cart-btn" aria-label="Carrito de compras">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="cart-badge" id="cart-badge" hidden>0</span>
@@ -3947,7 +4397,10 @@
           <span>Jockeys</span>
         </div>
       </div>
-      <button class="button" type="button" id="hero-catalog-btn">Ver colección</button>
+      <div class="hero-actions">
+        <button class="button" type="button" id="hero-catalog-btn">Ver colección</button>
+        <a class="button secondary tally-link" id="hero-publish-btn" href="#">Publica tu producto</a>
+      </div>
     </section>
 
 
@@ -3968,6 +4421,46 @@
     <section id="parkas" aria-label="Parkas disponibles" hidden></section>
     <section id="zapatillas" aria-label="Zapatillas disponibles" hidden></section>
     <section id="jockeys" aria-label="Jockeys disponibles" hidden></section>
+
+    <section id="filtros" aria-label="Encuentra tu producto">
+      <div class="filter-top-bar">
+        <div class="filter-top-left">
+          <h2>Encuentra tu producto</h2>
+          <p>Filtra por categoría, talla o tipo de prenda disponible en VURTAG.</p>
+        </div>
+        <div class="filter-top-right">
+          <div class="filter-stat">
+            <span class="filter-stat-label">Productos encontrados</span>
+            <span class="filter-stat-count" id="filter-count">0</span>
+          </div>
+          <button class="filter-clear-btn" id="filter-clear-btn" type="button">Limpiar</button>
+          <button class="button filter-ver-btn" id="filter-apply-btn" type="button">Ver productos →</button>
+        </div>
+      </div>
+      <div class="filter-blocks">
+        <div class="filter-block">
+          <div class="filter-block-head">
+            <h3 class="filter-block-title">Categoría</h3>
+            <span class="filter-block-sub">Selecciona una</span>
+          </div>
+          <div class="filter-chips" id="filter-categories">
+            <p class="filter-empty-note">Cargando...</p>
+          </div>
+        </div>
+        <div class="filter-block">
+          <div class="filter-block-head">
+            <h3 class="filter-block-title">Talla</h3>
+            <span class="filter-block-sub">Selecciona una</span>
+          </div>
+          <div class="filter-chips" id="filter-sizes">
+            <p class="filter-empty-note">Cargando...</p>
+          </div>
+          <div class="filter-size-input-wrap">
+            <input type="text" class="filter-size-input" id="filter-size-input" placeholder="Buscar talla (ej: M, XL, 42)">
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="vender" aria-label="Vende en VURTAG">
       <div class="sell-compact">
@@ -4000,7 +4493,7 @@
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="auth-title">
       <button class="modal-close" type="button" data-close-modal="auth-modal">×</button>
       <h2 id="auth-title">Iniciar sesión</h2>
-      <p class="auth-note">Tu cuenta es solo en este dispositivo. El carrito se guarda automáticamente.</p>
+      <p class="auth-note">Crea tu cuenta para guardar tu carrito y recuperarlo en tu próxima visita a VURTAG.</p>
       <form class="auth-form" id="auth-form" onsubmit="return false">
         <div id="auth-name-row" hidden>
           <input class="auth-input" type="text" id="auth-name" placeholder="Tu nombre" autocomplete="name">
@@ -4602,7 +5095,9 @@
       if (hash === lastProductsHash && availableProducts.children.length > 0) return true;
       lastProductsHash = hash;
 
-      const visibleProducts = isHomepageMode ? filteredProducts.slice(0, 10) : filteredProducts;
+      // Si hay un producto específico en la URL, mostrar todos para que sea alcanzable
+      const hasLinkedProduct = Boolean(requestedProductId());
+      const visibleProducts = (isHomepageMode && !hasLinkedProduct) ? filteredProducts.slice(0, 10) : filteredProducts;
       const productHtml = visibleProducts.map(createProductHtml).filter(Boolean).join("");
       if (!productHtml) return renderEmptyCatalog();
 
@@ -4613,6 +5108,10 @@
       attachMoreProductCards(availableProducts);
       queueProductPanelSync(availableProducts);
       window.requestAnimationFrame(scrollToRequestedProduct);
+      // Retry scroll después de que el DOM esté completamente pintado
+      window.setTimeout(scrollToRequestedProduct, 600);
+      // Actualizar filtros con productos reales (diferido para evitar TDZ de let)
+      window.setTimeout(() => { if (typeof renderFilterChips === "function") renderFilterChips(); }, 0);
       return true;
     }
 
@@ -5195,8 +5694,8 @@
       renderAvailableProducts();
     }
 
-    const PRODUCT_CACHE_KEY = "vurtag_products_v1";
-    const PRODUCT_CACHE_TTL = 10 * 60 * 1000;
+    const PRODUCT_CACHE_KEY = "vurtag_products_v3";
+    const PRODUCT_CACHE_TTL = 10 * 1000; // 10 seg — mínimo para evitar doble fetch en recarga rápida
 
     function saveProductsToCache(products) {
       try {
@@ -5223,10 +5722,13 @@
 
       // 1. Intenta la API privada (Google Sheets con credenciales en Vercel)
       let sheetProducts = [];
+      let dataSourceOk = false; // rastrea si alguna fuente respondió exitosamente
+
       if (siteIntegrations.productsApiUrl) {
         try {
           const response = await fetch(siteIntegrations.productsApiUrl);
           if (response.ok) {
+            dataSourceOk = true;
             const payload = await response.json();
             sheetProducts = (Array.isArray(payload.products) ? payload.products : [])
               .map((product, index) => normalizeSheetProduct({
@@ -5245,6 +5747,7 @@
         try {
           const csvResponse = await fetch(siteIntegrations.responsesCsvUrl);
           if (csvResponse.ok) {
+            dataSourceOk = true;
             const csvText = await csvResponse.text();
             const rows = parseCsv(csvText).filter((r) => r.some(Boolean));
             if (rows.length > 1) {
@@ -5259,35 +5762,49 @@
         }
       }
 
-      // 3. Mezcla con backup: el Sheet manda por nombre, lo que no está en el Sheet
-      //    se mantiene del backup. Si el Sheet no tiene nada, el backup completo aparece.
+      // Si ninguna fuente respondió (error de red), no tocar nada
+      if (!dataSourceOk) return;
+
+      // 3. Mezcla con backup
       const merged = mergeSheetWithBackup(sheetProducts);
 
-      if (!merged.length) {
+      if (merged.length > 0) {
+        // Hay productos: guardar en caché y mostrar
+        loadedProducts = merged;
+        saveProductsToCache(merged);
+        renderAvailableProducts();
+      } else {
+        // API respondió OK pero sin productos — limpiar display
+        // NO guardamos caché vacío: evita que un fallo puntual borre los productos en la próxima recarga
         loadedProducts = [];
         renderEmptyCatalog();
-        return;
       }
-
-      loadedProducts = merged;
-      saveProductsToCache(merged);
-      renderAvailableProducts();
       } finally {
         isFetchingProducts = false;
       }
     }
 
-    // Muestra productos guardados de inmediato, sin esperar la API
+    // Limpia cachés de versiones anteriores
+    try { localStorage.removeItem("vurtag_products_v1"); } catch {}
+    try { localStorage.removeItem("vurtag_products_v2"); } catch {}
+
+    // Si hay caché válida, mostrar de inmediato; si no, mostrar "Cargando..."
     const cachedProducts = loadProductsFromCache();
     if (cachedProducts && cachedProducts.length) {
       loadedProducts = cachedProducts;
       renderAvailableProducts();
+    } else {
+      // Sin caché: mostrar indicador de carga en lugar de dejar vacío
+      if (availableProducts) {
+        availableProducts.innerHTML = '<div class="catalog-loading">Cargando productos...</div>';
+      }
     }
 
+    // Siempre fetch inmediato al cargar
     loadProductsFromSheet();
 
-    // Refresca el catálogo cada 10 segundos.
-    setInterval(loadProductsFromSheet, 10 * 1000);
+    // Polling cada 2 segundos — near real-time sync con Google Sheets
+    setInterval(loadProductsFromSheet, 2 * 1000);
 
     // Refresca también cuando el usuario vuelve al tab
     document.addEventListener("visibilitychange", () => {
@@ -5689,6 +6206,54 @@
 
     document.getElementById("catalog-overlay-close")?.addEventListener("click", closeCatalogOverlay);
     document.getElementById("hero-catalog-btn")?.addEventListener("click", openCatalogOverlay);
+
+    /* ── Swipe para cerrar modales ──────────────────────────────────
+       En móvil: deslizar hacia la derecha cierra el catalog overlay.
+       En el modal de categorías: deslizar hacia abajo lo cierra.
+    ────────────────────────────────────────────────────────────── */
+    (function setupSwipeClose() {
+      function onSwipeRight(el, cb) {
+        if (!el) return;
+        let x0 = 0, y0 = 0, scrollTop0 = 0;
+        el.addEventListener("touchstart", (e) => {
+          x0 = e.touches[0].clientX;
+          y0 = e.touches[0].clientY;
+          scrollTop0 = el.scrollTop || 0;
+        }, { passive: true });
+        el.addEventListener("touchend", (e) => {
+          const dx = e.changedTouches[0].clientX - x0;
+          const dy = Math.abs(e.changedTouches[0].clientY - y0);
+          const scrolled = Math.abs((el.scrollTop || 0) - scrollTop0);
+          // Ignorar si es scroll vertical o si el usuario no deslizó lo suficiente
+          if (scrolled > 10) return;
+          if (dx > 72 && dy < Math.abs(dx) * 0.55) cb();
+        }, { passive: true });
+      }
+
+      function onSwipeDown(el, cb) {
+        if (!el) return;
+        let x0 = 0, y0 = 0;
+        el.addEventListener("touchstart", (e) => {
+          x0 = e.touches[0].clientX;
+          y0 = e.touches[0].clientY;
+        }, { passive: true });
+        el.addEventListener("touchend", (e) => {
+          const dy = e.changedTouches[0].clientY - y0;
+          const dx = Math.abs(e.changedTouches[0].clientX - x0);
+          if (dy > 72 && dx < Math.abs(dy) * 0.55) cb();
+        }, { passive: true });
+      }
+
+      // Catalog overlay: swipe derecha = volver
+      onSwipeRight(catalogOverlay, closeCatalogOverlay);
+
+      // Modal de categorías: swipe hacia abajo = cerrar
+      onSwipeDown(moreProductsModal, () => {
+        if (moreProductsModal && !moreProductsModal.getAttribute("aria-hidden").includes("true")) {
+          closeModal(moreProductsModal);
+        }
+      });
+    })();
     document.getElementById("open-catalog-overlay-btn")?.addEventListener("click", () => {
       closeModal(moreProductsModal);
       openCatalogOverlay();
@@ -5705,6 +6270,170 @@
       closeHamburger();
       const sess = getAuthSession();
       if (sess) { authLogout(); } else { openAuthModal("login"); }
+    });
+
+    /* ============================================================
+       SECCIÓN FILTROS: Encuentra tu producto
+    ============================================================ */
+    let filterSelCategory = "";
+    let filterSelSize = "";
+
+    const FILTER_CAT_LABELS = {
+      poleron: "Polerón", polera: "Polera", camisa: "Camisa",
+      chaqueta: "Chaqueta", parka: "Parka", pantalon: "Pantalón",
+      jeans: "Jeans", buzo: "Buzo", short: "Short",
+      traje: "Traje de baño", zapatilla: "Zapatillas", jockey: "Jockey"
+    };
+
+    function sortSizes(a, b) {
+      const clothingOrder = ["XXS","XS","S","M","L","XL","XXL","XXXL"];
+      const ai = clothingOrder.indexOf(a.toUpperCase());
+      const bi = clothingOrder.indexOf(b.toUpperCase());
+      if (ai !== -1 && bi !== -1) return ai - bi;
+      if (ai !== -1) return -1;
+      if (bi !== -1) return 1;
+      const an = parseFloat(a), bn = parseFloat(b);
+      if (!isNaN(an) && !isNaN(bn)) return an - bn;
+      return a.localeCompare(b);
+    }
+
+    function getFilteredProducts() {
+      const manualSize = (document.getElementById("filter-size-input")?.value || "").trim().toUpperCase();
+      return loadedProducts.filter(p => {
+        const catOk = !filterSelCategory || productCategory(p) === filterSelCategory;
+        const prodSize = formatSize(getValue(p, ["Talla"])).toUpperCase();
+        const sizeActive = filterSelSize || manualSize;
+        const sizeOk = !sizeActive
+          ? true
+          : (filterSelSize && prodSize === filterSelSize.toUpperCase())
+            || (manualSize && prodSize.includes(manualSize));
+        return catOk && sizeOk;
+      });
+    }
+
+    function renderFilterChips() {
+      if (!loadedProducts.length) return;
+
+      // Conteos por categoría
+      const catCounts = {};
+      loadedProducts.forEach(p => {
+        const cat = productCategory(p);
+        if (cat) catCounts[cat] = (catCounts[cat] || 0) + 1;
+      });
+
+      // Conteos por talla (según categoría seleccionada)
+      const sizeSource = filterSelCategory
+        ? loadedProducts.filter(p => productCategory(p) === filterSelCategory)
+        : loadedProducts;
+      const sizeCounts = {};
+      sizeSource.forEach(p => {
+        const sz = formatSize(getValue(p, ["Talla"]));
+        if (sz) sizeCounts[sz] = (sizeCounts[sz] || 0) + 1;
+      });
+
+      // Renderizar categorías
+      const catEl = document.getElementById("filter-categories");
+      if (catEl) {
+        const catEntries = Object.entries(catCounts).filter(([,c]) => c > 0);
+        if (catEntries.length) {
+          catEl.innerHTML = catEntries.map(([cat, count]) => `
+            <button class="filter-chip${filterSelCategory === cat ? " is-active" : ""}"
+                    type="button" data-filter-cat="${escapeHtml(cat)}">
+              ${escapeHtml(FILTER_CAT_LABELS[cat] || cat)}
+              <span class="filter-chip-count">${count}</span>
+            </button>`).join("");
+          catEl.querySelectorAll("[data-filter-cat]").forEach(btn => {
+            btn.addEventListener("click", () => {
+              filterSelCategory = filterSelCategory === btn.dataset.filterCat ? "" : btn.dataset.filterCat;
+              filterSelSize = "";
+              renderFilterChips();
+            });
+          });
+        } else {
+          catEl.innerHTML = '<p class="filter-empty-note">Sin categorías disponibles.</p>';
+        }
+      }
+
+      // Renderizar tallas
+      const sizeEl = document.getElementById("filter-sizes");
+      if (sizeEl) {
+        const sizeEntries = Object.entries(sizeCounts).sort(([a],[b]) => sortSizes(a,b));
+        if (sizeEntries.length) {
+          sizeEl.innerHTML = sizeEntries.map(([sz, count]) => `
+            <button class="filter-chip${filterSelSize === sz ? " is-active" : ""}"
+                    type="button" data-filter-size="${escapeHtml(sz)}">
+              ${escapeHtml(sz)}
+              <span class="filter-chip-count">${count}</span>
+            </button>`).join("");
+          sizeEl.querySelectorAll("[data-filter-size]").forEach(btn => {
+            btn.addEventListener("click", () => {
+              filterSelSize = filterSelSize === btn.dataset.filterSize ? "" : btn.dataset.filterSize;
+              const inp = document.getElementById("filter-size-input");
+              if (inp) inp.value = "";
+              renderFilterChips();
+            });
+          });
+        } else {
+          sizeEl.innerHTML = '<p class="filter-empty-note">Selecciona una categoría primero.</p>';
+        }
+      }
+
+      // Actualizar contador
+      const countEl = document.getElementById("filter-count");
+      if (countEl) countEl.textContent = getFilteredProducts().length;
+    }
+
+    function applyFilterSearch() {
+      const filtered = getFilteredProducts();
+      const container = document.getElementById("catalogo");
+      if (!container) return;
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div class="filter-no-results-card">
+            <button class="filter-no-results-close" type="button"
+                    onclick="clearFiltersAndRestore();this.closest('.filter-no-results-card').remove()">×</button>
+            <p class="filter-no-results-text">Aún no hay productos disponibles<br>con estos filtros.</p>
+            <button class="button secondary" type="button"
+                    onclick="clearFiltersAndRestore()">Ver todos los productos</button>
+          </div>`;
+        scrollToSection("drop");
+        return;
+      }
+
+      isHomepageMode = false;
+      activeProductCategory = "all";
+      lastProductsHash = "";
+
+      const html = filtered.map(createProductHtml).filter(Boolean).join("");
+      container.innerHTML = html;
+      attachBuyButtons(container);
+      attachPhotoZoom(container);
+      attachProductDetailButtons(container);
+      attachMoreProductCards(container);
+      scrollToSection("drop");
+    }
+
+    function clearFiltersAndRestore() {
+      filterSelCategory = "";
+      filterSelSize = "";
+      const inp = document.getElementById("filter-size-input");
+      if (inp) inp.value = "";
+      renderFilterChips();
+      isHomepageMode = true;
+      activeProductCategory = "all";
+      lastProductsHash = "";
+      renderAvailableProducts();
+    }
+
+    document.getElementById("filter-apply-btn")?.addEventListener("click", applyFilterSearch);
+    document.getElementById("filter-clear-btn")?.addEventListener("click", clearFiltersAndRestore);
+    document.getElementById("filter-size-input")?.addEventListener("input", () => {
+      filterSelSize = "";
+      renderFilterChips();
+    });
+    document.getElementById("filter-size-input")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") applyFilterSearch();
     });
   </script>
 
