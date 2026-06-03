@@ -3178,6 +3178,192 @@
       margin: 0;
     }
 
+    /* =====================================================
+       MOBILE-FIRST PASS — iPhone (≤600px)
+       ===================================================== */
+    @media (max-width: 600px) {
+
+      /* — NAV: una sola fila compacta — */
+      .nav-inner {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        min-height: 52px !important;
+        padding-inline: 14px !important;
+        gap: 8px !important;
+      }
+      .nav-left { gap: 8px !important; }
+      .brand {
+        font-size: 1.55rem !important;
+        letter-spacing: 0.14em !important;
+        max-width: none !important;
+        overflow: visible !important;
+      }
+      /* Login e "Publica" se ocultan del nav → van al hamburguesa */
+      .nav-login-btn { display: none !important; }
+      .nav-user { font-size: 0.52rem !important; gap: 4px !important; }
+      .nav-user #nav-user-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
+      .nav-publish { display: none !important; }
+
+      /* — HERO — */
+      .hero {
+        padding: 28px 16px 24px !important;
+        text-align: center !important;
+        justify-items: center !important;
+        gap: 10px !important;
+      }
+      .hero h1 {
+        font-size: clamp(2rem, 11vw, 2.6rem) !important;
+        line-height: 1.05 !important;
+        margin-bottom: 8px !important;
+      }
+      .hero-subtitle {
+        font-size: 0.82rem !important;
+        color: #000 !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
+      }
+      .hero .button {
+        min-height: 46px !important;
+        padding: 0 28px !important;
+        font-size: 0.72rem !important;
+        margin-top: 4px !important;
+      }
+      .product-marquee { margin: 8px 0 !important; }
+
+      /* — SECCIÓN HEADING — */
+      .section-head { padding: 14px 0 10px !important; }
+      .section-head h2,
+      section > .section-head h2 {
+        font-size: clamp(1.1rem, 5.5vw, 1.5rem) !important;
+        line-height: 1.15 !important;
+      }
+
+      /* — GRILLA PRODUCTOS 2 COL LIMPIA — */
+      .available-products {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .available-products .product-gallery {
+        height: auto !important;
+        padding: 0 !important;
+      }
+      .available-products .product-gallery figure:first-child {
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+        padding: 6px !important;
+        background: #fafafa !important;
+      }
+      .available-products .product-info {
+        padding: 7px 8px 10px !important;
+        gap: 3px !important;
+      }
+      .available-products .product-info h3 {
+        font-size: 0.68rem !important;
+        line-height: 1.2 !important;
+        font-weight: 700 !important;
+      }
+      .available-products .price {
+        font-size: 0.8rem !important;
+        font-weight: 800 !important;
+      }
+
+      /* Botones tarjetas — buen touch target */
+      .available-products .actions {
+        gap: 3px !important;
+        margin-top: 5px !important;
+      }
+      .available-products .actions .button {
+        height: 36px !important;
+        max-height: 36px !important;
+        line-height: 36px !important;
+        font-size: 0.58rem !important;
+        letter-spacing: 0.05em !important;
+      }
+
+      /* — SECCIÓN VENDE COMPACTA — */
+      #vender .sell-compact {
+        flex-direction: column !important;
+        gap: 14px !important;
+        padding: 20px 0 !important;
+      }
+      .sell-compact-label { font-size: 0.65rem !important; }
+      .sell-compact-title { font-size: clamp(1.1rem, 5vw, 1.5rem) !important; }
+      .sell-compact-desc { font-size: 0.78rem !important; color: #333 !important; }
+      .sell-compact-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .sell-compact-actions .button {
+        width: 100% !important;
+        min-height: 46px !important;
+        font-size: 0.72rem !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+      }
+
+      /* — FOOTER — */
+      footer {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding: 18px 16px 24px !important;
+      }
+
+      /* — MODALES — */
+      .modal-content {
+        width: calc(100% - 24px) !important;
+        max-width: 100% !important;
+        padding: 20px 16px 24px !important;
+        max-height: 88vh !important;
+        overflow-y: auto !important;
+      }
+      #more-products-modal .modal-options {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+      }
+      #more-products-modal .modal-options .button {
+        min-height: 46px !important;
+        font-size: 0.68rem !important;
+        letter-spacing: 0.06em !important;
+      }
+
+      /* — CARRITO DRAWER — */
+      .cart-panel {
+        width: min(88vw, 320px) !important;
+        padding: 18px 14px 24px !important;
+      }
+      .cart-panel h2 { font-size: 0.88rem !important; }
+      .cart-item { gap: 8px !important; }
+      .cart-item-img { width: 48px !important; height: 48px !important; }
+      .cart-panel-foot .button { min-height: 46px !important; font-size: 0.7rem !important; }
+
+      /* — HAMBURGUESA: item login visible solo en móvil — */
+      .hamburger-login-item { display: block !important; }
+
+      /* — CATALOG OVERLAY — */
+      .catalog-overlay-header { padding: 8px 14px 6px !important; }
+      .catalog-back-btn { font-size: 0.58rem !important; }
+      .catalog-overlay-body { padding: 14px 10px 48px !important; }
+    }
+
+    /* Tablet intermedio 601-768px: 2 columnas también */
+    @media (min-width: 601px) and (max-width: 768px) {
+      .available-products {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      .nav-login-btn { font-size: 0.56rem !important; padding: 4px 8px !important; }
+    }
+
+    /* hamburger login solo visible en móvil */
+    .hamburger-login-item { display: none; }
+
     /* Tarjeta "ver más": ocupa las 2 columnas en móvil, 5 en desktop */
     .product-more-card {
       grid-column: span 2 !important;
@@ -3721,8 +3907,10 @@
     <div class="hamburger-panel" role="dialog" aria-label="Menú de navegación">
       <button class="hamburger-close-btn" type="button" id="hamburger-close-btn" aria-label="Cerrar menú">×</button>
       <nav class="hamburger-nav">
-        <a class="hamburger-nav-item tally-link" href="#">Publica tu producto</a>
+        <button class="hamburger-nav-item" type="button" id="hamburger-explore-btn">Ver más productos</button>
         <button class="hamburger-nav-item" type="button" id="hamburger-comprar-btn">Comprar</button>
+        <a class="hamburger-nav-item tally-link" href="#">Publica tu producto</a>
+        <button class="hamburger-nav-item hamburger-login-item" type="button" id="hamburger-login-btn">Iniciar sesión</button>
       </nav>
     </div>
   </div>
@@ -5396,13 +5584,16 @@
       const loginBtn = document.getElementById("nav-login-btn");
       const userEl = document.getElementById("nav-user");
       const userNameEl = document.getElementById("nav-user-name");
+      const hambLoginBtn = document.getElementById("hamburger-login-btn");
       if (sess) {
         loginBtn?.setAttribute("hidden", "");
         userEl?.removeAttribute("hidden");
         if (userNameEl) userNameEl.textContent = sess.name || sess.email;
+        if (hambLoginBtn) hambLoginBtn.textContent = "Cerrar sesión";
       } else {
         loginBtn?.removeAttribute("hidden");
         userEl?.setAttribute("hidden", "");
+        if (hambLoginBtn) hambLoginBtn.textContent = "Iniciar sesión";
       }
     }
 
@@ -5507,6 +5698,13 @@
     document.getElementById("hamburger-comprar-btn")?.addEventListener("click", () => {
       closeHamburger();
       scrollToSection("drop");
+    });
+
+    // Login desde hamburguesa (visible solo en móvil)
+    document.getElementById("hamburger-login-btn")?.addEventListener("click", () => {
+      closeHamburger();
+      const sess = getAuthSession();
+      if (sess) { authLogout(); } else { openAuthModal("login"); }
     });
   </script>
 
