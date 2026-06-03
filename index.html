@@ -21,6 +21,14 @@
   <link rel="preconnect" href="https://oauth2.googleapis.com">
   <link rel="preconnect" href="https://sheets.googleapis.com">
   <link rel="dns-prefetch" href="https://www.googleapis.com">
+  <!-- EmailJS — notificación automática al registrarse -->
+  <!-- TODO: Reemplaza YOUR_PUBLIC_KEY con tu clave de EmailJS (emailjs.com) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function(){
+      if(window.emailjs) emailjs.init({ publicKey: "YOUR_PUBLIC_KEY" });
+    })();
+  </script>
 
   <script type="application/ld+json">
     {
@@ -2750,7 +2758,7 @@
       --tinta:     #000000;
       --acento:    #000000;
       --borde:     #000000;
-      --gris:      #666666;
+      --gris:      #000000;
 
       /* remapeo de variables existentes */
       --black:     #ffffff;
@@ -2760,7 +2768,7 @@
       --gold-dark: #000000;
       --coffee:    #000000;
       --white:     #000000;
-      --muted:     #666666;
+      --muted:     #000000;
       --line:      rgba(0, 0, 0, 0.13);
       --shadow:    0 4px 20px rgba(0, 0, 0, 0.07);
     }
@@ -2946,9 +2954,9 @@
     .hero-subtitle {
       margin: 0;
       font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-      font-weight: 400;
+      font-weight: 600;
       letter-spacing: 0.06em;
-      color: var(--gris);
+      color: #000 !important;
       text-align: center;
       text-transform: none;
     }
@@ -3159,7 +3167,7 @@
     .auth-toggle {
       font-size: 0.72rem;
       text-align: center;
-      color: #666;
+      color: #000;
       margin: 0;
     }
     .auth-toggle-btn {
@@ -3170,10 +3178,11 @@
       font-weight: 800;
       text-decoration: underline;
       font-family: inherit;
+      color: #000;
     }
     .auth-note {
       font-size: 0.62rem;
-      color: #999;
+      color: #000;
       text-align: center;
       margin: 0;
     }
@@ -4399,7 +4408,7 @@
       </div>
       <div class="hero-actions">
         <button class="button" type="button" id="hero-catalog-btn">Ver colección</button>
-        <a class="button secondary tally-link" id="hero-publish-btn" href="#">Publica tu producto</a>
+        <a class="button tally-link" id="hero-publish-btn" href="#">Publica tu producto</a>
       </div>
     </section>
 
@@ -4430,11 +4439,14 @@
         </div>
         <div class="filter-top-right">
           <div class="filter-stat">
+            <span class="filter-stat-label">Filtros activos</span>
+            <span class="filter-stat-count" id="filter-active-count">0 seleccionados</span>
+          </div>
+          <div class="filter-stat">
             <span class="filter-stat-label">Productos encontrados</span>
             <span class="filter-stat-count" id="filter-count">0</span>
           </div>
           <button class="filter-clear-btn" id="filter-clear-btn" type="button">Limpiar</button>
-          <button class="button filter-ver-btn" id="filter-apply-btn" type="button">Ver productos →</button>
         </div>
       </div>
       <div class="filter-blocks">
@@ -4459,6 +4471,10 @@
             <input type="text" class="filter-size-input" id="filter-size-input" placeholder="Buscar talla (ej: M, XL, 42)">
           </div>
         </div>
+      </div>
+      <!-- Ver productos: debajo de los filtros -->
+      <div style="display:flex;justify-content:center;margin-top:20px;">
+        <button class="button" id="filter-apply-btn" type="button" style="min-width:220px;font-size:0.9rem;">Ver productos →</button>
       </div>
     </section>
 
@@ -4901,6 +4917,8 @@
       if (hasWord(["poleron", "polerones"])) return "poleron";
       if (hasWord(["polera", "poleras"])) return "polera";
       if (hasWord(["camisa", "camisas"])) return "camisa";
+      if (hasWord(["chaleco", "chalecos"])) return "chaleco";
+      if (hasWord(["polar", "polares"])) return "polar";
       if (hasWord(["chaqueta", "chaquetas"])) return "chaqueta";
       if (hasWord(["parka", "parkas"])) return "parka";
       if (hasWord(["pantalon", "pantalones"])) return "pantalon";
@@ -4909,7 +4927,12 @@
       if (hasWord(["short", "shorts"])) return "short";
       if (hasWord(["traje", "trajes"])) return "traje";
       if (hasWord(["zapatilla", "zapatillas"])) return "zapatilla";
+      if (hasWord(["zapato", "zapatos"])) return "zapato";
       if (hasWord(["jockey", "jockeys"])) return "jockey";
+      if (hasWord(["gorro", "gorros"])) return "gorro";
+      if (hasWord(["accesorio", "accesorios"])) return "accesorio";
+      if (hasWord(["vestido", "vestidos"])) return "vestido";
+      if (hasWord(["chomba", "chombas"])) return "chomba";
       return "";
     }
 
@@ -4918,6 +4941,8 @@
         poleron: "Polerón",
         polera: "Polera",
         camisa: "Camisa",
+        chaleco: "Chaleco",
+        polar: "Polar",
         chaqueta: "Chaqueta",
         parka: "Parka",
         pantalon: "Pantalón",
@@ -4926,7 +4951,12 @@
         short: "Short",
         traje: "Traje de baño",
         zapatilla: "Zapatillas",
-        jockey: "Jockey"
+        zapato: "Zapatos",
+        jockey: "Jockey",
+        gorro: "Gorros",
+        accesorio: "Accesorios",
+        vestido: "Vestido",
+        chomba: "Chomba"
       }[category] || "";
     }
 
@@ -6067,17 +6097,29 @@
       if (users[email]) return { error: "Este email ya tiene una cuenta." };
       if (password.length < 6) return { error: "La contraseña debe tener al menos 6 caracteres." };
       const pw = await authHash(email + password);
-      users[email] = { name, email, pw, cart: [] };
+      const fecha = new Date().toLocaleString("es-CL", { timeZone: "America/Santiago" });
+      users[email] = { name, email, pw, cart: [], createdAt: fecha };
       localStorage.setItem("vurtag_users", JSON.stringify(users));
       const sess = { name, email };
       localStorage.setItem("vurtag_session", JSON.stringify(sess));
+      // Notificar por correo a vurtag.26@gmail.com via EmailJS
+      try {
+        if (window.emailjs) {
+          emailjs.send("vurtag_service", "vurtag_nuevo_usuario", {
+            to_email: "vurtag.26@gmail.com",
+            user_name: name || "(sin nombre)",
+            user_email: email,
+            fecha_registro: fecha
+          });
+        }
+      } catch(e) { console.warn("[VURTAG] EmailJS no configurado:", e.message); }
       return { ok: true, sess };
     }
 
     async function authLogin(email, password) {
       const users = getAuthUsers();
       const u = users[email];
-      if (!u) return { error: "Email no encontrado." };
+      if (!u) return { error: "No existe una cuenta registrada con estos datos. Primero debes crear una cuenta." };
       const pw = await authHash(email + password);
       if (u.pw !== pw) return { error: "Contraseña incorrecta." };
       const sess = { name: u.name, email };
@@ -6280,9 +6322,12 @@
 
     const FILTER_CAT_LABELS = {
       poleron: "Polerón", polera: "Polera", camisa: "Camisa",
+      chaleco: "Chaleco", polar: "Polar",
       chaqueta: "Chaqueta", parka: "Parka", pantalon: "Pantalón",
       jeans: "Jeans", buzo: "Buzo", short: "Short",
-      traje: "Traje de baño", zapatilla: "Zapatillas", jockey: "Jockey"
+      traje: "Traje de baño", zapatilla: "Zapatillas",
+      zapato: "Zapatos", jockey: "Jockey", gorro: "Gorros",
+      accesorio: "Accesorios", vestido: "Vestido", chomba: "Chomba"
     };
 
     function sortSizes(a, b) {
@@ -6378,9 +6423,14 @@
         }
       }
 
-      // Actualizar contador
+      // Actualizar contadores
       const countEl = document.getElementById("filter-count");
       if (countEl) countEl.textContent = getFilteredProducts().length;
+
+      const activeCount = [filterSelCategory, filterSelSize].filter(Boolean).length
+        + ((document.getElementById("filter-size-input")?.value || "").trim() ? 1 : 0);
+      const activeEl = document.getElementById("filter-active-count");
+      if (activeEl) activeEl.textContent = activeCount === 1 ? "1 seleccionado" : `${activeCount} seleccionados`;
     }
 
     function applyFilterSearch() {
@@ -6388,12 +6438,26 @@
       const container = document.getElementById("catalogo");
       if (!container) return;
 
+      // Actualizar título de la sección de productos
+      const sectionTitle = document.querySelector("#drop .section-head h2");
+      const manualSize = (document.getElementById("filter-size-input")?.value || "").trim();
+      const labels = [
+        filterSelCategory ? (FILTER_CAT_LABELS[filterSelCategory] || filterSelCategory) : null,
+        filterSelSize || manualSize || null
+      ].filter(Boolean);
+
+      if (sectionTitle) {
+        sectionTitle.textContent = labels.length
+          ? `Resultados para: ${labels.join(" · ")}`
+          : "Productos disponibles";
+      }
+
       if (!filtered.length) {
         container.innerHTML = `
           <div class="filter-no-results-card">
             <button class="filter-no-results-close" type="button"
                     onclick="clearFiltersAndRestore();this.closest('.filter-no-results-card').remove()">×</button>
-            <p class="filter-no-results-text">Aún no hay productos disponibles<br>con estos filtros.</p>
+            <p class="filter-no-results-text">No encontramos productos con esos filtros.<br>Intenta con otra categoría o talla.</p>
             <button class="button secondary" type="button"
                     onclick="clearFiltersAndRestore()">Ver todos los productos</button>
           </div>`;
@@ -6419,6 +6483,14 @@
       filterSelSize = "";
       const inp = document.getElementById("filter-size-input");
       if (inp) inp.value = "";
+      // Restaurar título sección productos
+      const sectionTitle = document.querySelector("#drop .section-head h2");
+      if (sectionTitle) sectionTitle.textContent = "Productos disponibles";
+      // Restaurar contadores
+      const activeEl = document.getElementById("filter-active-count");
+      if (activeEl) activeEl.textContent = "0 seleccionados";
+      const countEl = document.getElementById("filter-count");
+      if (countEl) countEl.textContent = loadedProducts.length || 0;
       renderFilterChips();
       isHomepageMode = true;
       activeProductCategory = "all";
