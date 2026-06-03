@@ -4136,35 +4136,41 @@
       }
     }
 
-    /* ===== SECCIÓN FILTROS ===== */
+    /* ===== SECCIÓN FILTROS — REDISEÑO ===== */
     #filtros {
-      border-top: 1px solid rgba(0,0,0,0.12);
+      border-top: 2px solid #000;
+      padding-top: clamp(40px,6vw,70px) !important;
     }
+    /* Barra superior */
     .filter-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
+      padding: 22px 26px;
+      background: #fff;
+      border: 1.5px solid #000;
+      margin-bottom: 12px;
       flex-wrap: wrap;
-      margin-bottom: 28px;
     }
     .filter-top-left h2 {
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
       font-weight: 900;
       text-transform: uppercase;
-      color: #000;
-      margin: 0 0 4px;
+      color: #000 !important;
+      margin: 0 0 5px;
       letter-spacing: 0;
     }
     .filter-top-left p {
-      font-size: 0.84rem;
-      color: #666;
+      font-size: 0.88rem;
+      color: #000 !important;
       margin: 0;
+      font-weight: 500;
     }
     .filter-top-right {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 18px;
       flex-wrap: wrap;
     }
     .filter-stat {
@@ -4173,149 +4179,189 @@
       align-items: flex-end;
     }
     .filter-stat-label {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 900;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #888;
+      color: #000 !important;
       line-height: 1;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
     .filter-stat-count {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 900;
-      color: #000;
+      color: #000 !important;
       line-height: 1;
     }
     .filter-clear-btn {
       background: transparent;
-      border: 1px solid rgba(0,0,0,0.22);
-      color: #555;
-      font-size: 0.7rem;
-      font-weight: 700;
+      border: 1.5px solid rgba(0,0,0,0.3);
+      color: #000 !important;
+      font-size: 0.72rem;
+      font-weight: 800;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 9px 18px;
+      padding: 10px 22px;
       cursor: pointer;
       font-family: inherit;
-      min-height: 38px;
-    }
-    .filter-clear-btn:hover { background: #f5f5f5; color: #000; }
-
-    .filter-ver-btn {
       min-height: 42px;
-      padding: 0 22px;
-      font-size: 0.74rem;
+      border-radius: 0;
+      transition: background 120ms, color 120ms;
     }
+    .filter-clear-btn:hover { background: #000; color: #fff !important; border-color: #000; }
 
+    /* Grid de filtros */
     .filter-blocks {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 0;
+      gap: 12px;
+      margin-bottom: 12px;
     }
     @media (max-width: 680px) {
       .filter-blocks { grid-template-columns: 1fr; }
       .filter-top-right { width: 100%; justify-content: space-between; }
       .filter-stat { align-items: flex-start; }
+      .filter-top-bar { flex-direction: column; align-items: flex-start; }
     }
 
+    /* Tarjeta de filtro */
     .filter-block {
-      padding: 22px 20px 20px;
-      border: 1px solid rgba(0,0,0,0.13);
+      padding: 24px;
+      border: 1.5px solid #000;
       background: #fff;
+      border-radius: 0 !important;
     }
+
+    /* Header con ícono */
     .filter-block-head {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 14px;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .filter-icon {
+      width: 46px;
+      height: 46px;
+      border: 1.5px solid #000;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 0;
+    }
+    .filter-icon svg {
+      width: 20px;
+      height: 20px;
     }
     .filter-block-title {
-      font-size: 0.66rem;
+      font-size: 0.72rem;
       font-weight: 900;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #000;
-      margin: 0;
+      color: #000 !important;
+      margin: 0 0 4px;
     }
     .filter-block-sub {
-      font-size: 0.6rem;
-      color: #999;
+      font-size: 0.62rem;
+      color: #000 !important;
+      font-weight: 600;
     }
 
+    /* Chips */
     .filter-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
-      min-height: 32px;
+      gap: 8px;
+      min-height: 36px;
     }
     .filter-chip {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 6px 11px;
-      border: 1px solid rgba(0,0,0,0.18);
+      gap: 8px;
+      padding: 9px 15px;
+      border: 1.5px solid rgba(0,0,0,0.22);
       background: #fff;
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
       cursor: pointer;
       font-family: inherit;
-      color: #000;
-      transition: border-color 120ms, background 120ms, color 120ms;
+      color: #000 !important;
+      transition: border-color 120ms, background 120ms;
       white-space: nowrap;
+      border-radius: 0 !important;
     }
-    .filter-chip:hover { border-color: #000; background: #f7f7f7; }
-    .filter-chip.is-active { background: #000; color: #fff; border-color: #000; }
+    .filter-chip:hover { border-color: #000; background: #f5f5f5; }
+    .filter-chip.is-active { background: #000; color: #fff !important; border-color: #000; }
     .filter-chip-count {
-      font-size: 0.6rem;
-      font-weight: 600;
-      opacity: 0.6;
+      font-size: 0.7rem;
+      font-weight: 700;
+      opacity: 0.55;
+      color: inherit !important;
     }
-    .filter-chip.is-active .filter-chip-count { opacity: 0.75; }
+    .filter-chip.is-active .filter-chip-count { opacity: 0.75; color: #fff !important; }
 
-    .filter-size-input-wrap { margin-top: 12px; }
+    /* Input talla */
+    .filter-size-input-wrap { margin-top: 14px; }
     .filter-size-input {
       width: 100%;
-      padding: 9px 12px;
-      border: 1px solid rgba(0,0,0,0.18);
-      font-size: 0.8rem;
+      padding: 11px 14px;
+      border: 1.5px solid rgba(0,0,0,0.22);
+      font-size: 0.84rem;
       font-family: inherit;
       background: #fff;
       outline: none;
       box-sizing: border-box;
-      color: #000;
+      color: #000 !important;
+      border-radius: 0;
+      font-weight: 600;
+      transition: border-color 120ms;
     }
     .filter-size-input:focus { border-color: #000; }
-    .filter-size-input::placeholder { color: #aaa; font-size: 0.76rem; }
+    .filter-size-input::placeholder { color: #888; font-weight: 400; }
 
-    .filter-empty-note {
-      font-size: 0.68rem;
-      color: #bbb;
-      margin: 0;
+    .filter-empty-note { font-size: 0.72rem; color: #999; margin: 0; }
+
+    /* Botón Ver productos */
+    .filter-ver-btn-wrap {
+      display: flex;
+      justify-content: center;
+      padding-top: 6px;
+    }
+    .filter-ver-btn {
+      min-width: 260px;
+      min-height: 52px;
+      font-size: 0.88rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      border-radius: 0 !important;
+    }
+    @media (max-width: 600px) {
+      .filter-ver-btn { min-width: 0; width: 100%; }
     }
 
-    /* Mensaje sin resultados dentro del catálogo */
+    /* Sin resultados */
     .filter-no-results-card {
       grid-column: 1 / -1;
       padding: clamp(40px,8vw,80px) 24px;
       text-align: center;
-      border: 1px solid rgba(0,0,0,0.1);
+      border: 1.5px solid #000;
       background: #fff;
       position: relative;
     }
     .filter-no-results-close {
       position: absolute;
-      top: 12px; right: 12px;
-      width: 32px; height: 32px;
-      border: 1px solid rgba(0,0,0,0.2);
+      top: 14px; right: 14px;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,0,0,0.28);
       background: transparent;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       cursor: pointer;
       display: grid;
       place-items: center;
       color: #000;
+      border-radius: 0;
     }
     .filter-no-results-close:hover { background: #000; color: #fff; }
     .filter-no-results-text {
@@ -4325,7 +4371,7 @@
       letter-spacing: 0.04em;
       line-height: 1.25;
       color: #000;
-      margin: 0 0 20px;
+      margin: 0 0 22px;
     }
   </style>
 </head>
@@ -4435,7 +4481,7 @@
       <div class="filter-top-bar">
         <div class="filter-top-left">
           <h2>Encuentra tu producto</h2>
-          <p>Filtra por categoría, talla o tipo de prenda disponible en VURTAG.</p>
+          <p>Filtra por categoría, talla o tipo de prenda disponible en VURTAG</p>
         </div>
         <div class="filter-top-right">
           <div class="filter-stat">
@@ -4450,31 +4496,54 @@
         </div>
       </div>
       <div class="filter-blocks">
+        <!-- CATEGORÍA -->
         <div class="filter-block">
           <div class="filter-block-head">
-            <h3 class="filter-block-title">Categoría</h3>
-            <span class="filter-block-sub">Selecciona una</span>
+            <div class="filter-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="filter-block-title">Categoría</h3>
+              <span class="filter-block-sub">Selecciona una</span>
+            </div>
           </div>
           <div class="filter-chips" id="filter-categories">
             <p class="filter-empty-note">Cargando...</p>
           </div>
         </div>
+        <!-- TALLA -->
         <div class="filter-block">
           <div class="filter-block-head">
-            <h3 class="filter-block-title">Talla</h3>
-            <span class="filter-block-sub">Selecciona una</span>
+            <div class="filter-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="10"/>
+                <line x1="6"  y1="7" x2="6"  y2="12"/>
+                <line x1="10" y1="7" x2="10" y2="10.5"/>
+                <line x1="14" y1="7" x2="14" y2="12"/>
+                <line x1="18" y1="7" x2="18" y2="10.5"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="filter-block-title">Talla</h3>
+              <span class="filter-block-sub">Selecciona una</span>
+            </div>
           </div>
           <div class="filter-chips" id="filter-sizes">
             <p class="filter-empty-note">Cargando...</p>
           </div>
           <div class="filter-size-input-wrap">
-            <input type="text" class="filter-size-input" id="filter-size-input" placeholder="Buscar talla (ej: M, XL, 42)">
+            <input type="text" class="filter-size-input" id="filter-size-input" placeholder="Buscar talla exacta (ej: M, XL, 42)">
           </div>
         </div>
       </div>
-      <!-- Ver productos: debajo de los filtros -->
-      <div style="display:flex;justify-content:center;margin-top:20px;">
-        <button class="button" id="filter-apply-btn" type="button" style="min-width:220px;font-size:0.9rem;">Ver productos →</button>
+      <!-- Ver productos centrado debajo de los filtros -->
+      <div class="filter-ver-btn-wrap">
+        <button class="button filter-ver-btn" id="filter-apply-btn" type="button">Ver productos →</button>
       </div>
     </section>
 
@@ -5107,8 +5176,11 @@
       ).join("|");
     }
 
+    let filterViewActive = false; // Evita que el polling sobreescriba la vista filtrada
+
     function renderAvailableProducts() {
       if (!availableProducts) return false;
+      if (filterViewActive) return true; // No sobreescribir vista de filtros activa
       if (!loadedProducts.length) return renderEmptyCatalog();
 
       const filteredProducts = activeProductCategory === "all"
@@ -5834,7 +5906,7 @@
     loadProductsFromSheet();
 
     // Polling cada 2 segundos — near real-time sync con Google Sheets
-    setInterval(loadProductsFromSheet, 2 * 1000);
+    setInterval(loadProductsFromSheet, 30 * 1000); // Cada 30s — no sobreescribe vista filtrada
 
     // Refresca también cuando el usuario vuelve al tab
     document.addEventListener("visibilitychange", () => {
@@ -6465,6 +6537,7 @@
         return;
       }
 
+      filterViewActive = true; // Bloquea el polling para no sobreescribir
       isHomepageMode = false;
       activeProductCategory = "all";
       lastProductsHash = "";
@@ -6479,6 +6552,7 @@
     }
 
     function clearFiltersAndRestore() {
+      filterViewActive = false; // Habilitar polling nuevamente
       filterSelCategory = "";
       filterSelSize = "";
       const inp = document.getElementById("filter-size-input");
