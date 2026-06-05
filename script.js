@@ -40,14 +40,13 @@ const siteIntegrations = {
     let noCatTimer = null;
     let lastProductsHash = "";
     const publishFieldNames = [
+      "Estado de publicación",
+      "Estado de publicacion",
+      "Publicación",
+      "Publicacion",
       "Publicado",
-      "Publicar",
       "Aprobado",
-      "Aprobar",
-      "Aprobado para publicar",
-      "Publicar en web",
-      "Subir a web",
-      "Subir a la web"
+      "Status"
     ];
 
     function productLink(productId) {
@@ -668,9 +667,7 @@ const siteIntegrations = {
 
     function shouldPublish(value) {
       const normalized = normalizeKey(value);
-      if (!normalized) return true;                             // vacío = publicar por defecto
-      if (["no", "false"].includes(normalized)) return false;  // "NO" = ocultar
-      return true;
+      return normalized === "aprobado" || normalized === "vendido";
     }
 
     function getValue(product, keys) {
@@ -926,14 +923,25 @@ const siteIntegrations = {
       const buyMessage = buildBuyMessage(productName, productId);
       const buyUrl = instagramUrlWithMessage(buyMessage);
 
+      const isSold = product.Vendido === true;
+      const tagHtml = isSold
+        ? `<span class="tag tag-sold">Vendido</span>`
+        : `<span class="tag">Disponible</span>`;
+      const actionsHtml = isSold
+        ? `<button class="button" type="button" disabled aria-disabled="true">No disponible</button>
+              <button class="button secondary product-details-button" type="button">Ver más</button>`
+        : `<a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
+              <button class="button secondary add-to-cart-btn" type="button" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}" data-product-price="${escapeHtml(displayPrice || '')}" data-product-photo="${escapeHtml(photos[0] || '')}">Carrito</button>
+              <button class="button secondary product-details-button" type="button">Ver más</button>`;
+
       return `
-        <div class="product-grid" id="${escapeHtml(productId)}" data-product-type-section="${escapeHtml(type)}" data-product-category="${escapeHtml(category)}">
+        <div class="product-grid${isSold ? " product-sold" : ""}" id="${escapeHtml(productId)}" data-product-type-section="${escapeHtml(type)}" data-product-category="${escapeHtml(category)}">
           <div class="product-gallery">${imageFigures}
           </div>
 
           <article class="product-info">
             <div class="tag-row">
-              <span class="tag">Disponible</span>
+              ${tagHtml}
             </div>
             <h3>${escapeHtml(productName)}</h3>
             <div class="product-summary-row">
@@ -944,13 +952,11 @@ const siteIntegrations = {
             </ul>
             <ul class="detail-list product-extra-details" hidden>
               <li><strong>Estado:</strong> ${escapeHtml(status || "Por confirmar")}</li>
-              <li><strong>Stock:</strong> Disponible</li>
+              <li><strong>Stock:</strong> ${isSold ? "Vendido" : "Disponible"}</li>
               <li><strong>Descripción:</strong> ${escapeHtml(description || "Producto disponible en VURTAG")}</li>
             </ul>
             <div class="actions">
-              <a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
-              <button class="button secondary add-to-cart-btn" type="button" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}" data-product-price="${escapeHtml(displayPrice || '')}" data-product-photo="${escapeHtml(photos[0] || '')}">Carrito</button>
-              <button class="button secondary product-details-button" type="button">Ver más</button>
+              ${actionsHtml}
             </div>
           </article>
         </div>`;
@@ -1078,6 +1084,7 @@ const siteIntegrations = {
               const headers = rows[0];
               sheetProducts = rows.slice(1)
                 .map((row, index) => createSheetProduct(headers, row, index))
+                .filter((p) => shouldPublish(getValue(p, publishFieldNames)))
                 .filter(hasPublishableProductData);
             }
           }
