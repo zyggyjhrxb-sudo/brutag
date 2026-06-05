@@ -4374,6 +4374,324 @@
       margin: 0 0 22px;
     }
   </style>
+
+  <style>
+    /* ===== VURTAG — MOBILE-FIRST OPTIMIZATION (bloque final) =====
+       Prioridad absoluta: pantallas 360px – 430px.
+       Solo usa !important donde sea necesario para ganar a bloques previos.
+    ================================================================ */
+
+    /* ── 1. HERO: altura mínima + contenido bien escalado ── */
+    @media (max-width: 600px) {
+      .hero {
+        min-height: 260px !important;
+        padding: 30px 16px 26px !important;
+        gap: 10px !important;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 10.8vw, 2.65rem) !important;
+        line-height: 1.07 !important;
+        letter-spacing: -0.01em !important;
+        margin: 0 0 2px !important;
+        max-width: 100% !important;
+      }
+
+      .hero-subtitle {
+        font-size: 0.86rem !important;
+        font-weight: 600 !important;
+        color: #555 !important;
+        margin: 0 !important;
+        letter-spacing: 0.02em !important;
+        text-transform: none !important;
+      }
+
+      .product-marquee {
+        margin: 4px 0 !important;
+        width: 100% !important;
+      }
+
+      /* Botones CTA: toque cómodo */
+      .hero-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        margin-top: 6px !important;
+      }
+
+      .hero-actions .button {
+        width: 100% !important;
+        min-height: 50px !important;
+        font-size: 0.76rem !important;
+        letter-spacing: 0.1em !important;
+      }
+    }
+
+    /* ── 2. NAV: touch targets mínimos 40px ── */
+    @media (max-width: 640px) {
+      .nav-inner {
+        min-height: 54px !important;
+        padding: 0 14px 0 12px !important;
+      }
+
+      .cart-btn,
+      .nav-login-btn {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      .cart-btn svg,
+      .nav-login-icon {
+        width: 21px !important;
+        height: 21px !important;
+      }
+
+      /* Logo VURTAG: proporcional según ancho de pantalla */
+      .brand {
+        font-size: clamp(1.3rem, 6.4vw, 1.6rem) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: clip !important;
+      }
+    }
+
+    /* ── 3. PRODUCTOS: visual limpio en 2 columnas ── */
+    @media (max-width: 600px) {
+      /* Imagen: proporción cuadrada limpia */
+      .available-products .product-gallery figure:first-child {
+        aspect-ratio: 1 / 1 !important;
+        padding: 5px !important;
+        background: #fafafa !important;
+      }
+
+      /* Info compacta */
+      .available-products .product-info {
+        padding: 8px 9px 10px !important;
+        gap: 3px !important;
+      }
+
+      /* Nombre: 2 líneas máximo, legible */
+      .available-products .product-info h3 {
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        line-height: 1.22 !important;
+        max-height: 2.65em !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+      }
+
+      /* Precio: prominente */
+      .available-products .price {
+        font-size: 0.84rem !important;
+        font-weight: 900 !important;
+        line-height: 1 !important;
+      }
+
+      /* Botones de acción: toque cómodo (≥36px) */
+      .available-products .actions .button {
+        min-height: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
+        font-size: 0.58rem !important;
+        padding: 0 5px !important;
+        letter-spacing: 0.04em !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+    }
+
+    /* ── 4. SECCIONES: espacio que respira en móvil ── */
+    @media (max-width: 600px) {
+      section {
+        padding-top: 28px !important;
+        padding-bottom: 28px !important;
+      }
+
+      #filtros {
+        padding-top: 28px !important;
+      }
+
+      .section-head {
+        margin-bottom: 14px !important;
+      }
+
+      .section-head h2,
+      h2 {
+        font-size: clamp(1.2rem, 5.8vw, 1.55rem) !important;
+        line-height: 1.1 !important;
+      }
+    }
+
+    /* ── 5. FILTROS: más usables en móvil ── */
+    @media (max-width: 600px) {
+      .filter-top-bar {
+        padding: 14px 12px !important;
+        margin-bottom: 8px !important;
+        gap: 10px !important;
+      }
+
+      .filter-top-left h2 {
+        font-size: clamp(1rem, 5vw, 1.3rem) !important;
+        margin-bottom: 2px !important;
+      }
+
+      .filter-blocks {
+        gap: 8px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .filter-block {
+        padding: 14px 12px !important;
+      }
+
+      .filter-block-head {
+        margin-bottom: 10px !important;
+        gap: 10px !important;
+      }
+
+      .filter-icon {
+        width: 36px !important;
+        height: 36px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Chips: área de toque cómoda */
+      .filter-chip {
+        min-height: 38px !important;
+        padding: 8px 12px !important;
+        font-size: 0.76rem !important;
+      }
+
+      /* Input talla: grande y fácil de usar */
+      .filter-size-input {
+        min-height: 46px !important;
+        padding: 12px 14px !important;
+        font-size: 0.92rem !important;
+      }
+
+      /* Botón ver resultados: llamativo */
+      .filter-ver-btn {
+        min-height: 52px !important;
+        font-size: 0.82rem !important;
+      }
+    }
+
+    /* ── 6. FOOTER: apilado en móvil ── */
+    @media (max-width: 600px) {
+      footer {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding: 20px 14px 28px !important;
+        font-size: 0.82rem !important;
+      }
+    }
+
+    /* ── 7. MODALES: adaptados a pantalla completa en móvil ── */
+    @media (max-width: 600px) {
+      .modal-content {
+        width: calc(100% - 24px) !important;
+        padding: 20px 16px 24px !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+      }
+
+      .modal-content h2 {
+        font-size: clamp(1.2rem, 5.5vw, 1.6rem) !important;
+        margin-bottom: 8px !important;
+      }
+
+      /* Detalle de producto: 1 columna */
+      .product-detail-layout {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* Galería: 2 columnas */
+      .product-detail-gallery {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+      }
+    }
+
+    /* ── 8. RENDIMIENTO: sin efectos hover en pantallas táctiles ── */
+    @media (hover: none) {
+      .photo-zoom:hover img,
+      .available-products .photo-zoom:hover img {
+        transform: none !important;
+      }
+
+      .button:hover {
+        transform: none !important;
+      }
+
+      .accepted-card:hover {
+        transform: none !important;
+        background: #fff !important;
+        border-color: rgba(22, 21, 20, 0.16) !important;
+      }
+
+      /* Marquee: velocidad reducida en móvil = menos CPU */
+      .product-track {
+        animation-duration: 32s !important;
+      }
+    }
+
+    /* ── 9. PANTALLAS MUY PEQUEÑAS (≤380px) ── */
+    @media (max-width: 380px) {
+      .brand {
+        font-size: 1.22rem !important;
+      }
+
+      .nav-inner {
+        padding: 0 10px 0 10px !important;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.85rem, 10vw, 2.2rem) !important;
+      }
+
+      .hero-actions .button {
+        min-height: 48px !important;
+        font-size: 0.72rem !important;
+      }
+
+      .available-products {
+        gap: 6px !important;
+      }
+
+      .available-products .product-info {
+        padding: 6px 7px 8px !important;
+      }
+
+      .available-products .product-info h3 {
+        font-size: 0.67rem !important;
+      }
+
+      .available-products .price {
+        font-size: 0.78rem !important;
+      }
+    }
+
+    /* ── 10. SCROLLBAR: ocultar en móvil = más limpio ── */
+    @media (max-width: 768px) {
+      .accepted-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .accepted-grid {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Barra de scroll con efecto de texto -->
@@ -5695,7 +6013,7 @@
       const imageFigures = photos.map((photo) => `
             <figure>
               <button class="photo-zoom" type="button" data-photo-src="${escapeHtml(photo)}" data-photo-alt="${escapeHtml(productName)}">
-                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}" decoding="async">
+                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}" decoding="async" loading="lazy">
                 <span class="photo-preview">Vista previa</span>
               </button>
             </figure>`).join("");
