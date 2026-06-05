@@ -2,8 +2,14 @@ const { fetchProductImage, getApprovedPhoto } = require("../lib/google-products"
 
 function queryValue(req, name) {
   if (req.query && req.query[name] != null) return req.query[name];
-  const url = new URL(req.url || "", "https://brutag.vercel.app");
+  const url = new URL(req.url || "", "https://vurtag.cl");
   return url.searchParams.get(name);
+}
+
+function clampNumber(value, fallback, min, max) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.min(max, Math.max(min, Math.round(number)));
 }
 
 function sendJson(res, statusCode, payload) {
@@ -21,6 +27,9 @@ module.exports = async function imageHandler(req, res) {
 
   const productId = String(queryValue(req, "producto") || "");
   const photoIndex = Number(queryValue(req, "foto") || 0);
+  const width = clampNumber(queryValue(req, "w"), 900, 120, 900);
+  const quality = clampNumber(queryValue(req, "q"), 70, 45, 82);
+  const format = String(queryValue(req, "format") || "webp").toLowerCase();
   if (!productId || !Number.isInteger(photoIndex) || photoIndex < 0) {
     return sendJson(res, 400, { error: "Imagen inválida" });
   }
@@ -31,10 +40,15 @@ module.exports = async function imageHandler(req, res) {
       return sendJson(res, 404, { error: "Imagen no publicada" });
     }
 
-    const image = await fetchProductImage(approvedPhoto.photoRef);
+    const image = await fetchProductImage(approvedPhoto.photoRef, {
+      width,
+      quality,
+      format,
+      accept: req.headers.accept || ""
+    });
     res.statusCode = 200;
     res.setHeader("Content-Type", image.mimeType);
-    res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
+    res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.end(image.bytes);
     return null;

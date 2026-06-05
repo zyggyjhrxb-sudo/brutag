@@ -53,6 +53,71 @@
       "Subir a web",
       "Subir a la web"
     ];
+    const PRODUCT_STATUS = {
+      PUBLISHED: "Publicado",
+      UNPUBLISHED: "No publicado",
+      SOLD: "Vendido"
+    };
+    const SOLD_VISIBLE_MS = 48 * 60 * 60 * 1000;
+    const publicationStatusFieldNames = [
+      "EstadoPublicacion",
+      "Estado publicación",
+      "Estado de publicación",
+      "Estado publicacion",
+      "Estado del producto",
+      "Estado producto"
+    ];
+    const soldSinceFieldNames = [
+      "VendidoDesde",
+      "Vendido desde",
+      "Fecha vendido",
+      "Fecha de venta",
+      "Vendido el"
+    ];
+
+    // Estado de publicación (tres estados)
+    const VENDIDO_TIMESTAMPS_KEY = "vurtag_vendido_48h";
+    const VENDIDO_TTL_MS = 48 * 60 * 60 * 1000;
+    const PUBLICATION_STATE_NORMALIZED = new Set(["publicado", "nopublicado", "vendido"]);
+
+    function getVendidoTimestamps() {
+      try { return JSON.parse(localStorage.getItem(VENDIDO_TIMESTAMPS_KEY) || "{}"); } catch { return {}; }
+    }
+
+    function markVendidoTimestamp(productId, isoDate) {
+      try {
+        const stamps = getVendidoTimestamps();
+        if (!stamps[productId]) {
+          stamps[productId] = isoDate ? new Date(isoDate).getTime() || Date.now() : Date.now();
+          localStorage.setItem(VENDIDO_TIMESTAMPS_KEY, JSON.stringify(stamps));
+        }
+      } catch {}
+    }
+
+    function isVendidoExpiredById(productId, isoDate) {
+      if (isoDate) {
+        try { const ts = new Date(isoDate).getTime(); if (!isNaN(ts)) return Date.now() - ts > VENDIDO_TTL_MS; } catch {}
+      }
+      const stamps = getVendidoTimestamps();
+      const ts = stamps[productId];
+      return ts ? Date.now() - ts > VENDIDO_TTL_MS : false;
+    }
+
+    function getPublicationState(product) {
+      // 1. Ya resuelto por backend (API)
+      const existing = getValue(product, ["EstadoPublicacion", "Estado del producto"]);
+      if (existing) {
+        const norm = normalizeKey(existing);
+        if (norm === "publicado") return "publicado";
+        if (norm === "vendido") return "vendido";
+        if (norm === "nopublicado") return "nopublicado";
+      }
+      // 2. Campos legacy de publicación — requieren SI/YES/TRUE explícito
+      const publishNorm = normalizeKey(getValue(product, publishFieldNames));
+      if (["si", "yes", "true", "publicado"].includes(publishNorm)) return "publicado";
+      if (["no", "false", "nopublicado"].includes(publishNorm)) return "nopublicado";
+      return "nopublicado"; // vacío = no publicado por defecto
+    }
 
     function productLink(productId) {
       const url = new URL(siteIntegrations.productionUrl);
@@ -292,22 +357,37 @@
       const buyButton = card.querySelector(".buy-button");
       const productName = buyButton?.dataset.productName || title;
       const productId = buyButton?.dataset.productId || card.id || productIdFromName(productName);
-      const images = [...card.querySelectorAll(".product-gallery img")]
-        .map((image) => ({
-          src: image.currentSrc || image.src,
-          alt: image.alt || title
+      const storedPhotos = decodeProductPhotos(card.dataset.productPhotos);
+      const images = storedPhotos.length
+        ? storedPhotos.map((photo) => ({
+          src: imageUrlForDisplay(photo),
+          alt: title
         }))
-        .filter((image) => image.src);
+        : [...card.querySelectorAll(".product-gallery img")]
+          .map((image) => ({
+            src: image.currentSrc || image.src,
+            alt: image.alt || title
+          }))
+          .filter((image) => image.src);
       const detailTexts = [...card.querySelectorAll(".product-summary-list li, .product-extra-details li")]
         .map((item) => item.textContent.trim())
         .filter(Boolean);
+      const isSold = card.dataset.productStatus === PRODUCT_STATUS.SOLD;
 
       if (productDetailTitle) productDetailTitle.textContent = title;
       if (productDetailPrice) productDetailPrice.textContent = price;
       if (productDetailBuy) {
-        productDetailBuy.href = instagramUrlWithMessage(buildBuyMessage(productName, productId));
+        productDetailBuy.textContent = isSold ? "Vendido" : "Comprar";
+        productDetailBuy.dataset.productSold = isSold ? "true" : "false";
         productDetailBuy.dataset.productName = productName;
         productDetailBuy.dataset.productId = productId;
+        productDetailBuy.classList.toggle("is-disabled", isSold);
+        productDetailBuy.setAttribute("aria-disabled", isSold ? "true" : "false");
+        if (isSold) {
+          productDetailBuy.removeAttribute("href");
+        } else {
+          productDetailBuy.href = instagramUrlWithMessage(buildBuyMessage(productName, productId));
+        }
       }
 
       if (productDetailList) {
@@ -335,6 +415,8 @@
           const img = document.createElement("img");
           img.src = image.src;
           img.alt = image.alt;
+          img.loading = "lazy";
+          img.decoding = "async";
           button.appendChild(img);
           button.addEventListener("click", () => {
             if (!photoModal || !photoModalImage) return;
@@ -396,7 +478,7 @@
 
     function getProductsHash(products, category) {
       return (isHomepageMode ? "home" : "full") + "|" + category + "|" + products.map((p) =>
-        [getValue(p, ["Nombre","Nombre del producto"]), getValue(p, ["Precio","Precio esperado"]), getValue(p, ["Fotos","Foto"])].join(":")
+        [getValue(p, ["Nombre","Nombre del producto"]), getValue(p, ["Precio","Precio esperado"]), getValue(p, ["Fotos","Foto"]), publicationStatus(p), getValue(p, soldSinceFieldNames)].join(":")
       ).join("|");
     }
 
@@ -606,6 +688,7 @@
     if (productDetailBuy) {
       productDetailBuy.addEventListener("click", (event) => {
         event.preventDefault();
+        if (productDetailBuy.dataset.productSold === "true") return;
         closeModal(productDetailModal);
         openBuyFlow(productDetailBuy.dataset.productName || "Producto VURTAG", productDetailBuy.dataset.productId || "producto");
       });
@@ -668,11 +751,67 @@
       }[character]));
     }
 
-    function shouldPublish(value) {
+    function normalizeProductStatus(value) {
       const normalized = normalizeKey(value);
-      if (!normalized) return true;                             // vacío = publicar por defecto
-      if (["no", "false"].includes(normalized)) return false;  // "NO" = ocultar
-      return true;
+      if (["publicado", "publicada"].includes(normalized)) return PRODUCT_STATUS.PUBLISHED;
+      if (["nopublicado", "nopublicada", "borrador", "revision", "enrevision"].includes(normalized)) {
+        return PRODUCT_STATUS.UNPUBLISHED;
+      }
+      if (["vendido", "vendida"].includes(normalized)) return PRODUCT_STATUS.SOLD;
+      return "";
+    }
+
+    function isTruthyControl(value) {
+      return ["si", "sí", "yes", "true", "1"].includes(String(value || "").trim().toLowerCase());
+    }
+
+    function publicationStatus(product) {
+      const directStatus = normalizeProductStatus(getValue(product, publicationStatusFieldNames));
+      if (directStatus) return directStatus;
+      if (isTruthyControl(getValue(product, ["Vendido"]))) return PRODUCT_STATUS.SOLD;
+      if (isTruthyControl(getValue(product, publishFieldNames))) return PRODUCT_STATUS.PUBLISHED;
+      if (isTruthyControl(getValue(product, ["No Publicado", "No publicado", "No publicar"]))) {
+        return PRODUCT_STATUS.UNPUBLISHED;
+      }
+      return PRODUCT_STATUS.UNPUBLISHED;
+    }
+
+    function parseSheetDate(value) {
+      const text = String(value || "").trim();
+      if (!text) return null;
+      const parsed = Date.parse(text);
+      if (!Number.isNaN(parsed)) return new Date(parsed);
+
+      const dateMatch = text.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+      if (!dateMatch) return null;
+
+      const [, day, month, year, hour = "0", minute = "0", second = "0"] = dateMatch;
+      const date = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hour),
+        Number(minute),
+        Number(second)
+      );
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function isSoldVisible(product) {
+      const soldSince = parseSheetDate(getValue(product, soldSinceFieldNames));
+      if (!soldSince) return false;
+      return Date.now() - soldSince.getTime() <= SOLD_VISIBLE_MS;
+    }
+
+    function isCatalogVisibleProduct(product) {
+      const status = publicationStatus(product);
+      if (status === PRODUCT_STATUS.PUBLISHED) return true;
+      if (status === PRODUCT_STATUS.SOLD) return isSoldVisible(product);
+      return false;
+    }
+
+    function shouldPublish(value) {
+      return normalizeProductStatus(value) === PRODUCT_STATUS.PUBLISHED || isTruthyControl(value);
     }
 
     function getValue(product, keys) {
@@ -690,7 +829,7 @@
     }
 
     function isPublishValue(value) {
-      return ["si", "no", "yes", "true", "false"].includes(normalizeKey(value));
+      return ["si", "no", "yes", "true", "false", "publicado", "nopublicado", "vendido"].includes(normalizeKey(value));
     }
 
     function isImageValue(value) {
@@ -776,11 +915,16 @@
       const directType = formatProductType(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria", "¿Qué tipo de producto quieres vender?", "Que tipo de producto quieres vender"]));
       const directBrand = titleCase(getValue(product, ["Marca"]));
       const directSize = formatSize(getValue(product, ["Talla", "Talla del producto"]));
-      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
+      const maybeStatusColumn = getValue(product, ["Estado del producto"]);
+      const directStatus = capitalizeFirst(
+        getValue(product, ["Estado", "Condición", "Condicion", "Condición del producto", "Condicion del producto"])
+        || (normalizeProductStatus(maybeStatusColumn) ? "" : maybeStatusColumn)
+      );
       const directPrice = getValue(product, ["Precio", "Precio esperado"]);
       const directDescription = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
       const directPhotos = getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes", "Sube entre 2 y 6 fotos del producto. Si tiene detalles, deben mostrarse en las fotos.", "Sube entre 2 y 6 fotos del producto", "Sube fotos", "Fotos del producto"]);
-      const directPublished = getValue(product, publishFieldNames);
+      const directPublished = publicationStatus(product);
+      const soldSince = getValue(product, soldSinceFieldNames);
 
       const status = directStatus || capitalizeFirst(findCompactValue(product, isStatusValue));
       const price = isPriceValue(directPrice)
@@ -815,10 +959,14 @@
         Marca: directBrand,
         Talla: directSize || backupSize,
         Estado: status,
+        EstadoPublicacion: directPublished,
+        "Estado del producto": directPublished,
+        VendidoDesde: soldSince,
+        "Vendido desde": soldSince,
         Precio: price,
         Descripción: description,
         Fotos: photos,
-        Publicado: directPublished,
+        Publicado: directPublished === PRODUCT_STATUS.PUBLISHED ? "SI" : "NO",
         __productIndex: product.__productIndex
       };
     }
@@ -901,41 +1049,91 @@
         .replace(/(^|[\s/&-])([a-záéíóúñ])/gi, (match, prefix, letter) => `${prefix}${letter.toLocaleUpperCase("es-CL")}`);
     }
 
+    function imageUrlForDisplay(src, width = 900, quality = 70) {
+      const value = String(src || "").trim();
+      if (!value) return "";
+
+      try {
+        const url = new URL(value, window.location.origin);
+        if (url.pathname === "/api/image") {
+          url.searchParams.set("w", String(Math.min(width, 900)));
+          url.searchParams.set("q", String(quality));
+          url.searchParams.set("format", "webp");
+          return url.pathname + url.search;
+        }
+      } catch (error) {
+        return value;
+      }
+
+      return value;
+    }
+
+    function encodeProductPhotos(photos) {
+      return encodeURIComponent(JSON.stringify(photos.filter(Boolean).slice(0, 4)));
+    }
+
+    function decodeProductPhotos(value) {
+      try {
+        const photos = JSON.parse(decodeURIComponent(value || "[]"));
+        return Array.isArray(photos) ? photos.filter(Boolean).slice(0, 4) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
     function createProductHtml(product, index) {
       if (!hasPublishableProductData(product)) return "";
+      if (!isCatalogVisibleProduct(product)) return "";
 
       const type = titleCase(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto");
       const brand = titleCase(getValue(product, ["Marca"]) || "");
       const size = formatSize(getValue(product, ["Talla"]));
-      const status = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion"]));
+      const condition = capitalizeFirst(getValue(product, ["Estado", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
       const price = getValue(product, ["Precio", "Precio esperado"]);
       const description = capitalizeFirst(getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]));
       const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
+      const status = publicationStatus(product);
+      const soldSince = getValue(product, soldSinceFieldNames);
+      const isSold = status === PRODUCT_STATUS.SOLD;
 
       const productName = titleCase(getValue(product, ["Nombre", "Nombre del producto"])) || [type, brand].filter(Boolean).join(" ") || `Producto VURTAG ${index + 1}`;
       const productIndex = Number.isInteger(product.__productIndex) ? product.__productIndex : index;
       const productId = getValue(product, ["Id", "ID", "Producto ID", "Product ID"]) || productIdFromName(productName, productIndex);
       const category = productCategory(product);
-      const imageFigures = photos.map((photo) => `
+      const cardPhotos = photos.slice(0, 1);
+      const imageFigures = cardPhotos.map((photo, photoIndex) => {
+        const displayPhoto = imageUrlForDisplay(photo);
+        const isInitialImage = index < 4 && photoIndex === 0;
+        return `
             <figure>
-              <button class="photo-zoom" type="button" data-photo-src="${escapeHtml(photo)}" data-photo-alt="${escapeHtml(productName)}">
-                <img src="${escapeHtml(photo)}" alt="${escapeHtml(productName)}" decoding="async">
+              <button class="photo-zoom" type="button" data-photo-src="${escapeHtml(displayPhoto)}" data-photo-alt="${escapeHtml(productName)}">
+                <img src="${escapeHtml(displayPhoto)}" alt="${escapeHtml(productName)}" width="900" height="900" decoding="async" loading="${isInitialImage ? "eager" : "lazy"}" fetchpriority="${index < 2 ? "high" : "low"}" sizes="(max-width: 640px) 50vw, (max-width: 960px) 33vw, 260px">
                 <span class="photo-preview">Vista previa</span>
+                ${isSold ? '<span class="sold-badge">Vendido</span>' : ""}
               </button>
-            </figure>`).join("");
+            </figure>`;
+      }).join("");
 
       const displayPrice = formatPrice(price);
       const buyMessage = buildBuyMessage(productName, productId);
       const buyUrl = instagramUrlWithMessage(buyMessage);
+      const actionHtml = isSold
+        ? `
+              <button class="button sold-button" type="button" disabled>Vendido</button>
+              <button class="button secondary product-details-button" type="button">Ver más</button>`
+        : `
+              <a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
+              <button class="button secondary add-to-cart-btn" type="button" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}" data-product-price="${escapeHtml(displayPrice || '')}" data-product-photo="${escapeHtml(imageUrlForDisplay(photos[0] || ''))}">Carrito</button>
+              <button class="button secondary product-details-button" type="button">Ver más</button>`;
 
       return `
-        <div class="product-grid" id="${escapeHtml(productId)}" data-product-type-section="${escapeHtml(type)}" data-product-category="${escapeHtml(category)}">
+        <div class="product-grid${isSold ? " is-sold" : ""}" id="${escapeHtml(productId)}" data-product-type-section="${escapeHtml(type)}" data-product-category="${escapeHtml(category)}" data-product-status="${escapeHtml(status)}" data-product-sold-since="${escapeHtml(soldSince)}" data-product-photos="${escapeHtml(encodeProductPhotos(photos))}">
           <div class="product-gallery">${imageFigures}
           </div>
 
           <article class="product-info">
             <div class="tag-row">
-              <span class="tag">Disponible</span>
+              <span class="tag${isSold ? " tag-sold" : ""}">${isSold ? "Vendido" : "Disponible"}</span>
             </div>
             <h3>${escapeHtml(productName)}</h3>
             <div class="product-summary-row">
@@ -945,14 +1143,12 @@
               <li><strong>Talla:</strong> ${escapeHtml(size || "Por confirmar")}</li>
             </ul>
             <ul class="detail-list product-extra-details" hidden>
-              <li><strong>Estado:</strong> ${escapeHtml(status || "Por confirmar")}</li>
-              <li><strong>Stock:</strong> Disponible</li>
+              <li><strong>Estado:</strong> ${escapeHtml(condition || "Por confirmar")}</li>
+              <li><strong>Stock:</strong> ${isSold ? "Vendido" : "Disponible"}</li>
               <li><strong>Descripción:</strong> ${escapeHtml(description || "Producto disponible en VURTAG")}</li>
             </ul>
             <div class="actions">
-              <a class="button buy-button" href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}">Comprar</a>
-              <button class="button secondary add-to-cart-btn" type="button" data-product-name="${escapeHtml(productName)}" data-product-id="${escapeHtml(productId)}" data-product-price="${escapeHtml(displayPrice || '')}" data-product-photo="${escapeHtml(photos[0] || '')}">Carrito</button>
-              <button class="button secondary product-details-button" type="button">Ver más</button>
+              ${actionHtml}
             </div>
           </article>
         </div>`;
@@ -965,7 +1161,7 @@
 
     function publishableBackupProducts() {
       return rawBackupProducts()
-        .filter((product) => shouldPublish(getValue(product, publishFieldNames)))
+        .filter(isCatalogVisibleProduct)
         .filter(hasPublishableProductData);
     }
 
@@ -993,8 +1189,8 @@
         const override = key ? sheetByKey.get(key) : null;
         if (override) {
           usedSheetKeys.add(key);
-          if (shouldPublish(getValue(override, publishFieldNames))) merged.push(override);
-        } else if (shouldPublish(getValue(backup, publishFieldNames))) {
+          if (isCatalogVisibleProduct(override)) merged.push(override);
+        } else if (isCatalogVisibleProduct(backup)) {
           merged.push(backup);
         }
       }
@@ -1002,7 +1198,7 @@
       for (const product of sheetProducts) {
         const key = productMatchKey(product);
         if (key && usedSheetKeys.has(key)) continue;
-        if (shouldPublish(getValue(product, publishFieldNames))) merged.push(product);
+        if (isCatalogVisibleProduct(product)) merged.push(product);
       }
 
       return merged.filter(hasPublishableProductData);
@@ -1052,7 +1248,10 @@
 
       if (siteIntegrations.productsApiUrl) {
         try {
-          const response = await fetch(siteIntegrations.productsApiUrl);
+          const response = await fetch(siteIntegrations.productsApiUrl, {
+            cache: "no-store",
+            headers: { Accept: "application/json" }
+          });
           if (response.ok) {
             dataSourceOk = true;
             const payload = await response.json();
@@ -1061,7 +1260,8 @@
                 ...product,
                 __productIndex: Number.isInteger(product.__productIndex) ? product.__productIndex : index
               }))
-              .filter(hasPublishableProductData);
+              .filter(hasPublishableProductData)
+              .filter(isCatalogVisibleProduct);
           }
         } catch (error) {
           console.warn("[VURTAG] API privada no disponible:", error.message);
@@ -1071,7 +1271,7 @@
       // 2. Si la API no dio nada, intenta el CSV público (Google Sheets publicado)
       if (!sheetProducts.length && siteIntegrations.responsesCsvUrl) {
         try {
-          const csvResponse = await fetch(siteIntegrations.responsesCsvUrl);
+          const csvResponse = await fetch(siteIntegrations.responsesCsvUrl, { cache: "no-store" });
           if (csvResponse.ok) {
             dataSourceOk = true;
             const csvText = await csvResponse.text();
@@ -1080,7 +1280,8 @@
               const headers = rows[0];
               sheetProducts = rows.slice(1)
                 .map((row, index) => createSheetProduct(headers, row, index))
-                .filter(hasPublishableProductData);
+                .filter(hasPublishableProductData)
+                .filter(isCatalogVisibleProduct);
             }
           }
         } catch (error) {
@@ -1095,13 +1296,11 @@
       const merged = mergeSheetWithBackup(sheetProducts);
 
       if (merged.length > 0) {
-        // Hay productos: guardar en caché y mostrar
+        // Hay productos visibles según el estado real del Sheet.
         loadedProducts = merged;
-        saveProductsToCache(merged);
         renderAvailableProducts();
       } else {
         // API respondió OK pero sin productos — limpiar display
-        // NO guardamos caché vacío: evita que un fallo puntual borre los productos en la próxima recarga
         loadedProducts = [];
         renderEmptyCatalog();
       }
@@ -1113,17 +1312,10 @@
     // Limpia cachés de versiones anteriores
     try { localStorage.removeItem("vurtag_products_v1"); } catch {}
     try { localStorage.removeItem("vurtag_products_v2"); } catch {}
+    try { localStorage.removeItem("vurtag_products_v3"); } catch {}
 
-    // Si hay caché válida, mostrar de inmediato; si no, mostrar "Cargando..."
-    const cachedProducts = loadProductsFromCache();
-    if (cachedProducts && cachedProducts.length) {
-      loadedProducts = cachedProducts;
-      renderAvailableProducts();
-    } else {
-      // Sin caché: mostrar indicador de carga en lugar de dejar vacío
-      if (availableProducts) {
-        availableProducts.innerHTML = '<div class="catalog-loading">Cargando productos...</div>';
-      }
+    if (availableProducts) {
+      availableProducts.innerHTML = '<div class="catalog-loading">Cargando productos...</div>';
     }
 
     // Siempre fetch inmediato al cargar

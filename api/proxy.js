@@ -21,7 +21,7 @@ module.exports = async function proxyHandler(req, res) {
 
   const rawUrl =
     (req.query && req.query.url) ||
-    new URL(req.url || "", "https://brutag.vercel.app").searchParams.get("url") ||
+    new URL(req.url || "", "https://vurtag.cl").searchParams.get("url") ||
     "";
 
   let targetUrl;

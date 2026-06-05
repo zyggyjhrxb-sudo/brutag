@@ -1,0 +1,9 @@
+{
+  "name": "vurtag",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "sharp": "^0.33.5"
+  }
+}

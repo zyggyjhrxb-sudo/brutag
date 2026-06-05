@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://brutag.vercel.app/sitemap.xml
+Sitemap: https://vurtag.cl/sitemap.xml

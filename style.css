@@ -1507,7 +1507,7 @@
 
     .hero::before {
       z-index: -2;
-      background-image: url("brutag-hero-profile.jpg");
+      background-image: url("vurtag-hero-profile.jpg");
       background-position: center right;
       background-size: cover;
       background-repeat: no-repeat;
@@ -4319,4 +4319,195 @@
       line-height: 1.25;
       color: #000;
       margin: 0 0 22px;
+    }
+
+    /* ===== VURTAG MOBILE PERFORMANCE OVERRIDES ===== */
+    @media (max-width: 768px) {
+      html {
+        font-size: 15px;
+      }
+
+      body {
+        background: #f8f7f3 !important;
+      }
+
+      section {
+        padding: 34px 0 !important;
+      }
+
+      .hero {
+        min-height: 360px !important;
+        padding: 42px 14px 34px !important;
+      }
+
+      .hero h1 {
+        font-size: 2.25rem !important;
+        line-height: 1.03 !important;
+        margin-bottom: 12px !important;
+      }
+
+      .hero-subtitle {
+        font-size: 0.9rem !important;
+        margin-bottom: 18px !important;
+      }
+
+      .product-track {
+        animation: none !important;
+        transform: none !important;
+      }
+
+      .product-track span {
+        padding: 9px 16px 9px 0 !important;
+        font-size: 0.66rem !important;
+      }
+
+      .available-products {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px !important;
+        align-items: start !important;
+      }
+
+      .available-products .product-grid {
+        position: relative !important;
+        min-width: 0 !important;
+        border: 1px solid rgba(0, 0, 0, 0.12) !important;
+        background: #fff !important;
+        animation: none !important;
+        contain: content !important;
+      }
+
+      .available-products .product-gallery {
+        display: block !important;
+        background: #fff !important;
+      }
+
+      .available-products .product-gallery figure:first-child {
+        display: block !important;
+        aspect-ratio: 1 / 1 !important;
+        padding: 4px !important;
+        background: #f5f4ef !important;
+        overflow: hidden !important;
+      }
+
+      .available-products .product-gallery img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        transform: none !important;
+        filter: none !important;
+        mix-blend-mode: normal !important;
+      }
+
+      .available-products .product-info {
+        padding: 8px 8px 9px !important;
+        gap: 5px !important;
+        min-height: 116px !important;
+      }
+
+      .available-products .product-info h3 {
+        min-height: 2.3em !important;
+        font-size: 0.76rem !important;
+        line-height: 1.15 !important;
+        font-weight: 700 !important;
+        color: #111 !important;
+      }
+
+      .available-products .price {
+        font-size: 0.93rem !important;
+        line-height: 1 !important;
+        color: #111 !important;
+      }
+
+      .available-products .actions {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 5px !important;
+        margin-top: auto !important;
+      }
+
+      .available-products .actions .button,
+      .available-products .actions a.button,
+      .available-products .actions .buy-button,
+      .available-products .actions .sold-button {
+        min-height: 34px !important;
+        height: 34px !important;
+        line-height: 34px !important;
+        padding: 0 5px !important;
+        font-size: 0.58rem !important;
+        letter-spacing: 0.04em !important;
+      }
+
+      .available-products .actions .buy-button,
+      .available-products .actions .sold-button {
+        grid-column: 1 / -1 !important;
+      }
+
+      .available-products .product-grid.is-sold .product-gallery img {
+        filter: grayscale(0.2) brightness(0.82) !important;
+      }
+
+      .sold-badge,
+      .tag-sold {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #111 !important;
+        color: #fff !important;
+        border-color: #111 !important;
+      }
+
+      .sold-badge {
+        position: absolute !important;
+        left: 7px !important;
+        top: 7px !important;
+        z-index: 2 !important;
+        min-height: 24px !important;
+        padding: 0 9px !important;
+        font-size: 0.58rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
+      }
+
+      .sold-button,
+      .button.is-disabled {
+        cursor: default !important;
+        opacity: 0.85 !important;
+        background: #111 !important;
+        color: #fff !important;
+      }
+
+      .catalog-loading {
+        min-height: 120px !important;
+        padding: 34px 12px !important;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .sold-badge {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        z-index: 2;
+        padding: 7px 10px;
+        background: #111;
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .available-products .product-grid.is-sold .product-gallery img {
+        filter: grayscale(0.2) brightness(0.82);
+      }
+
+      .sold-button,
+      .button.is-disabled {
+        cursor: default;
+        opacity: 0.85;
+        background: #111;
+        color: #fff;
+      }
     }
