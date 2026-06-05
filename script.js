@@ -39,13 +39,13 @@ const siteIntegrations = {
     let isHomepageMode = true;
     let noCatTimer = null;
     let lastProductsHash = "";
-    const publishFieldNames = [
-      "Estado del producto",
-      "Estado de publicación",
-      "Estado de publicacion",
-      "Publicado",
-      "Status"
-    ];
+    // Matches the Sheet's "Publicado" boolean column (TRUE/FALSE checkbox)
+    const publishFieldNames = ["Publicado", "Publicar"];
+
+    function isTruthy(value) {
+      const n = normalizeKey(String(value || ""));
+      return n === "true" || n === "si" || n === "yes" || n === "verdadero";
+    }
 
     function productLink(productId) {
       const url = new URL(siteIntegrations.productionUrl);
@@ -664,8 +664,18 @@ const siteIntegrations = {
     }
 
     function shouldPublish(value) {
-      const normalized = normalizeKey(value);
-      return normalized === "publicado" || normalized === "vendido";
+      return isTruthy(String(value || ""));
+    }
+
+    // Returns true if the product should appear in the catalog.
+    // API products (Fotos = /api/image) are already server-approved — skip re-check.
+    // CSV fallback products: honour No Publicado > Vendido > Publicado columns.
+    function canShowProduct(product) {
+      const fotos = getValue(product, ["Fotos"]);
+      if (fotos.includes("/api/image")) return true;
+      if (isTruthy(getValue(product, ["No Publicado", "No publicado"]))) return false;
+      if (isTruthy(getValue(product, ["Vendido"]))) return true;
+      return isTruthy(getValue(product, publishFieldNames));
     }
 
     function getValue(product, keys) {
@@ -769,7 +779,7 @@ const siteIntegrations = {
       const directType = formatProductType(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria", "¿Qué tipo de producto quieres vender?", "Que tipo de producto quieres vender"]));
       const directBrand = titleCase(getValue(product, ["Marca"]));
       const directSize = formatSize(getValue(product, ["Talla", "Talla del producto"]));
-      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
+      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
       const directPrice = getValue(product, ["Precio", "Precio esperado"]);
       const directDescription = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
       const directPhotos = getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes", "Sube entre 2 y 6 fotos del producto. Si tiene detalles, deben mostrarse en las fotos.", "Sube entre 2 y 6 fotos del producto", "Sube fotos", "Fotos del producto"]);
@@ -801,6 +811,8 @@ const siteIntegrations = {
       const localBackup = findLocalProductBackup(productName, description);
       const backupSize = localBackup ? formatSize(getValue(localBackup, ["Talla"])) : "";
 
+      const isVendido = product.Vendido === true || isTruthy(String(getValue(product, ["Vendido"]) || ""));
+
       return {
         ...product,
         Nombre: productName,
@@ -812,6 +824,7 @@ const siteIntegrations = {
         Descripción: description,
         Fotos: photos,
         Publicado: directPublished,
+        Vendido: isVendido,
         __productIndex: product.__productIndex
       };
     }
@@ -995,8 +1008,8 @@ const siteIntegrations = {
         const override = key ? sheetByKey.get(key) : null;
         if (override) {
           usedSheetKeys.add(key);
-          if (shouldPublish(getValue(override, publishFieldNames))) merged.push(override);
-        } else if (shouldPublish(getValue(backup, publishFieldNames))) {
+          if (canShowProduct(override)) merged.push(override);
+        } else if (canShowProduct(backup)) {
           merged.push(backup);
         }
       }
@@ -1004,7 +1017,7 @@ const siteIntegrations = {
       for (const product of sheetProducts) {
         const key = productMatchKey(product);
         if (key && usedSheetKeys.has(key)) continue;
-        if (shouldPublish(getValue(product, publishFieldNames))) merged.push(product);
+        if (canShowProduct(product)) merged.push(product);
       }
 
       return merged.filter(hasPublishableProductData);
@@ -1082,7 +1095,7 @@ const siteIntegrations = {
               const headers = rows[0];
               sheetProducts = rows.slice(1)
                 .map((row, index) => createSheetProduct(headers, row, index))
-                .filter((p) => shouldPublish(getValue(p, publishFieldNames)))
+                .filter(canShowProduct)
                 .filter(hasPublishableProductData);
             }
           }
