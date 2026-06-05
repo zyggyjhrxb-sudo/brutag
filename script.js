@@ -40,12 +40,10 @@ const siteIntegrations = {
     let noCatTimer = null;
     let lastProductsHash = "";
     const publishFieldNames = [
+      "Estado del producto",
       "Estado de publicación",
       "Estado de publicacion",
-      "Publicación",
-      "Publicacion",
       "Publicado",
-      "Aprobado",
       "Status"
     ];
 
@@ -667,7 +665,7 @@ const siteIntegrations = {
 
     function shouldPublish(value) {
       const normalized = normalizeKey(value);
-      return normalized === "aprobado" || normalized === "vendido";
+      return normalized === "publicado" || normalized === "vendido";
     }
 
     function getValue(product, keys) {
@@ -771,7 +769,7 @@ const siteIntegrations = {
       const directType = formatProductType(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria", "¿Qué tipo de producto quieres vender?", "Que tipo de producto quieres vender"]));
       const directBrand = titleCase(getValue(product, ["Marca"]));
       const directSize = formatSize(getValue(product, ["Talla", "Talla del producto"]));
-      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
+      const directStatus = capitalizeFirst(getValue(product, ["Estado", "Condición", "Condicion", "Condición del producto", "Condicion del producto"]));
       const directPrice = getValue(product, ["Precio", "Precio esperado"]);
       const directDescription = getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]);
       const directPhotos = getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes", "Sube entre 2 y 6 fotos del producto. Si tiene detalles, deben mostrarse en las fotos.", "Sube entre 2 y 6 fotos del producto", "Sube fotos", "Fotos del producto"]);
@@ -902,7 +900,7 @@ const siteIntegrations = {
       const type = titleCase(getValue(product, ["Tipo", "Tipo de producto", "Producto", "Categoría", "Categoria"]) || "Producto");
       const brand = titleCase(getValue(product, ["Marca"]) || "");
       const size = formatSize(getValue(product, ["Talla"]));
-      const status = capitalizeFirst(getValue(product, ["Estado", "Estado del producto", "Condición", "Condicion"]));
+      const status = capitalizeFirst(getValue(product, ["Estado", "Condición", "Condicion"]));
       const price = getValue(product, ["Precio", "Precio esperado"]);
       const description = capitalizeFirst(getValue(product, ["Descripción", "Descripcion", "Descripción del producto", "Descripcion del producto"]));
       const photos = getImages(getValue(product, ["Fotos", "Foto", "Imágenes", "Imagenes"]));
@@ -1025,7 +1023,7 @@ const siteIntegrations = {
     }
 
     const PRODUCT_CACHE_KEY = "vurtag_products_v3";
-    const PRODUCT_CACHE_TTL = 5 * 60 * 1000; // 5 min — cacheable between visits
+    const PRODUCT_CACHE_TTL = 30 * 1000; // 30 s — keeps instant feel on quick revisits without showing stale removals
 
     function saveProductsToCache(products) {
       try {
@@ -1119,14 +1117,9 @@ const siteIntegrations = {
     try { localStorage.removeItem("vurtag_products_v1"); } catch {}
     try { localStorage.removeItem("vurtag_products_v2"); } catch {}
 
-    // Si hay caché válida, mostrar de inmediato (el skeleton se oculta al renderizar)
-    const cachedProducts = loadProductsFromCache();
-    if (cachedProducts && cachedProducts.length) {
-      loadedProducts = cachedProducts;
-      renderAvailableProducts();
-    }
-
-    // Siempre fetch inmediato al cargar
+    // Siempre cargar desde el servidor — el skeleton cubre la espera.
+    // Esto garantiza que los cambios en el Sheet (No publicado / Vendido) se
+    // reflejan inmediatamente al recargar la página y no vuelven a aparecer.
     loadProductsFromSheet();
 
     // Polling cada 2 segundos — near real-time sync con Google Sheets
